@@ -1,13 +1,12 @@
 import { Typography } from "@mui/material";
 import LayersIcon from "@mui/icons-material/Layers";
 
-const Logo = (props) => {
-  const { fontSize } = props;
+const Logo = () => {
   return (
-    <div className="flex justify-center items-center">
+    <div className="flex mb-6 text-inherit gap-2 justify-center items-center">
       <LayersIcon fontSize="inherit" />
-      <Typography variant="caption" sx={{ fontSize: { fontSize } }}>
-        stock<span className="font-semibold">overflow</span>
+      <Typography variant="caption" fontSize="inherit">
+        stock<span className="font-semibold ">overflow</span>
       </Typography>
     </div>
   );
