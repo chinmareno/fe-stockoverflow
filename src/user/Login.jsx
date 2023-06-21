@@ -5,9 +5,9 @@ const Login = () => {
   return (
     <div className="flex h-screen  flex-col justify-center  items-center ">
       <FormLayout
-        title="Enter Your account"
-        description="Not have any account yet?"
-        navbutton="signup"
+        title="Welcome Back!"
+        description="Don't have account?"
+        navbutton="Register now"
         to="/user/signup"
       >
         <LoginForm />

@@ -7,7 +7,7 @@ const Signup = () => {
       <FormLayout
         title="Create an account"
         description="Already have an account?"
-        navbutton="login"
+        navbutton="Login"
         to="/user/login"
       >
         <SignupForm />

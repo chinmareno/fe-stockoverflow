@@ -14,14 +14,14 @@ const FormLayout = (props) => {
           {title}
         </Typography>
         {children}{" "}
-        <div className="flex mt-5">
-          <Typography variant="body2" className="pt-1 pr-1 ">
+        <div className="flex items-end mt-5">
+          <Typography variant="body2" className="pt-1  ">
             {description}{" "}
           </Typography>
           <NavLink to={to}>
             <Typography
-              variant="button"
-              className="text-blue-500   hover:text-blue-800"
+              variant="subtitle2"
+              className="text-cyan-600 underline capitalize  hover:text-blue-800"
             >
               {navbutton}{" "}
             </Typography>

@@ -11,7 +11,7 @@ const ButtonCard = (props) => {
       {/* Right Section */}
       <div className=" flex flex-col text-black dark:text-white justify-center items-center    m-10 gap-6      ">
         <div className="w-32 flex justify-center items-center h-32">
-          <img src={`/assets/image/${img}`} />
+          <img src={img} />
         </div>
         <h1 className="text-3xl font-semibold font-helvetica text-center ">
           {title}

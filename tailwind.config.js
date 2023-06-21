@@ -3,6 +3,11 @@ module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
+      textUnderlineOffset: {
+        3: "3px",
+        4: "4px",
+        5: "5px",
+      },
       fontSize: {
         26: "26px",
         18: "18px",
