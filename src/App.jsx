@@ -16,8 +16,8 @@ import AddItem, { addItemAction } from "./pages/AddItem";
 import ItemsLayout from "./pages/Layout/ItemsLayout";
 import NotFound from "./pages/NotFound";
 import RootLayout from "./pages/Layout/RootLayout";
-import Signup from "./user/Signup";
-import Login from "./user/Login";
+import Signup from "./auth/Signup";
+import Login from "./auth/Login";
 import Overview from "./pages/Overview";
 import Home from "./pages/Home";
 

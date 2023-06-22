@@ -40,6 +40,10 @@ module.exports = {
         darkblueepicgame: "#030421",
         navyblueepicgame: "#050555",
         purpleepicgame: "#1B0E46",
+        outergooglecard: "#101010",
+        innergooglecard: "#25282A",
+        maingooglecard: "#181A1B",
+        hovergooglecard: "#2F3335",
       },
       spacing: {
         13: "51.797px",
