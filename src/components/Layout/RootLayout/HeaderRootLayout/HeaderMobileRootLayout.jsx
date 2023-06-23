@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import LayersIcon from "@mui/icons-material/Layers";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Button, Typography } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
-const MobileRootLayout = () => {
+const HeaderMobileRootLayout = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const handleMenuClick = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -42,9 +42,38 @@ const MobileRootLayout = () => {
     },
   ];
 
+  const [isHeaderHidden, setIsHeaderHidden] = useState(false);
+  useEffect(() => {
+    let previousScrollPosition =
+      window.scrollY || document.documentElement.scrollTop;
+    function handleScroll() {
+      const currentScrollPosition =
+        window.scrollY || document.documentElement.scrollTop;
+      //Going Down
+      if (currentScrollPosition > previousScrollPosition) {
+        previousScrollPosition = currentScrollPosition;
+        setIsHeaderHidden(true);
+      }
+      //Going Up
+      else {
+        previousScrollPosition = currentScrollPosition;
+        setIsHeaderHidden(false);
+      }
+    }
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
-    <header>
-      <div className="fixed   w-screen top-0  h-13 z-10 basic-color drop-shadow-lg flex justify-between ">
+    <>
+      <div
+        className={`fixed transition duration-500 ${
+          isHeaderHidden ? "-translate-y-13" : "translate-y-0"
+        } w-screen top-0  h-13 z-10 basic-color drop-shadow-lg flex justify-between`}
+      >
         {/* Brand Logo */}
         <NavLink className="w-17 flex items-center  h-full">
           <LayersIcon className=" w-13 flex ml-4 mt-1 h-full " />
@@ -100,8 +129,8 @@ const MobileRootLayout = () => {
           </div>
         </div>
       </div>
-    </header>
+    </>
   );
 };
 
-export default MobileRootLayout;
+export default HeaderMobileRootLayout;

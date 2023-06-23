@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
 import { Typography } from "@mui/material";
-import Logo from "../../components/Logo";
+import Logo from "../Logo";
 
 const FormLayout = (props) => {
   const { title, description, navbutton, children, to } = props;

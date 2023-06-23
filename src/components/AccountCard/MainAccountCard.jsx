@@ -10,7 +10,7 @@ const MainAccountCard = ({ onClick }) => {
       <div className="flex items-start  gap-2">
         <div className="flex relative text-black rounded-full ml-3 mt-3 bg-white border p-3 ">
           <PersonOutlineIcon />
-          <NavLink onClick={onClick}>
+          <NavLink to="/user/edit-account-image" onClick={onClick}>
             <PhotoCameraIcon
               fontSize="small"
               className="absolute bottom-0 right-0"

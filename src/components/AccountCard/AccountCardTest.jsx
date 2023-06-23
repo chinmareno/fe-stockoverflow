@@ -2,7 +2,7 @@ import FooterAccountCard from "./FooterAccountCard";
 import MainAccountCard from "./MainAccountCard";
 import SignOutAccountCard from "./SignoutAccountCard";
 
-const test = () => {
+const AccountCardTest = () => {
   return (
     <>
       <div className="bg-black pt-2 px-3 pb-4 rounded-sm w-full text-sm h-full flex">
@@ -20,4 +20,4 @@ const test = () => {
   );
 };
 
-export default test;
+export default AccountCardTest;
