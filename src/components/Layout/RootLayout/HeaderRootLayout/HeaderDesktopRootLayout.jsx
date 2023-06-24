@@ -4,6 +4,7 @@ import { NavLink } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import Logo from "../../../Logo";
 import Navbar from "../../../Navbar";
+import axiosInstance from "../../../../utils/axios";
 
 const HeaderDesktopRootLayout = () => {
   const accountMenuRef = useRef(null);
@@ -24,8 +25,24 @@ const HeaderDesktopRootLayout = () => {
     }
   };
 
-  const handleAccountClick = () => {
+  const [profile, setProfile] = useState({});
+
+  const handleAccountClick = async () => {
     setIsAccountOpen(!isAccountOpen);
+    if (!isAccountOpen) {
+      if (document.cookie) {
+        try {
+          const res = await axiosInstance.get("/user/profile");
+          const { username } = res.data;
+          console.log(username);
+          setProfile({ username });
+        } catch (error) {
+          console.log(error);
+        }
+      } else {
+        setProfile({ username: "Guest" });
+      }
+    }
   };
 
   const [isHeaderHidden, setIsHeaderHidden] = useState(false);
@@ -88,7 +105,10 @@ const HeaderDesktopRootLayout = () => {
           {/* Popup Account Menu when the Account Clicked*/}
           {isAccountOpen && (
             <div className="fixed  h-72 flex-col top-13 y-50 right-4">
-              <GoogleAccountCard onClick={handleAccountClick} />
+              <GoogleAccountCard
+                profile={profile}
+                onClick={handleAccountClick}
+              />
             </div>
           )}
         </div>

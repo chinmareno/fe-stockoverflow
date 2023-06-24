@@ -7,15 +7,22 @@ import DarkModeIcon from "@mui/icons-material/DarkMode";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import { ThemeContext } from "../../main";
 import { useContext } from "react";
+import axiosInstance from "../../utils/axios";
 
-const MainAccountCard = ({ onClick }) => {
+const MainAccountCard = ({ onClick, profile }) => {
   const { theme, setTheme } = useContext(ThemeContext);
 
   const handleToogleTheme = () => {
     if (theme === "light") {
-      setTheme("dark");
+      if (document.cookie) {
+        axiosInstance.patch("/auth/change-theme", "dark");
+      }
     }
+    setTheme("dark");
     if (theme === "dark") {
+      if (document.cookie) {
+        axiosInstance.patch("/auth/change-theme", "light");
+      }
       setTheme("light");
     }
   };
@@ -39,7 +46,7 @@ const MainAccountCard = ({ onClick }) => {
           </NavLink>
         </div>
         <div className="flex  flex-col">
-          <div className="mt-5 mb-8">chinmareno</div>
+          <div className="mt-5 mb-8">{profile.username}</div>
           <NavLink
             onClick={onClick}
             to="/user/login"

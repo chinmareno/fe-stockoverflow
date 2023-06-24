@@ -4,7 +4,7 @@ import MainAccountCard from "./MainAccountCard";
 import SignOutAccountCard from "./SignoutAccountCard";
 import axiosInstance from "../../utils/axios";
 
-const AccountCard = ({ onClick }) => {
+const AccountCard = ({ onClick, profile }) => {
   const handleLogOut = async () => {
     try {
       console.log("benr");
@@ -17,7 +17,7 @@ const AccountCard = ({ onClick }) => {
     <div className="bg-outergooglecard text-white pt-2 px-3 pb-4 rounded-sm w-full text-sm h-full flex">
       <div className=" bg-innergooglecard    flex flex-col justify-between items-center rounded-3xl w-full h-full">
         <div className="bg-maingooglecard w-72 h-full   flex flex-col mt-1  mb-1 rounded-3xl ">
-          <MainAccountCard onClick={onClick} />
+          <MainAccountCard profile={profile} onClick={onClick} />
         </div>
         <NavLink
           to="/"
