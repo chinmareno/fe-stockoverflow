@@ -6,8 +6,9 @@ import { Button, Typography } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import LightModeIcon from "@mui/icons-material/LightMode";
-import { ThemeContext } from "../../../../main";
+import { ThemeContext } from "../../../../App";
 import axiosInstance from "../../../../utils/axios";
+import { useEffect } from "react";
 
 const HeaderMobileRootLayout = () => {
   const { theme, setTheme } = useContext(ThemeContext);
@@ -21,22 +22,41 @@ const HeaderMobileRootLayout = () => {
     setIsMenuOpen(false);
   };
 
-  const handleToogleTheme = () => {
+  const handleToogleTheme = async () => {
+    const token = document.cookie.split("; ").find((cookie) => {
+      return cookie.startsWith("jwt=");
+    });
     if (theme === "light") {
       setTheme("dark");
-      const token = document.cookie.split("; ").find((cookie) => {
-        return cookie.startsWith("jwt=");
-      });
       if (token) {
+        await axiosInstance.patch("/user/change-theme", { theme: "dark" });
         console.log("ada jwt");
-      } else {
-        console.log("gd jir");
       }
     }
     if (theme === "dark") {
       setTheme("light");
+      if (token) {
+        await axiosInstance.patch("/user/change-theme", { theme: "light" });
+        console.log("ada jwt");
+      }
     }
   };
+
+  useEffect(() => {
+    const firstFetch = async () => {
+      const token = document.cookie.split("; ").find((cookie) => {
+        return cookie.startsWith("jwt=");
+      });
+
+      if (token) {
+        const { data } = await axiosInstance.get("/user/profile");
+        setTheme(data.theme);
+        console.log(data);
+      }
+    };
+
+    firstFetch();
+  }, []);
 
   const handleLanguageClick = () => {
     return;
@@ -77,20 +97,23 @@ const HeaderMobileRootLayout = () => {
     const currentScrollPosition =
       window.scrollY || document.documentElement.scrollTop;
     //Going Down
-    if (
-      currentScrollPosition > previousScrollPosition &&
-      currentScrollPosition > 16
-    ) {
-      previousScrollPosition = currentScrollPosition;
+    if (currentScrollPosition > previousScrollPosition) {
       setIsHeaderHidden(true);
     }
     //Going Up
     else {
-      previousScrollPosition = currentScrollPosition;
       setIsHeaderHidden(false);
     }
+    previousScrollPosition = currentScrollPosition;
   }
-  window.addEventListener("scroll", handleScroll);
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   return (
     <>

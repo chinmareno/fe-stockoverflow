@@ -9,9 +9,10 @@ const BackToTop = () => {
   return (
     <button
       onClick={scrollToTop}
-      className="flex items-center gap-1  bg-black dark:bg-blackepicgame text-white py-3 px-5 rounded-sm hover:bg"
+      className=" flex lg:flex-row-reverse flex-col md:w-96 lg:w-56 lg:m-0 lg:p-3 items-center gap-1 w-full lg:items-center lg:justify-center py-  bg-black dark:bg-blackepicgame text-white pb-3 mt-4 rounded-sm hover:bg"
     >
-      Back To Top <KeyboardArrowUpIcon />
+      <KeyboardArrowUpIcon />
+      <div className="flex flex-col text-lg">back to top</div>
     </button>
   );
 };

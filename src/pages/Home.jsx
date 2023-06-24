@@ -2,7 +2,7 @@ import ButtonCard from "../components/Card/ButtonCard";
 import Logo from "../components/Logo";
 import OverviewCard from "../components/Card/OverviewCard";
 import { useContext } from "react";
-import { ThemeContext } from "../main";
+import { ThemeContext } from "../App";
 
 const Home = () => {
   const { theme } = useContext(ThemeContext);
@@ -43,9 +43,9 @@ const Home = () => {
     },
     {
       img: "/assets/image/Notifications_Isometric.svg",
-      title: "Real-time Notifications",
+      title: "Real-time Notifications (unavailable yet)",
       description:
-        "Stay updated with real-time notifications for new orders, low stock alerts, and important updates about your business.",
+        "Stay updated with real-time notifications for new orders, low stock alerts, and notification urself can customized.",
     },
   ];
 

@@ -88,13 +88,13 @@ const SignupForm = () => {
 
         console.log(res);
         if (res.status == 201) {
-          // navigate("/items");
+          navigate("/items");
         }
       } catch (error) {
         const data = error.response.data;
         console.log(error);
         switch (data) {
-          case "Username not found":
+          case "Username has been taken.":
             setError({ username: data });
             break;
           case "Incorrect password":

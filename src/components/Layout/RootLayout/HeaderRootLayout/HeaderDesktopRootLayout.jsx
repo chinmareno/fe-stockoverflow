@@ -68,8 +68,13 @@ const HeaderDesktopRootLayout = () => {
       }
     }
   }
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
 
-  window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   return (
     <>
@@ -86,11 +91,11 @@ const HeaderDesktopRootLayout = () => {
         </div>
 
         {/* Navbar(Middle) */}
-        <div className="flex gap-16 justify-center mr-28">
+        {/* <div className="flex gap-16 justify-center mr-28">
           <Navbar to="/">Home</Navbar>
-          <Navbar to="/user/signup">login</Navbar>
-          <Navbar to="/user/login ">singup</Navbar>
-        </div>
+          <Navbar to="/user/login">login</Navbar>
+          <Navbar to="/user/login ">signup</Navbar>
+        </div> */}
 
         {/* Account(Right)  */}
         <div

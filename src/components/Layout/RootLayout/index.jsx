@@ -20,7 +20,7 @@ const RootLayout = () => {
       <main className="mt-17 flex flex-col h-full items-center ">
         <Outlet />
       </main>
-      <footer className="flex bg-stone-300 dark:bg-darksecondary py-4 w-full px-3 flex-col gap-36 lg:flex-row items-center lg:items-end justify-center">
+      <footer className="flex bg-stone-300 dark:bg-darksecondary py-4  w-full h-52 px-3 flex-col lg:gap-24 lg:flex-row items-center lg:items-end justify-center">
         <FooterRootLayout />
       </footer>
     </div>

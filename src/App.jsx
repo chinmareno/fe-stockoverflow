@@ -29,11 +29,16 @@ import RootLayout from "./components/Layout/RootLayout";
 import ItemsLayout from "./components/Layout/ItemsLayout";
 import StockLayout from "./components/Layout/StockLayout";
 import Test from "./pages/test";
+import { createContext, useState } from "react";
+import Theme from "./pages/Theme";
 
+export const ThemeContext = createContext(null);
 function App() {
+  const [theme, setTheme] = useState("light");
+
   const router = createBrowserRouter(
     createRoutesFromElements(
-      <>
+      <Route element={<Theme />}>
         <Route path="user">
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<Signup />} />
@@ -70,10 +75,15 @@ function App() {
             <Route path="*" element={<NotFound />} />
           </Route>
         </Route>
-      </>
+      </Route>
     )
   );
-  return <RouterProvider router={router} />;
+
+  return (
+    <ThemeContext.Provider value={{ theme, setTheme }}>
+      <RouterProvider router={router} />
+    </ThemeContext.Provider>
+  );
 }
 
 export default App;

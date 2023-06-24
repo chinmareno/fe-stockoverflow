@@ -5,7 +5,7 @@ import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
 import { NavLink } from "react-router-dom";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import LightModeIcon from "@mui/icons-material/LightMode";
-import { ThemeContext } from "../../main";
+import { ThemeContext } from "../../App";
 import { useContext } from "react";
 import axiosInstance from "../../utils/axios";
 
