@@ -12,15 +12,15 @@ const RootLayout = () => {
   const isMedium = useMediaQuery("(min-width:768px)");
 
   return (
-    <div className="overflow-hidden">
-      <header>
+    <div className="overflow-x-hidden text-black dark:text-slate-400 bg-slate-100 dark:bg-blackepicgame">
+      <header className="z-50">
         {isMobile && <HeaderDesktopRootLayout />}
         {isMedium && <HeaderMobileRootLayout />}
       </header>
-      <main className="pt-17  w-screen flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-blackepicgame">
+      <main className="mt-17 flex flex-col h-full items-center ">
         <Outlet />
       </main>
-      <footer className="bg-gray py-5  border-t-2 border-white">
+      <footer className="flex bg-stone-300 dark:bg-darksecondary py-4 w-full px-3 flex-col gap-36 lg:flex-row items-center lg:items-end justify-center">
         <FooterRootLayout />
       </footer>
     </div>

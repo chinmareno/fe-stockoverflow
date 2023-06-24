@@ -3,11 +3,32 @@ import { LinearProgress } from "@mui/material";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
 import { NavLink } from "react-router-dom";
+import DarkModeIcon from "@mui/icons-material/DarkMode";
+import LightModeIcon from "@mui/icons-material/LightMode";
+import { ThemeContext } from "../../main";
+import { useContext } from "react";
 
 const MainAccountCard = ({ onClick }) => {
+  const { theme, setTheme } = useContext(ThemeContext);
+
+  const handleToogleTheme = () => {
+    if (theme === "light") {
+      setTheme("dark");
+    }
+    if (theme === "dark") {
+      setTheme("light");
+    }
+  };
+
   return (
     <>
-      <div className="flex items-start  gap-2">
+      <div className="flex items-start relative gap-2">
+        <div className="absolute top-2 right-2">
+          <button onClick={handleToogleTheme}>
+            {theme === "light" && <DarkModeIcon />}
+            {theme === "dark" && <LightModeIcon />}
+          </button>
+        </div>
         <div className="flex relative text-black rounded-full ml-3 mt-3 bg-white border p-3 ">
           <PersonOutlineIcon />
           <NavLink to="/user/edit-account-image" onClick={onClick}>

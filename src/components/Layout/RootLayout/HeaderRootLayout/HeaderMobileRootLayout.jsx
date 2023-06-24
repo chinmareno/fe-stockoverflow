@@ -1,14 +1,41 @@
-import { useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import LayersIcon from "@mui/icons-material/Layers";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Button, Typography } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import DarkModeIcon from "@mui/icons-material/DarkMode";
+import LightModeIcon from "@mui/icons-material/LightMode";
+import { ThemeContext } from "../../../../main";
+import axiosInstance from "../../../../utils/axios";
 
 const HeaderMobileRootLayout = () => {
+  const { theme, setTheme } = useContext(ThemeContext);
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const handleMenuClick = () => {
     setIsMenuOpen(!isMenuOpen);
+  };
+
+  const handleMenuClickToFalse = () => {
+    setIsMenuOpen(false);
+  };
+
+  const handleToogleTheme = () => {
+    if (theme === "light") {
+      setTheme("dark");
+      const token = document.cookie.split("; ").find((cookie) => {
+        return cookie.startsWith("jwt=");
+      });
+      if (token) {
+        console.log("ada jwt");
+      } else {
+        console.log("gd jir");
+      }
+    }
+    if (theme === "dark") {
+      setTheme("light");
+    }
   };
 
   const handleLanguageClick = () => {
@@ -43,29 +70,27 @@ const HeaderMobileRootLayout = () => {
   ];
 
   const [isHeaderHidden, setIsHeaderHidden] = useState(false);
-  useEffect(() => {
-    let previousScrollPosition =
-      window.scrollY || document.documentElement.scrollTop;
-    function handleScroll() {
-      const currentScrollPosition =
-        window.scrollY || document.documentElement.scrollTop;
-      //Going Down
-      if (currentScrollPosition > previousScrollPosition) {
-        previousScrollPosition = currentScrollPosition;
-        setIsHeaderHidden(true);
-      }
-      //Going Up
-      else {
-        previousScrollPosition = currentScrollPosition;
-        setIsHeaderHidden(false);
-      }
-    }
-    window.addEventListener("scroll", handleScroll);
+  let previousScrollPosition =
+    window.scrollY || document.documentElement.scrollTop;
 
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
+  function handleScroll() {
+    const currentScrollPosition =
+      window.scrollY || document.documentElement.scrollTop;
+    //Going Down
+    if (
+      currentScrollPosition > previousScrollPosition &&
+      currentScrollPosition > 16
+    ) {
+      previousScrollPosition = currentScrollPosition;
+      setIsHeaderHidden(true);
+    }
+    //Going Up
+    else {
+      previousScrollPosition = currentScrollPosition;
+      setIsHeaderHidden(false);
+    }
+  }
+  window.addEventListener("scroll", handleScroll);
 
   return (
     <>
@@ -75,7 +100,10 @@ const HeaderMobileRootLayout = () => {
         } w-screen top-0  h-13 z-10 basic-color drop-shadow-lg flex justify-between`}
       >
         {/* Brand Logo */}
-        <NavLink className="w-17 flex items-center  h-full">
+        <NavLink
+          onClick={handleMenuClickToFalse}
+          className="w-17 flex items-center  h-full"
+        >
           <LayersIcon className=" w-13 flex ml-4 mt-1 h-full " />
         </NavLink>
 
@@ -93,13 +121,13 @@ const HeaderMobileRootLayout = () => {
       </div>
       {/* Sidebar Nav */}
       <div
-        className={`fixed flex  justify-end w-screen h-screen z-20 top-13 -mt-1 transition  duration-300 ${
+        className={`fixed flex justify-end w-screen h-screen z-20 top-14 -mt-1 transition  duration-300 ${
           isMenuOpen ? "translate-x-0" : "translate-x-full"
         }`}
       >
         <div
           className="w-11/12 basic-color pt-1 flex-col justify-end  
-          }"
+          "
         >
           <div className="flex flex-col">
             {menu.map((menu) => (
@@ -118,14 +146,31 @@ const HeaderMobileRootLayout = () => {
               </NavLink>
             ))}
             {/*Todo Language Select */}
-            <Typography
-              variant="button"
-              className=" text-gray-200  py-2 px-7 border-b-2 border-black dark:border-white border-solid h-10 w-full"
+            <button
+              className="border-black text-gray-200 flex justify-start  py-2 px-7 h-10 dark:border-white border-b-2 uppercase w-full"
+              onClick={handleLanguageClick}
             >
-              <button className="uppercase" onClick={handleLanguageClick}>
+              <Typography variant="button" className="  ">
                 Language
-              </button>
-            </Typography>
+              </Typography>
+            </button>
+
+            <button
+              onClick={handleToogleTheme}
+              className="border-black text-gray-200 flex justify-start  py-2 px-7 h-10 dark:border-white border-b-2 uppercase w-full"
+            >
+              {theme === "light" && (
+                <Typography variant="button">
+                  dark mode
+                  <DarkModeIcon />
+                </Typography>
+              )}
+              {theme === "dark" && (
+                <Typography variant="button">
+                  light mode <LightModeIcon />
+                </Typography>
+              )}
+            </button>
           </div>
         </div>
       </div>

@@ -1,5 +1,4 @@
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
-import { NavLink } from "react-router-dom";
 
 const SignOutAccountCard = () => {
   return (

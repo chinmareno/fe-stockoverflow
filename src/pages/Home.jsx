@@ -1,11 +1,18 @@
 import ButtonCard from "../components/Card/ButtonCard";
 import Logo from "../components/Logo";
 import OverviewCard from "../components/Card/OverviewCard";
+import { useContext } from "react";
+import { ThemeContext } from "../main";
 
 const Home = () => {
+  const { theme } = useContext(ThemeContext);
+
   const features = [
     {
-      img: "/assets/image/logisticbiru.svg",
+      img:
+        theme === "light"
+          ? "/assets/image/logisticlight.svg"
+          : "/assets/image/logisticbiru.svg",
       title: "Stock Management",
       description:
         "Efficiently manage your inventory by keeping track of the best-selling products and optimizing your stock levels.",
@@ -54,7 +61,11 @@ const Home = () => {
           <img src="https://cdn2.unrealengine.com/epic-games-store-self-service-publishing-tools-4554ceb470ed.webp" />
         </div>
         <ButtonCard
-          img="/assets/image/Profitcalculation.svg"
+          img={
+            theme === "light"
+              ? "/assets/image/herolight.svg"
+              : "/assets/image/herodark.svg"
+          }
           title="Everyone can be an entrepreneur"
           description="We are helping you to take the common business task so you can focus on the products itself "
           to="/user/signup"

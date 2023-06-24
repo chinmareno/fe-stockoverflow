@@ -34,14 +34,15 @@ function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <>
+        <Route path="user">
+          <Route path="login" element={<Login />} />
+          <Route path="signup" element={<Signup />} />
+          <Route path="edit-account-image" element={<EditAccountImage />} />
+          <Route index element={<Navigate to="signup" />} />
+        </Route>
         <Route path="/" element={<RootLayout />}>
+          <Route path="test" element={<Test />} />
           <Route index element={<Home />} />
-          <Route path="user">
-            <Route path="login" element={<Login />} />
-            <Route path="signup" element={<Signup />} />
-            <Route path="edit-account-image" element={<EditAccountImage />} />
-            <Route index element={<Navigate to="signup" />} />
-          </Route>
           <Route path="privacy-policy" element={<PrivacyPolicy />} />
           <Route path="terms-of-service" element={<TermsOfService />} />
           <Route path="items" element={<ItemsLayout />}>
@@ -69,7 +70,6 @@ function App() {
             <Route path="*" element={<NotFound />} />
           </Route>
         </Route>
-        <Route path="test" element={<Test />} />
       </>
     )
   );

@@ -3,15 +3,25 @@ import { Form, useNavigate } from "react-router-dom";
 import axiosInstance from "../utils/axios";
 import { Button, TextField } from "@mui/material";
 import { useState } from "react";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 
 const LoginForm = () => {
+  const [isShowPassword, setIsShowPassword] = useState(false);
+  const handleShowPassword = () => {
+    setIsShowPassword(!isShowPassword);
+  };
+
   const [error, setError] = useState({ username: "", password: "" });
+
   const navigate = useNavigate();
+
   const formik = useFormik({
     initialValues: {
       username: "",
       password: "",
     },
+
     onSubmit: async () => {
       const data = {
         username: formik.values.username.trim(),
@@ -40,14 +50,15 @@ const LoginForm = () => {
           navigate("/items");
         }
       } catch (error) {
-        const data = error.response.data;
+        const errorData = error.response.data;
         console.log(error);
-        switch (data) {
+        console.log("erorr:" + error.res);
+        switch (errorData) {
           case "Username not found":
-            setError({ username: data });
+            setError({ username: errorData });
             break;
           case "Incorrect password":
-            setError({ password: data });
+            setError({ password: errorData });
             break;
           default:
             console.log({ error });
@@ -55,19 +66,15 @@ const LoginForm = () => {
       }
     },
   });
-
-  const handleFormInput = (e) => {
-    formik.setFieldValue(e.target.name, e.target.value);
-  };
   //styles
-  const input = "my-12";
+  const input = "my-12 ";
 
   return (
     <>
       <Form
         onSubmit={formik.handleSubmit}
         method="post"
-        className="flex flex-col gap-8 mt-9 "
+        className="flex relative text-xs flex-col gap-8 mt-9 "
       >
         <TextField
           error={error.username ? true : false}
@@ -76,7 +83,7 @@ const LoginForm = () => {
           label="Username"
           variant="filled"
           className={input}
-          onChange={handleFormInput}
+          onChange={formik.handleChange}
           helperText={error.username}
         />
 
@@ -85,13 +92,25 @@ const LoginForm = () => {
           name="password"
           autoComplete="off"
           label="Password"
-          type="password"
+          type={isShowPassword ? "text" : "password"}
           variant="filled"
           className={input}
-          onChange={handleFormInput}
+          onChange={formik.handleChange}
           helperText={error.password}
         />
-
+        <button
+          type="button"
+          className={`absolute right-2 ${
+            error.password ? "bottom-[103px]" : " bottom-[78px]"
+          }`}
+          onClick={handleShowPassword}
+        >
+          {isShowPassword ? (
+            <VisibilityOffIcon fontSize="small" />
+          ) : (
+            <VisibilityIcon fontSize="small" />
+          )}
+        </button>
         <Button variant="contained" type="submit">
           Login
         </Button>

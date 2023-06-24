@@ -1,24 +1,41 @@
 import { useFormik } from "formik";
 import { Form, useNavigate } from "react-router-dom";
 import axiosInstance from "../utils/axios";
-import { Button, TextField } from "@mui/material";
+import { Button, TextField, useMediaQuery } from "@mui/material";
 import { useState } from "react";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
 const SignupForm = () => {
   const pattern = /^[a-zA-Z0-9]*$/;
+
+  const [isShowPassword, setIsShowPassword] = useState(false);
+  const [isShowPassword2, setIsShowPassword2] = useState(false);
+
+  const handleShowPassword = () => {
+    setIsShowPassword(!isShowPassword);
+  };
+  const handleShowPassword2 = () => {
+    setIsShowPassword2(!isShowPassword2);
+  };
 
   const [error, setError] = useState({
     username: "",
     password: "",
     password2: "",
   });
+
   const navigate = useNavigate();
+
+  const isMobile = useMediaQuery("(max-width:767px)");
+
   const formik = useFormik({
     initialValues: {
       username: "",
       password: "",
       password2: "",
     },
+
     onSubmit: async () => {
       const data = {
         username: formik.values.username.trim(),
@@ -26,7 +43,7 @@ const SignupForm = () => {
         password2: formik.values.password2,
       };
       try {
-        setError({ username: "", password: "", password2: "" });
+        setError({ username: null, password: null, password2: null });
         if (!pattern.test(data.username)) {
           setError({
             username: "Username cannot contain special characters",
@@ -37,8 +54,8 @@ const SignupForm = () => {
           setError({ username: "Username must have atleast 4 characters" });
           return;
         }
-        if (data.username.password < 8) {
-          setError({ username: "Username must have atleast 8 characters" });
+        if (data.password.length < 8) {
+          setError({ password: "Password must have atleast 8 characters" });
           return;
         }
 
@@ -60,11 +77,18 @@ const SignupForm = () => {
             return;
           }
         }
+        const dataWithoutDoublePassword = {
+          username: data.username,
+          password: data.password,
+        };
+        const res = await axiosInstance.post(
+          "/user/signup",
+          dataWithoutDoublePassword
+        );
 
-        const res = await axiosInstance.post("/user/signup", data);
         console.log(res);
         if (res.status == 201) {
-          navigate("/items");
+          // navigate("/items");
         }
       } catch (error) {
         const data = error.response.data;
@@ -87,49 +111,79 @@ const SignupForm = () => {
     formik.setFieldValue(e.target.name, e.target.value);
   };
   //styles
-  const input = "my-12";
+  const input = "my-12 text-blackepicgame dark:text-lightgrey";
 
   return (
     <>
       <Form
         onSubmit={formik.handleSubmit}
         method="post"
-        className="flex flex-col gap-8 mt-9 "
+        className="flex flex-col relative  gap-8 mt-9 "
       >
         <TextField
           error={error.username ? true : false}
           name="username"
           autoComplete="off"
           label="Username"
+          size={isMobile ? "small" : "medium"}
           variant="filled"
           className={input}
           onChange={handleFormInput}
           helperText={error.username}
         />
-
         <TextField
           error={error.password ? true : false}
           name="password"
           autoComplete="off"
           label="Password"
-          type="password"
+          type={isShowPassword ? "text" : "password"}
           variant="filled"
-          className={input}
+          size={isMobile ? "small" : "medium"}
+          className={input + "mr-9"}
           onChange={handleFormInput}
           helperText={error.password}
         />
+        <button
+          type="button"
+          className={`absolute right-2 ${
+            error.password || error.password2
+              ? "bottom-[188px]"
+              : "bottom-[165px]"
+          }`}
+          onClick={handleShowPassword}
+        >
+          {isShowPassword ? (
+            <VisibilityOffIcon fontSize="small" />
+          ) : (
+            <VisibilityIcon fontSize="small" />
+          )}
+        </button>
         <TextField
           error={error.password2 ? true : false}
           name="password2"
           autoComplete="off"
+          size={isMobile ? "small" : "medium"}
           label="Confirm password"
-          type="password"
+          type={isShowPassword2 ? "text" : "password"}
           variant="filled"
           className={input}
           onChange={handleFormInput}
           helperText={error.password2}
         />
 
+        <button
+          type="button"
+          className={`absolute right-2 ${
+            error.password2 ? "bottom-[102px]" : "bottom-[79px]"
+          }`}
+          onClick={handleShowPassword2}
+        >
+          {isShowPassword2 ? (
+            <VisibilityOffIcon fontSize="small" />
+          ) : (
+            <VisibilityIcon fontSize="small" />
+          )}
+        </button>
         <Button variant="contained" type="submit">
           Continue
         </Button>

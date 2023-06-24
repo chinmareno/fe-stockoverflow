@@ -5,9 +5,9 @@ import FacebookIcon from "@mui/icons-material/Facebook";
 
 const ContactUs = () => {
   return (
-    <div className="flex items-center  flex-col gap-2 ">
+    <div className="flex items-center  mr-20  flex-col gap-2 ">
       <div>Contact Us :</div>
-      <div className="flex gap-4">
+      <div className="flex gap-2">
         <button>
           <FacebookIcon />
           Facebook

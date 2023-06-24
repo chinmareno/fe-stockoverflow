@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  darkMode: "class",
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
@@ -44,6 +45,8 @@ module.exports = {
         innergooglecard: "#25282A",
         maingooglecard: "#181A1B",
         hovergooglecard: "#2F3335",
+        darkprimary: "#26292B",
+        darksecondary: "#2E3239",
       },
       spacing: {
         13: "51.797px",

@@ -29,37 +29,37 @@ const HeaderDesktopRootLayout = () => {
   };
 
   const [isHeaderHidden, setIsHeaderHidden] = useState(false);
-  useEffect(() => {
-    let previousScrollPosition =
+
+  let previousScrollPosition =
+    window.scrollY || document.documentElement.scrollTop;
+  function handleScroll() {
+    const currentScrollPosition =
       window.scrollY || document.documentElement.scrollTop;
-    function handleScroll() {
-      const currentScrollPosition =
-        window.scrollY || document.documentElement.scrollTop;
 
-      if (currentScrollPosition > previousScrollPosition) {
-        console.log("kebwh");
-        previousScrollPosition = currentScrollPosition;
+    if (
+      currentScrollPosition > previousScrollPosition &&
+      currentScrollPosition > 16
+    ) {
+      console.log("kebwh");
+      previousScrollPosition = currentScrollPosition;
 
-        setIsHeaderHidden(true);
-      } else {
-        previousScrollPosition = currentScrollPosition;
-        console.log("keatas");
+      setIsHeaderHidden(true);
+    } else {
+      previousScrollPosition = currentScrollPosition;
+      if (isHeaderHidden) {
         setIsHeaderHidden(false);
       }
     }
-    window.addEventListener("scroll", handleScroll);
+  }
 
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
+  window.addEventListener("scroll", handleScroll);
 
   return (
     <>
       <div
         className={`${
           isHeaderHidden ? "-translate-y-13" : "translate-y-0"
-        } fixed transition duration-500  w-screen top-0 h-13 z-20 basic-color drop-shadow-lg flex items-center justify-between`}
+        } fixed transition duration-300  w-screen top-0 h-13 z-20 basic-color drop-shadow-lg flex items-center justify-between`}
       >
         {/* Logo(Left) */}
         <div className="ml-6">
@@ -85,7 +85,7 @@ const HeaderDesktopRootLayout = () => {
               <PersonIcon fontSize="medium" />
             </div>
           </button>
-          {/* Popup Menu when the Account Clicked*/}
+          {/* Popup Account Menu when the Account Clicked*/}
           {isAccountOpen && (
             <div className="fixed  h-72 flex-col top-13 y-50 right-4">
               <GoogleAccountCard onClick={handleAccountClick} />

@@ -4,11 +4,11 @@ import Copyright from "./Copyright";
 
 const FooterRootLayout = () => {
   return (
-    <div className="flex justify-around">
+    <>
       <Copyright />
       <ContactUs />
       <BackToTop />
-    </div>
+    </>
   );
 };
 
