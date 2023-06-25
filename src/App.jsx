@@ -8,7 +8,7 @@ import {
   Navigate,
 } from "react-router-dom";
 
-import Home from "./pages/Home";
+import LandingPage from "./pages/LandingPage";
 import NotFound from "./pages/NotFound";
 import Overview from "./pages/Overview";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
@@ -31,6 +31,7 @@ import StockLayout from "./components/Layout/StockLayout";
 import Test from "./pages/test";
 import { createContext, useState } from "react";
 import Theme from "./pages/Theme";
+import CheckCookie from "./pages/CheckCookie";
 
 export const ThemeContext = createContext(null);
 function App() {
@@ -39,15 +40,20 @@ function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route element={<Theme />}>
+        <Route path="test" element={<Test />} />
         <Route path="user">
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<Signup />} />
           <Route path="edit-account-image" element={<EditAccountImage />} />
-          <Route index element={<Navigate to="signup" />} />
+          <Route index element={<Navigate to="login" />} />
         </Route>
-        <Route path="/" element={<RootLayout />}>
-          <Route path="test" element={<Test />} />
-          <Route index element={<Home />} />
+
+        <Route path="overview" element={<RootLayout />}>
+          <Route index element={<LandingPage />} />
+        </Route>
+
+        {/* this bottom is cookie protected route */}
+        <Route element={<CheckCookie />}>
           <Route path="privacy-policy" element={<PrivacyPolicy />} />
           <Route path="terms-of-service" element={<TermsOfService />} />
           <Route path="items" element={<ItemsLayout />}>
@@ -72,9 +78,13 @@ function App() {
                 />
               </Route>
             </Route>
-            <Route path="*" element={<NotFound />} />
           </Route>
         </Route>
+        {/* this top is cookie protected route */}
+
+        <Route path="/" element={<Navigate to="overview" />} />
+
+        <Route path="*" element={<NotFound />} />
       </Route>
     )
   );

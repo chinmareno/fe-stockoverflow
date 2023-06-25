@@ -4,7 +4,7 @@ import OverviewCard from "../components/Card/OverviewCard";
 import { useContext } from "react";
 import { ThemeContext } from "../App";
 
-const Home = () => {
+const LandingPage = () => {
   const { theme } = useContext(ThemeContext);
 
   const features = [
@@ -52,8 +52,8 @@ const Home = () => {
   return (
     <>
       {/* Logo Section */}
-      <div className="mb-5 text-4xl w-11/12 lg:w-9/12 text-blackepicgame dark:text-lightgrey">
-        <Logo />
+      <div className="text-center font-mono text-2xl mb-8">
+        Simple inventory control, prevent your Stockoverflow
       </div>
       {/* Hero Section */}
       <div className="grid rounded-md lg:w-9/12 mb-6 w-11/12 grid-cols-1 md:grid-cols-2 bg-gradient-to-br from-blue-400 via-blue-200 to-purple-500 dark:from-darkblueepicgame dark:via-navyblueepicgame dark:to-purpleepicgame ">
@@ -69,7 +69,7 @@ const Home = () => {
           title="Everyone can be an entrepreneur"
           description="We are helping you to take the common business task so you can focus on the products itself "
           to="/user/signup"
-          button="Sign Up today"
+          button="Sign Up For free"
         />
       </div>
       {/* OverviewCard Section */}
@@ -87,4 +87,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default LandingPage;

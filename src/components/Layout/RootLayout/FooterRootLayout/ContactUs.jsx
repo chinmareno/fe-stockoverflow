@@ -5,24 +5,24 @@ import FacebookIcon from "@mui/icons-material/Facebook";
 
 const ContactUs = () => {
   return (
-    <div className="flex md:text-xl font-helvetica items-center text-sm flex-col gap-4 ">
+    <div className="flex md:text-xl font-helvetica items-center  flex-col gap-4 ">
       <div>Contact Us :</div>
-      <div className="flex gap-5 md:gap-14">
-        <button>
+      <div className=" flex gap-11 md:gap-14">
+        <button className="flex items-center ">
           <FacebookIcon />
-          Facebook
+          <div className="hidden md:block">Facebook</div>
         </button>
-        <button>
+        <button className="flex items-center">
           <InstagramIcon />
-          Instagram
+          <div className="hidden md:block">Instagram</div>
         </button>
-        <button>
+        <button className="flex items-center">
           <TwitterIcon />
-          Twitter
+          <div className="hidden md:block">Twitter</div>
         </button>
-        <button>
+        <button className="flex items-center">
           <GitHubIcon />
-          Github
+          <div className="hidden md:block">Github</div>
         </button>
       </div>
     </div>

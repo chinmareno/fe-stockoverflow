@@ -19,7 +19,7 @@ const Login = () => {
     >
       <FormLayout
         title="Welcome Back!"
-        description="Don't have account?"
+        description="Don't have an account?"
         navbutton="Register now"
         to="/user/signup"
       >

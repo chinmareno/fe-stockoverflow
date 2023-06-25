@@ -3,7 +3,7 @@
 import { useMediaQuery } from "@mui/material";
 import { Outlet } from "react-router-dom";
 
-import HeaderDesktopRootLayout from "./HeaderRootLayout/HeaderMobileRootLayout";
+import HeaderDesktopRootLayout from "./HeaderRootLayout/HeaderMobileLandingPageLayout/HeaderMobileRootLayout";
 import HeaderMobileRootLayout from "./HeaderRootLayout/HeaderDesktopRootLayout";
 import FooterRootLayout from "./FooterRootLayout";
 
