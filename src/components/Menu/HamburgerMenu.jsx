@@ -1,7 +1,7 @@
 import CloseIcon from "@mui/icons-material/Close";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useState } from "react";
-import ToogleThemeButton from "../../../../Button/ToogleThemeButton";
+import ToogleThemeButton from "../Button/ToogleThemeButton";
 
 const HamburgerMenu = ({ children }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);

@@ -17,7 +17,7 @@ const RootLayout = () => {
         {isMobile && <HeaderDesktopRootLayout />}
         {isMedium && <HeaderMobileRootLayout />}
       </header>
-      <main className="mt-17 flex flex-col h-full items-center ">
+      <main className="mt-17 md:mt-24 flex flex-col h-full items-center ">
         <Outlet />
       </main>
       <footer className="flex bg-stone-300 dark:bg-darksecondary py-4  w-full h-52 px-3 flex-col lg:gap-24 lg:flex-row items-center lg:items-end justify-center">
