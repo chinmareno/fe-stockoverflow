@@ -8,15 +8,15 @@ const ContactUs = () => {
     <div className="flex md:text-xl font-helvetica items-center  flex-col gap-4 ">
       <div>Contact Us :</div>
       <div className=" flex gap-11 md:gap-14">
-        <button className="flex items-center ">
+        <button className="flex text-blue-600 dark:text-inherit items-center ">
           <FacebookIcon />
           <div className="hidden md:block">Facebook</div>
         </button>
-        <button className="flex items-center">
+        <button className="flex text-pink-600 dark:text-inherit items-center">
           <InstagramIcon />
           <div className="hidden md:block">Instagram</div>
         </button>
-        <button className="flex items-center">
+        <button className="flex text-cyan-600 dark:text-inherit items-center">
           <TwitterIcon />
           <div className="hidden md:block">Twitter</div>
         </button>

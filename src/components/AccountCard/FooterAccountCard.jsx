@@ -3,23 +3,19 @@ import { NavLink } from "react-router-dom";
 const FooterAccountCard = ({ onClick }) => {
   return (
     <>
-      <NavLink
+      <button
         onClick={onClick}
-        target="_blank"
-        to="/privacy-policy"
         className="hover:bg-hovergooglecard rounded-md   px-2"
       >
         Privacy Policy
-      </NavLink>
+      </button>
       <div className="py-1">•</div>
-      <NavLink
-        target="_blank"
+      <button
         onClick={onClick}
-        to="/terms-of-service"
         className="hover:bg-hovergooglecard rounded-md   px-2"
       >
         Terms of Service
-      </NavLink>
+      </button>
     </>
   );
 };

@@ -66,8 +66,6 @@ const LoginForm = () => {
       }
     },
   });
-  //styles
-  const input = "my-12 ";
 
   return (
     <>
@@ -82,7 +80,6 @@ const LoginForm = () => {
           autoComplete="off"
           label="Username"
           variant="filled"
-          className={input}
           onChange={formik.handleChange}
           helperText={error.username}
         />
@@ -94,14 +91,13 @@ const LoginForm = () => {
           label="Password"
           type={isShowPassword ? "text" : "password"}
           variant="filled"
-          className={input}
           onChange={formik.handleChange}
           helperText={error.password}
         />
         <button
           type="button"
           className={`absolute right-2 ${
-            error.password ? "bottom-[103px]" : " bottom-[78px]"
+            error.password ? "bottom-[105px]" : " bottom-[84px]"
           }`}
           onClick={handleShowPassword}
         >

@@ -11,6 +11,9 @@ import axiosInstance from "../../../../../utils/axios";
 import { useEffect } from "react";
 import Logo from "../../../../Logo";
 import HamburgerMenu from "./HamburgerMenu";
+import LoginButton from "../../../../Button/LoginButton";
+import SignupButton from "../../../../Button/SignupButton";
+import ToogleThemeButton from "../../../../Button/ToogleThemeButton";
 
 const HeaderMobileRootLayout = () => {
   const { theme, setTheme } = useContext(ThemeContext);
@@ -60,31 +63,14 @@ const HeaderMobileRootLayout = () => {
   ];
 
   return (
-    <>
-      <div
-        className={`fixed text-sm transition duration-500 w-screen top-0  h-13 z-10 basic-color drop-shadow-lg items-center flex justify-between`}
-      >
-        {/* Brand Logo */}
-        <NavLink
-          onClick={handleMenuClickToFalse}
-          className="w-17 ml-2 flex items-center  "
-        >
-          <Logo fontSize="text-lg" />
-        </NavLink>
-
-        {/* Sign up and Login  */}
-        <NavLink className="ml-auto mr-4" to="/user/signup">
-          <Button size="small" variant="contained">
-            Sign up
-          </Button>
-        </NavLink>
-        <NavLink className="mr-4" to="/user/login">
-          <Button size="small" variant="outlined">
-            Login
-          </Button>
-        </NavLink>
-      </div>
-    </>
+    <div
+      className={`fixed w-screen top-0  h-13 z-10 basic-color drop-shadow-md items-center flex justify-between`}
+    >
+      <Logo className="ml-3 text-lg" />
+      <SignupButton className="ml-auto mr-4" size="small" />
+      <LoginButton size="small" />
+      <ToogleThemeButton className="mx-2" />
+    </div>
   );
 };
 

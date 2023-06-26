@@ -1,15 +1,13 @@
 import { Typography } from "@mui/material";
 import LayersIcon from "@mui/icons-material/Layers";
 
-const Logo = ({ fontSize }) => {
+const Logo = ({ className, fontSize = "inherit" }) => {
   return (
-    <div
-      className={`${fontSize} flex  text-inherit gap-2 justify-center items-center`}
-    >
-      <LayersIcon fontSize="inherit" />
-      <Typography variant="caption" fontSize="inherit">
+    <div className={`${className} flex items-center`}>
+      <LayersIcon fontSize={fontSize} />
+      <div fontSize={fontSize}>
         stock<span className="font-semibold ">overflow</span>
-      </Typography>
+      </div>
     </div>
   );
 };

@@ -10,7 +10,7 @@ const ButtonCard = (props) => {
       <h1 className="text-3xl font-medium font-serif text-center ">{title}</h1>
 
       <NavLink className="bg-lightgrey rounded-md" to={to}>
-        <button className="w-52 text-black text-xs  uppercase font-bold h-13">
+        <button className="w-52 text-black dark:text-white dark:bg-black text-xs  uppercase font-bold h-13">
           {button}
         </button>
       </NavLink>

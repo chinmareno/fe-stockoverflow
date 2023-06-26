@@ -110,6 +110,7 @@ const SignupForm = () => {
   const handleFormInput = (e) => {
     formik.setFieldValue(e.target.name, e.target.value);
   };
+
   //styles
   const input = "my-12 text-blackepicgame dark:text-lightgrey";
 
@@ -147,15 +148,15 @@ const SignupForm = () => {
           type="button"
           className={`absolute right-2 ${
             error.password || error.password2
-              ? "bottom-[188px]"
-              : "bottom-[165px]"
+              ? "bottom-[190px]"
+              : "bottom-[169px]"
           }`}
           onClick={handleShowPassword}
         >
           {isShowPassword ? (
-            <VisibilityOffIcon fontSize="small" />
+            <VisibilityOffIcon fontSize={isMobile ? "small" : "medium"} />
           ) : (
-            <VisibilityIcon fontSize="small" />
+            <VisibilityIcon fontSize={isMobile ? "small" : "medium"} />
           )}
         </button>
         <TextField
@@ -174,14 +175,16 @@ const SignupForm = () => {
         <button
           type="button"
           className={`absolute right-2 ${
-            error.password2 ? "bottom-[102px]" : "bottom-[79px]"
+            isMobile && error.password2 ? "bottom-[102px]" : "bottom-[79px]"
+          } ${
+            !isMobile && error.password2 ? "bottom-[103px]" : "bottom-[82px]"
           }`}
           onClick={handleShowPassword2}
         >
           {isShowPassword2 ? (
-            <VisibilityOffIcon fontSize="small" />
+            <VisibilityOffIcon fontSize={isMobile ? "small" : "medium"} />
           ) : (
-            <VisibilityIcon fontSize="small" />
+            <VisibilityIcon fontSize={isMobile ? "small" : "medium"} />
           )}
         </button>
         <Button variant="contained" type="submit">

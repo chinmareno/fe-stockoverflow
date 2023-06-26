@@ -1,9 +1,7 @@
 import PersonIcon from "@mui/icons-material/Person";
 import GoogleAccountCard from "../../../AccountCard";
-import { NavLink } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import Logo from "../../../Logo";
-import Navbar from "../../../Navbar";
 import axiosInstance from "../../../../utils/axios";
 
 const HeaderDesktopRootLayout = () => {
@@ -53,19 +51,14 @@ const HeaderDesktopRootLayout = () => {
     const currentScrollPosition =
       window.scrollY || document.documentElement.scrollTop;
 
-    if (
-      currentScrollPosition > previousScrollPosition &&
-      currentScrollPosition > 16
-    ) {
+    if (currentScrollPosition > previousScrollPosition) {
       console.log("kebwh");
       previousScrollPosition = currentScrollPosition;
 
       setIsHeaderHidden(true);
     } else {
       previousScrollPosition = currentScrollPosition;
-      if (isHeaderHidden) {
-        setIsHeaderHidden(false);
-      }
+      setIsHeaderHidden(false);
     }
   }
   useEffect(() => {
@@ -81,13 +74,11 @@ const HeaderDesktopRootLayout = () => {
       <div
         className={`${
           isHeaderHidden ? "-translate-y-13" : "translate-y-0"
-        } fixed transition duration-300  w-screen top-0 h-13 z-20 basic-color drop-shadow-lg flex items-center justify-between`}
+        } fixed transition duration-300  w-screen top-0 h-16 z-20 basic-color drop-shadow-lg flex items-center justify-between`}
       >
         {/* Logo(Left) */}
         <div className="ml-6">
-          <NavLink className="text-2xl ">
-            <Logo />
-          </NavLink>
+          <Logo className="text-3xl" />
         </div>
 
         {/* Navbar(Middle) */}
