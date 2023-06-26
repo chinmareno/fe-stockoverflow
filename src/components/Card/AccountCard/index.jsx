@@ -3,7 +3,7 @@ import MainAccountCard from "./MainAccountCard";
 import SignOutAccountCard from "./SignoutAccountCard";
 
 const AccountCard = ({
-  profile,
+  profile = "",
   outerColor,
   innerColor,
   hoverColor,

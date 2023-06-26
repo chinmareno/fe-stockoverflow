@@ -1,7 +1,7 @@
 import { useContext } from "react";
-import axiosInstance from "../../utils/axios";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import LightModeIcon from "@mui/icons-material/LightMode";
+import axiosInstance from "../../utils/axios";
 import { ThemeContext } from "../../App";
 
 const ToogleThemeButton = ({ className }) => {

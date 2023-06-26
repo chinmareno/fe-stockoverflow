@@ -7,6 +7,7 @@ const Test = () => {
       <div className="rounded-3xl border bg-black   p-10 mb-60">
         {/* Put Your Component Down Here */}
         <AccountCard
+          profile={{ image: "/assets/image/easy.svg", username: "hi" }}
           textColor="text-red-400"
           hoverColor="bg-pink-300"
           innerColor="bg-lime-500"

@@ -6,19 +6,18 @@ import ToogleThemeButton from "../../Button/ToogleThemeButton";
 import ProfilePicture from "../../ProfilePicture";
 
 const MainAccountCard = ({ profile, className, innerColor, hoverColor }) => {
+  const { username, image } = profile;
   return (
     <div className={`${className} relative`}>
       <div className="flex">
         <ProfilePicture
-          src={profile.image}
+          src={image ? image : ""}
           avatarSize={65}
           className="p-4 flex "
           iconPosition="bottom-4 right-4"
           iconSize="medium"
         />
-        <div className="mr-auto mt-7">
-          {profile.username ? profile.username : "Guest"}
-        </div>
+        <div className="mr-auto mt-7">{username ? username : "Guest"}</div>
       </div>
       <ToogleThemeButton className="absolute top-2 right-2" />
       <ManageYourAccountButton

@@ -12,7 +12,7 @@ const HeaderMobileRootLayout = () => {
     <div
       className={`fixed w-screen top-0  h-13 z-10 basic-color drop-shadow-md items-center flex justify-between`}
     >
-      <Logo className="ml-3 text-lg" />
+      <Logo className="ml-3 select-none text-lg" />
       <SignupButton className="ml-auto mr-4" size="small" />
       <LoginButton size="small" />
       <ToogleThemeButton className="mx-2" />
