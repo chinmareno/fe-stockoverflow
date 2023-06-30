@@ -14,8 +14,7 @@ import Overview from "./pages/Overview";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
 
-import SteelStock, { steelLoader } from "./pages/Stock/SteelStock";
-import AlderonStock, { alderonLoader } from "./pages/Stock/AlderonStock";
+import AlderonStock from "./pages/Stock/AlderonStock";
 import AddItem, { addItemAction } from "./pages/AddItem";
 
 import EditAccountImage from "./pages/auth/EditAccountImage";
@@ -24,7 +23,7 @@ import Signup from "./pages/auth/Signup";
 
 import RootLayout from "./components/Layout/RootLayout";
 import ItemsLayout from "./components/Layout/ItemsLayout";
-import Test from "./pages/test";
+import Test from "./pages/Test";
 import CheckCookie from "./pages/CheckCookie";
 import ThemeProvider from "./context/ThemeProvider";
 
@@ -55,12 +54,7 @@ function App(): JSX.Element {
               action={addItemAction}
               element={<AddItem />}
             />
-            <Route
-              loader={alderonLoader}
-              path="alderon"
-              element={<AlderonStock />}
-            />
-            <Route loader={steelLoader} path="steel" element={<SteelStock />} />
+            <Route path="alderon" element={<AlderonStock />} />
           </Route>
         </Route>
         {/* this top is cookie protected route */}

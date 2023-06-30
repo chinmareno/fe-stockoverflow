@@ -7,8 +7,8 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 
 export interface LoginErrorState {
-  username: "" | string;
-  password: "" | string;
+  username: string;
+  password: string;
 }
 
 const LoginForm = () => {
@@ -45,13 +45,44 @@ const LoginForm = () => {
             });
             return;
           }
-          if (data.username === "")
-            setError({ username: "Username can't be empty", password: "" });
-          if (data.password === "")
+          if (data.username)
+            if (data.username === "") {
+              setError({ username: "Username can't be empty", password: "" });
+            }
+
+          if (data.password === "") {
             setError({ username: "", password: "Password can't be empty" });
+          }
           return;
         }
-
+        if (4 > data.username.length) {
+          setError({
+            username: "Username length min 4 characters",
+            password: "",
+          });
+          return;
+        }
+        if (data.username.length > 20) {
+          setError({
+            username: "Username length max 20 characters",
+            password: "",
+          });
+          return;
+        }
+        if (8 > data.password.length) {
+          setError({
+            username: "",
+            password: "Password length min 8 characters",
+          });
+          return;
+        }
+        if (data.password.length > 128) {
+          setError({
+            username: "",
+            password: "Password length max 128 characters",
+          });
+          return;
+        }
         const res = await axiosInstance.post("/user/login", data);
         console.log(res);
         if (res.status == 200) {

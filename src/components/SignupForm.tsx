@@ -48,31 +48,6 @@ const SignupForm = () => {
       };
       try {
         setError({ username: "", password: "", password2: "" });
-        if (!pattern.test(data.username)) {
-          setError({
-            username: "Username cannot contain special characters",
-            password: "",
-            password2: "",
-          });
-          return;
-        }
-        if (data.username.length < 4) {
-          setError({
-            username: "Username must have atleast 4 characters",
-            password: "",
-            password2: "",
-          });
-          return;
-        }
-        if (data.password.length < 8) {
-          setError({
-            username: "",
-            password: "Password must have atleast 8 characters",
-            password2: "",
-          });
-          return;
-        }
-
         if (data.username === "") {
           setError({
             username: "Username can't be empty",
@@ -81,6 +56,31 @@ const SignupForm = () => {
           });
           return;
         }
+        if (4 > data.username.length) {
+          setError({
+            username: "Username min length is 4 characters",
+            password: "",
+            password2: "",
+          });
+          return;
+        }
+        if (data.username.length > 20) {
+          setError({
+            username: "Username max length is 20 characters",
+            password: "",
+            password2: "",
+          });
+          return;
+        }
+        if (!pattern.test(data.username)) {
+          setError({
+            username: "Username cannot contain special characters",
+            password: "",
+            password2: "",
+          });
+          return;
+        }
+
         if (data.password === "") {
           setError({
             username: "",
@@ -88,6 +88,22 @@ const SignupForm = () => {
             password2: "",
           });
           return;
+        }
+
+        if (8 > data.password.length) {
+          setError({
+            username: "",
+            password: "Password min length is 8 characters",
+            password2: "",
+          });
+          return;
+        }
+        if (data.password.length > 128) {
+          setError({
+            username: "",
+            password: "Password max length is 128 characters",
+            password2: "",
+          });
         }
         if (data.password2 === "") {
           setError({
@@ -97,12 +113,13 @@ const SignupForm = () => {
           });
           return;
         }
+        return;
         if (data.password && data.password2) {
           if (data.password != data.password2) {
             setError({
               username: "",
               password: "",
-              password2: "Password not matches",
+              password2: "Password does not match",
             });
             return;
           }
@@ -116,15 +133,13 @@ const SignupForm = () => {
           dataWithoutDoublePassword
         );
 
-        console.log(res);
         if (res.status == 201) {
           navigate("/items");
         }
       } catch (error: any) {
         const data = error.response.data;
-        console.log(error);
         switch (data) {
-          case "Username has been taken.":
+          case "Username has been taken":
             setError({ username: data, password: "", password2: "" });
             break;
           case "Incorrect password":
