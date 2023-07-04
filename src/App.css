@@ -9,7 +9,7 @@
 }
 
 .basic-color {
-  @apply text-darkgrey dark:text-white bg-lightgrey dark:bg-darkgrey;
+  @apply text-black dark:bg-slate-800 dark:text-white;
 }
 .link {
   @apply text-cyan-600 hover:text-blue-800;
@@ -18,5 +18,14 @@
   @apply m-0 p-0;
 }
 .nav-account {
-  @apply border-x flex justify-center border-b w-full px-5 text-sm py-2 hover:bg-slate-200;
+  @apply flex w-full justify-center border-x border-b px-5 py-2 text-sm hover:bg-slate-200;
+}
+
+.background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: 200% 100%;
 }

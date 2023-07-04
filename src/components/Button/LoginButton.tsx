@@ -9,7 +9,7 @@ export interface LoginButtonProps {
 }
 const LoginButton = ({ size, className }: LoginButtonProps) => {
   return (
-    <NavLink className={className} to="/user/login">
+    <NavLink className={className} to="/items">
       <Button size={size} variant="outlined">
         Login
       </Button>

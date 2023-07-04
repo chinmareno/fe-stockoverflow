@@ -12,9 +12,9 @@ const ChangeAnotherAccountButton = ({
   iconSize,
 }: ChangeAnotherAccountButtonProps) => {
   return (
-    <NavLink to="/user/signup" className={className}>
+    <NavLink to="/user/change-account" className={className}>
       <PeopleOutlineOutlinedIcon fontSize={iconSize} />
-      <div className=" flex items-center">Change another account</div>
+      <div className=" flex items-center">Change another Account</div>
     </NavLink>
   );
 };

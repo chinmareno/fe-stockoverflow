@@ -1,10 +1,25 @@
+import axiosInstance from "@/utils/axios";
+import { useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
-
 const CheckCookie = () => {
   const navigate = useNavigate();
-  if (!document.cookie) {
-    navigate("/overview");
-  }
+  // useEffect(() => {
+  //   if (!document.cookie) {
+  //     navigate("/overview");
+  //   }
+  //   const checkCookie = async () => {
+  //     const res = await axiosInstance.get("/user/profile");
+  //     if (res.status !== 200) {
+  //       navigate("/overview");
+  //     }
+  //   };
+  //   try {
+  //     checkCookie();
+  //   } catch (error) {
+  //     navigate("/overview");
+  //   }
+  // }, []);
+
   return (
     <>
       <Outlet />

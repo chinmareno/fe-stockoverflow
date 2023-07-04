@@ -85,9 +85,7 @@ const LoginForm = () => {
         }
         const res = await axiosInstance.post("/user/login", data);
         console.log(res);
-        if (res.status == 200) {
-          navigate("/items");
-        }
+        navigate("/items");
       } catch (error: any) {
         const errorData = error.response.data;
         console.log(error);

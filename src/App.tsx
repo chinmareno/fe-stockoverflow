@@ -9,52 +9,54 @@ import {
 } from "react-router-dom";
 
 import LandingPage from "./pages/LandingPage";
-import NotFound from "./pages/NotFound";
-import Overview from "./pages/Overview";
-import PrivacyPolicy from "./pages/PrivacyPolicy";
-import TermsOfService from "./pages/TermsOfService";
-
-import AlderonStock from "./pages/Stock/AlderonStock";
-import AddItem, { addItemAction } from "./pages/AddItem";
+import NotFound from "./pages/Constant/NotFound";
 
 import EditAccountImage from "./pages/auth/EditAccountImage";
 import Login from "./pages/auth/Login";
 import Signup from "./pages/auth/Signup";
 
-import RootLayout from "./components/Layout/RootLayout";
-import ItemsLayout from "./components/Layout/ItemsLayout";
+import LandingPageLayout from "./pages/LandingPage/LandingPageLayout";
 import Test from "./pages/Test";
 import CheckCookie from "./pages/CheckCookie";
-import ThemeProvider from "./context/ThemeProvider";
+import TermsOfService from "./pages/Constant/TermsOfService";
+import PrivacyPolicy from "./pages/Constant/PrivacyPolicy";
+import Home from "./pages/items/Home";
+import Profit from "./pages/items/Profit";
+import Stock from "./pages/items/Stock";
+import ItemsLayout from "./pages/items/ItemsLayout";
+import EditAccount from "./pages/auth/EditAccount/EditAccount";
+import ChangeAccount from "./pages/auth/ChangeAccount/ChangeAccount";
 
 function App(): JSX.Element {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <>
         <Route path="test" element={<Test />} />
+
+        <Route path="overview" element={<LandingPageLayout />}>
+          <Route index element={<LandingPage />} />
+        </Route>
+
+        <Route path="privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="terms-of-service" element={<TermsOfService />} />
+
         <Route path="user">
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<Signup />} />
           <Route path="edit-account-image" element={<EditAccountImage />} />
+          <Route path="edit-account" element={<EditAccount />} />
+          <Route path="change-account" element={<ChangeAccount />} />
           <Route index element={<Navigate to="login" />} />
         </Route>
 
-        <Route path="overview" element={<RootLayout />}>
-          <Route index element={<LandingPage />} />
-        </Route>
-
         {/* this bottom is cookie protected route */}
-        <Route element={<CheckCookie />}>
-          <Route path="privacy-policy" element={<PrivacyPolicy />} />
-          <Route path="terms-of-service" element={<TermsOfService />} />
-          <Route path="items" element={<ItemsLayout />}>
-            <Route index element={<Overview />} />
-            <Route
-              path="add-item"
-              action={addItemAction}
-              element={<AddItem />}
-            />
-            <Route path="alderon" element={<AlderonStock />} />
+        <Route path="items" element={<CheckCookie />}>
+          <Route element={<ItemsLayout />}>
+            <Route path="home" element={<Home />} />
+            <Route path="stock" element={<Stock />} />
+            <Route path="profit" element={<Profit />} />
+
+            <Route index element={<Navigate to="/items/home" />} />
           </Route>
         </Route>
         {/* this top is cookie protected route */}
@@ -65,11 +67,7 @@ function App(): JSX.Element {
     )
   );
 
-  return (
-    <ThemeProvider>
-      <RouterProvider router={router} />
-    </ThemeProvider>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;

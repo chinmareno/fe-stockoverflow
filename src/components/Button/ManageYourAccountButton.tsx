@@ -8,9 +8,11 @@ const ManageYourAccountButton = ({
   className,
 }: ManageYourAccountButtonProps) => {
   return (
-    <NavLink to="/user/login" className={className}>
-      Manage your Account
-    </NavLink>
+    <div>
+      <NavLink to="/user/edit-account" className={className}>
+        Manage your Account
+      </NavLink>
+    </div>
   );
 };
 

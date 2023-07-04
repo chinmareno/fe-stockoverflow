@@ -1,4 +1,4 @@
-import IProfile from "@/utils/interface/IProfile";
+import { IProfile } from "@/hooks/useProfileQuery";
 import FooterAccountCard from "./FooterAccountCard";
 import MainAccountCard from "./MainAccountCard";
 import SignOutAccountCard from "./SignoutAccountCard";
@@ -8,8 +8,8 @@ interface AccountCardProps {
   profile: IProfile;
   outerColor: string;
   innerColor: string;
-  hoverColor?: string;
-  textColor?: string;
+  hoverColor: string;
+  textColor: string;
   iconSize: FontSize;
 }
 const AccountCard = ({
@@ -34,7 +34,7 @@ const AccountCard = ({
         />
       </div>
       <SignOutAccountCard
-        className={`flex w-full ${textColor}  ${outerColor} gap-4 px-3 py-2 pl-9 font-helvetica font-medium hover:${hoverColor}`}
+        className={`flex w-full ${textColor}  ${outerColor} font-helvetica gap-4 px-3 py-2 pl-9 font-medium hover:${hoverColor}`}
       />
       <FooterAccountCard
         className={`flex rounded-b-3xl border-t-2 py-2  ${textColor}  ${outerColor} w-full items-center justify-center gap-1 text-xs   font-light`}

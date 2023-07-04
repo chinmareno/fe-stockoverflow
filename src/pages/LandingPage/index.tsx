@@ -1,11 +1,9 @@
-import useThemeContext from "@/hooks/useThemeContext";
-import ButtonCard from "../components/Card/ButtonCard";
-import OverviewCard from "../components/Card/OverviewCard";
-import { ThemeContextType } from "@/context/ThemeProvider";
+import useProfileStore from "@/store/profileStore";
+import ButtonCard from "../../components/Card/ButtonCard";
+import OverviewCard from "../../components/Card/OverviewCard";
 
 const LandingPage = () => {
-  const { theme } = useThemeContext() as ThemeContextType;
-
+  const { theme } = useProfileStore();
   const features = [
     {
       img:
@@ -49,13 +47,13 @@ const LandingPage = () => {
   ];
 
   return (
-    <>
-      {/* Logo Section */}
-      <div className="mb-8 text-center font-mono text-2xl">
+    <div className="flex flex-col items-center    ">
+      {/* Most Top Header */}
+      <div className="font-helvetica mb-8 mt-3 w-screen animate-fade-right text-center text-3xl animate-once">
         Simple inventory control, prevent your Stockoverflow
       </div>
       {/* Hero Section */}
-      <div className="mb-6 grid w-11/12 grid-cols-1 rounded-md bg-gradient-to-br from-blue-400 via-blue-200 to-purple-500 dark:from-darkblueepicgame dark:via-navyblueepicgame dark:to-purpleepicgame md:grid-cols-2 lg:w-9/12 ">
+      <div className="mb-6  grid w-11/12 animate-fade-left  grid-cols-1 rounded-md bg-gradient-to-br from-blue-400 via-blue-200 to-purple-500 animate-once animate-ease-out dark:from-blue-950 dark:via-blue-800 dark:to-purple-900 md:grid-cols-2 lg:w-9/12 ">
         <div className=" hidden items-center justify-center md:flex">
           <img src="https://cdn2.unrealengine.com/epic-games-store-self-service-publishing-tools-4554ceb470ed.webp" />
         </div>
@@ -82,7 +80,7 @@ const LandingPage = () => {
           />
         ))}
       </div>
-    </>
+    </div>
   );
 };
 

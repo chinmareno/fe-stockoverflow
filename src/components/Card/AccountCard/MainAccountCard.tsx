@@ -6,14 +6,18 @@ import ChangeAnotherAccountButton, {
 import ManageYourAccountButton from "../../Button/ManageYourAccountButton";
 import ToogleThemeButton from "../../Button/ToogleThemeButton";
 import ProfilePicture from "../../ProfilePicture";
-import IProfile from "@/utils/interface/IProfile";
+import { IProfile } from "@/hooks/useProfileQuery";
+import useThemeStoreItems from "@/store/useThemeStoreitems";
 
 export interface MainAccountCardProps {
-  profile: IProfile;
+  profile: IProfile | undefined;
   className?: string;
   innerColor: string;
-  hoverColor?: string;
+  hoverColor: string;
   iconSize: FontSize;
+  cameraIconPosition: string;
+  cameraIconSize: FontSize;
+  ifLoading: boolean;
 }
 
 const MainAccountCard = ({
@@ -22,29 +26,41 @@ const MainAccountCard = ({
   innerColor,
   hoverColor,
   iconSize,
+  cameraIconPosition,
+  cameraIconSize,
+  ifLoading,
 }: MainAccountCardProps) => {
   const { username, image } = profile;
+  const { theme, setTheme } = useThemeStoreItems();
+
   return (
-    <div className={`${className} relative`}>
+    <div className={`${className} absolute`}>
       <div className="flex">
         <ProfilePicture
-          src={image ? image : ""}
-          avatarSize={65}
+          image={image}
+          username={username}
           className="flex p-4 "
-          CameraIconPosition="bottom-4 right-4"
-          iconSize="medium"
+          CameraIconPosition={cameraIconPosition}
+          iconSize={cameraIconSize}
         />
         <div className="mr-auto mt-7">{username ? username : "Guest"}</div>
       </div>
-      <ToogleThemeButton className="absolute right-2 top-2" />
-      <ManageYourAccountButton
-        className={`mb-6 ml-auto  mr-auto rounded-lg border border-white px-3 py-1 font-helvetica font-medium hover:${hoverColor}`}
+      <ToogleThemeButton
+        setTheme={setTheme}
+        theme={theme}
+        className="absolute right-2 top-2"
       />
-      <LinearProgress color="primary" />
-
+      <ManageYourAccountButton
+        className={`font-helvetica mb-12  ml-3 mr-auto rounded-lg border border-white px-3 py-1 font-medium ${hoverColor}`}
+      />
+      {ifLoading && (
+        <div className="mt-5">
+          <LinearProgress color="primary" />
+        </div>
+      )}
       <ChangeAnotherAccountButton
         iconSize={iconSize}
-        className={`flex gap-4 rounded-b-xl py-3 pl-6 ${innerColor}  hover:${hoverColor}`}
+        className={`mt-4 flex gap-4 rounded-b-xl py-3 pl-6 ${innerColor}  ${hoverColor}`}
       />
     </div>
   );

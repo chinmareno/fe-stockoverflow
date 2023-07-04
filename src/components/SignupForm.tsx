@@ -58,7 +58,7 @@ const SignupForm = () => {
         }
         if (4 > data.username.length) {
           setError({
-            username: "Username min length is 4 characters",
+            username: "Username min 4 characters",
             password: "",
             password2: "",
           });
@@ -66,7 +66,7 @@ const SignupForm = () => {
         }
         if (data.username.length > 20) {
           setError({
-            username: "Username max length is 20 characters",
+            username: "Username max 20 characters",
             password: "",
             password2: "",
           });
@@ -93,7 +93,7 @@ const SignupForm = () => {
         if (8 > data.password.length) {
           setError({
             username: "",
-            password: "Password min length is 8 characters",
+            password: "Password min 8 characters",
             password2: "",
           });
           return;
@@ -101,7 +101,7 @@ const SignupForm = () => {
         if (data.password.length > 128) {
           setError({
             username: "",
-            password: "Password max length is 128 characters",
+            password: "Password max 128 characters",
             password2: "",
           });
         }
@@ -113,7 +113,6 @@ const SignupForm = () => {
           });
           return;
         }
-        return;
         if (data.password && data.password2) {
           if (data.password != data.password2) {
             setError({
@@ -196,7 +195,11 @@ const SignupForm = () => {
         <button
           type="button"
           className={`absolute right-2 ${
-            error.password || error.password2
+            (isMobile && error.password) || error.password2
+              ? "bottom-[183px]"
+              : "bottom-[158px]"
+          } ${
+            (!isMobile && error.password) || error.password2
               ? "bottom-[190px]"
               : "bottom-[169px]"
           }`}
@@ -224,9 +227,9 @@ const SignupForm = () => {
         <button
           type="button"
           className={`absolute right-2 ${
-            isMobile && error.password2 ? "bottom-[102px]" : "bottom-[79px]"
+            isMobile && error.password2 ? "bottom-[104px]" : "bottom-[79px]"
           } ${
-            !isMobile && error.password2 ? "bottom-[103px]" : "bottom-[82px]"
+            !isMobile && error.password2 ? "bottom-[104px]" : "bottom-[82px]"
           }`}
           onClick={handleShowPassword2}
         >

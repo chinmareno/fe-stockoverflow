@@ -1,21 +1,37 @@
 import LightModeIcon from "@mui/icons-material/LightMode";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
-import { MenuItem, Select } from "@mui/material";
-import useThemeContext from "@/hooks/useThemeContext";
-import { ThemeContextType, ThemeType } from "@/context/ThemeProvider";
+import { MenuItem, Select, SelectChangeEvent } from "@mui/material";
+import useProfileStore, { Theme } from "@/store/profileStore";
+import axiosInstance from "@/utils/axios";
 
 interface ToogleThemeSelectProps {
-  className: string;
+  className?: string;
+  theme: Theme;
+  setTheme: (theme: Theme) => void;
 }
-
-const ToogleThemeSelect = ({ className }: ToogleThemeSelectProps) => {
-  const { theme, setTheme } = useThemeContext() as ThemeContextType;
+const ToogleThemeSelect = ({
+  className,
+  theme,
+  setTheme,
+}: ToogleThemeSelectProps) => {
+  const handleThemeChange = async (e: SelectChangeEvent) => {
+    setTheme(e.target.value as Theme);
+    try {
+      if (document.cookie) {
+        await axiosInstance.patch("/user/change-theme", {
+          theme: e.target.value,
+        });
+      }
+    } catch (error: any) {
+      console.log(error.data);
+    }
+  };
   return (
     <Select
       variant="standard"
       className={className}
       value={theme}
-      onChange={(e) => setTheme(e.target.value as ThemeType)}
+      onChange={handleThemeChange}
     >
       <MenuItem value="light">
         <LightModeIcon />

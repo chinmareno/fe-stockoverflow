@@ -1,4 +1,4 @@
-import StockDataGrid from "../../components/StockDataGrid";
+import StockDataGrid from "./StockDataGrid";
 import mockData from "@/../db/alderon.json";
 
 const AlderonStock = () => {

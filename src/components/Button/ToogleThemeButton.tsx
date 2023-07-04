@@ -1,31 +1,33 @@
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import axiosInstance from "../../utils/axios";
-import { ThemeContextType } from "@/context/ThemeProvider";
-import useThemeContext from "@/hooks/useThemeContext";
+import useThemeStore from "@/store/useThemeStore";
+import { Theme } from "@/store/profileStore";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface ToogleThemeButtonProps {
   className?: string;
+  theme: Theme;
+  setTheme: (theme: Theme) => void;
 }
-const ToogleThemeButton = ({ className }: ToogleThemeButtonProps) => {
-  const { theme, setTheme } = useThemeContext() as ThemeContextType;
+
+const ToogleThemeButton = ({
+  className,
+  theme,
+  setTheme,
+}: ToogleThemeButtonProps) => {
+  const cache = useQueryClient();
   const handleToogleTheme = async () => {
-    const token = document.cookie.split("; ").find((cookie) => {
-      return cookie.startsWith("jwt=");
-    });
-    if (theme === "light") {
-      setTheme("dark");
-      if (token) {
-        await axiosInstance.patch("/user/change-theme", { theme: "dark" });
-        console.log("ada jwt");
+    console.log(theme);
+    try {
+      if (theme === "light") {
+        setTheme("dark");
       }
-    }
-    if (theme === "dark") {
-      setTheme("light");
-      if (token) {
-        await axiosInstance.patch("/user/change-theme", { theme: "light" });
-        console.log("ada jwt");
+      if (theme === "dark") {
+        setTheme("light");
       }
+    } catch (error: any) {
+      console.log(error.data);
     }
   };
   return (
