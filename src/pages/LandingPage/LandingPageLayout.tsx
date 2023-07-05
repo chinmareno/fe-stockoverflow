@@ -21,8 +21,8 @@ const RootLayout = () => {
   }, []);
 
   return (
-    <div className={theme}>
-      <div className="h-full w-screen overflow-x-hidden  bg-white text-black  dark:bg-neutral-900 dark:text-white">
+    <div className={`${theme} overflow-x-hidden`}>
+      <div className="h-full w-screen   bg-white text-black  dark:bg-neutral-900 dark:text-white">
         <header className="z-50">
           {isMobile && <HeaderMobileRootLayout />}
           {isMedium && <HeaderDesktopRootLayout />}

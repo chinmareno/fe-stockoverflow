@@ -2,7 +2,7 @@ import LightModeIcon from "@mui/icons-material/LightMode";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import { MenuItem, Select, SelectChangeEvent } from "@mui/material";
 import useProfileStore, { Theme } from "@/store/profileStore";
-import axiosInstance from "@/utils/axios";
+import axiosInstance from "@/utils/axiosInstance";
 
 interface ToogleThemeSelectProps {
   className?: string;

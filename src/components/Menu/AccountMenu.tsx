@@ -1,5 +1,5 @@
 import { PersonPinCircleOutlined } from "@mui/icons-material";
-import axiosInstance from "../../utils/axios";
+import axiosInstance from "../../utils/axiosInstance";
 import { useState } from "react";
 import AccountCard from "../Card/AccountCard";
 import { useRef } from "react";

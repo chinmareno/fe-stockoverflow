@@ -17,12 +17,14 @@ const ProfilePicture = ({
   className,
   iconSize,
 }: ProfilePictureProps) => {
+  const avatarFallBack = username.substring(0, 5);
+
   return (
     <div className={`${className} relative `}>
       <Avatar className="mr-auto ">
         <AvatarImage src={image} />
-        <AvatarFallback className="text-black dark:text-white">
-          {username}
+        <AvatarFallback className="bg-inherit text-white ">
+          {avatarFallBack}
         </AvatarFallback>
       </Avatar>
       <NavLink className={`absolute ${CameraIconPosition}`} to="/user/login">

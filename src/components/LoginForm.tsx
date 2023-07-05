@@ -1,6 +1,6 @@
 import { useFormik } from "formik";
 import { Form, useNavigate } from "react-router-dom";
-import axiosInstance from "../utils/axios";
+import axiosInstance from "../utils/axiosInstance";
 import { Button, TextField } from "@mui/material";
 import { useState } from "react";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";

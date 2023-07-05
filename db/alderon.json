@@ -1,28 +1,60 @@
-{
-  "alderon": [
-    {
-      "color": "pink",
-      "detail": [
-        { "length": 5, "quantity": 9 },
-        { "length": 3, "quantity": 8 },
-        { "length": 1, "quantity": 4 }
-      ]
-    },
-    {
-      "color": "red",
-      "detail": [
-        { "length": 52, "quantity": 94 },
-        { "length": 31, "quantity": 84 },
-        { "length": 13, "quantity": 41 }
-      ]
-    },
-    {
-      "color": "orange",
-      "detail": [
-        { "length": 55, "quantity": 93 },
-        { "length": 33, "quantity": 82 },
-        { "length": 16, "quantity": 45 }
-      ]
-    }
-  ]
-}
+[
+  {
+    "name": "besi",
+    "namedetail": [
+      {
+        "color": "pink",
+        "colordetail": [
+          { "length": 5, "quantity": 9 },
+          { "length": 3, "quantity": 8 },
+          { "length": 1, "quantity": 4 }
+        ]
+      },
+      {
+        "color": "red",
+        "colordetail": [
+          { "length": 52, "quantity": 94 },
+          { "length": 31, "quantity": 84 },
+          { "length": 13, "quantity": 41 }
+        ]
+      },
+      {
+        "color": "orange",
+        "colordetail": [
+          { "length": 55, "quantity": 93 },
+          { "length": 33, "quantity": 82 },
+          { "length": 16, "quantity": 45 }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "alderon",
+    "namedetail": [
+      {
+        "color": "pink",
+        "colordetail": [
+          { "length": 5, "quantity": 9 },
+          { "length": 3, "quantity": 8 },
+          { "length": 1, "quantity": 4 }
+        ]
+      },
+      {
+        "color": "red",
+        "colordetail": [
+          { "length": 52, "quantity": 94 },
+          { "length": 31, "quantity": 84 },
+          { "length": 13, "quantity": 41 }
+        ]
+      },
+      {
+        "color": "orange",
+        "colordetail": [
+          { "length": 55, "quantity": 93 },
+          { "length": 33, "quantity": 82 },
+          { "length": 16, "quantity": 45 }
+        ]
+      }
+    ]
+  }
+]

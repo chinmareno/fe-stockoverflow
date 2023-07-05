@@ -1,5 +1,11 @@
+import DataGridCustom from "@/components/DataGrid/DataGridCustom";
+
 const Stock = () => {
-  return <div>s</div>;
+  return (
+    <div>
+      <DataGridCustom />
+    </div>
+  );
 };
 
 export default Stock;

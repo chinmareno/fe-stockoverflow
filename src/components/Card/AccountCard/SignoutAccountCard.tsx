@@ -1,5 +1,5 @@
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
-import axiosInstance from "../../../utils/axios";
+import axiosInstance from "../../../utils/axiosInstance";
 import { useNavigate } from "react-router-dom";
 
 interface SignOutAccountCardProps {

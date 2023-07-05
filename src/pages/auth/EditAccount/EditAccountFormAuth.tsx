@@ -4,7 +4,7 @@ import { Button, TextField, useMediaQuery } from "@mui/material";
 import { ChangeEvent, useState } from "react";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import axiosInstance from "@/utils/axios";
+import axiosInstance from "@/utils/axiosInstance";
 import { LoginErrorState } from "./EditAccountForm";
 
 interface SignupErrorState extends LoginErrorState {

@@ -1,4 +1,4 @@
-import axiosInstance from "@/utils/axios";
+import axiosInstance from "@/utils/axiosInstance";
 import { useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 const CheckCookie = () => {

@@ -1,7 +1,9 @@
 import { styled } from "@stitches/react";
 import * as Dialog from "@radix-ui/react-dialog";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { ReactNode } from "react";
+import TooltipCustom from "./TooltipCustom";
+import useIsAccountOpenStore from "@/store/useIsAccountOpenStore";
 
 const NavLinkCustom = ({
   to,
@@ -10,22 +12,31 @@ const NavLinkCustom = ({
   to: string;
   children: ReactNode;
 }) => {
+  const { pathname } = useLocation();
+  const { setIsProfileOpen } = useIsAccountOpenStore();
   return (
-    <NavLink
-      to={to}
-      className={({ isActive }) =>
-        isActive ? "scale-125   " : "hover:scale-125"
-      }
-    >
-      <Dialog.Root>
-        <Trigger>
-          <TriggerShadow />
-          <TriggerEdge />
-          <TriggerLabel>{children}</TriggerLabel>
-        </Trigger>
-        <Dialog.Portal forceMount></Dialog.Portal>
-      </Dialog.Root>
-    </NavLink>
+    <TooltipCustom tooltip={to}>
+      <NavLink
+        onClick={() => {
+          setIsProfileOpen(false);
+        }}
+        className={
+          pathname === `/items/${to}`
+            ? "scale-110"
+            : " opacity-50 hover:scale-110"
+        }
+        to={to}
+      >
+        <Dialog.Root>
+          <Trigger>
+            <TriggerShadow />
+            <TriggerEdge />
+            <TriggerLabel>{children}</TriggerLabel>
+          </Trigger>
+          <Dialog.Portal forceMount></Dialog.Portal>
+        </Dialog.Root>
+      </NavLink>
+    </TooltipCustom>
   );
 };
 

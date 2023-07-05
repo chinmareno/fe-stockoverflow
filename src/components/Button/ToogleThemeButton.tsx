@@ -1,6 +1,6 @@
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import LightModeIcon from "@mui/icons-material/LightMode";
-import axiosInstance from "../../utils/axios";
+import axiosInstance from "../../utils/axiosInstance";
 import useThemeStore from "@/store/useThemeStore";
 import { Theme } from "@/store/profileStore";
 import { useQueryClient } from "@tanstack/react-query";

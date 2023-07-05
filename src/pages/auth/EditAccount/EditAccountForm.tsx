@@ -4,7 +4,7 @@ import { Button, TextField } from "@mui/material";
 import { useState } from "react";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import axiosInstance from "@/utils/axios";
+import axiosInstance from "@/utils/axiosInstance";
 
 export interface LoginErrorState {
   username: string;

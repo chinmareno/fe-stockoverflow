@@ -1,5 +1,5 @@
-import axiosInstance from "@/utils/axios";
-
+import axiosInstance from "@/utils/axiosInstance";
+import alderon from "../../db/alderon.json";
 export interface IProfile {
   username: string;
   image: string;
@@ -23,4 +23,12 @@ const propil = {
   image: "https://github.com/shadcn.png",
 };
 
-export { propil, wait, getProfile };
+const wait2 = (): Promise<IProfile> => {
+  return new Promise((resolve) =>
+    setTimeout(() => {
+      resolve(alderon);
+    }, 3000)
+  );
+};
+
+export { propil, wait, wait2, getProfile };
