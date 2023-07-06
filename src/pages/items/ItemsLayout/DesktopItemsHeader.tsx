@@ -11,7 +11,7 @@ import TooltipCustom from "@/components/TooltipCustom";
 import useIsAccountOpenStore from "@/store/useIsAccountOpenStore";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
-const DesktopItemsHeader = () => {
+const DesktopItemsHeader = ({ theme }: { theme: string }) => {
   const { data: profile, isLoading } = useQuery({
     queryKey: ["profile"],
     queryFn: () => wait(),
@@ -56,6 +56,7 @@ const DesktopItemsHeader = () => {
 
         {isProfileOpen && (
           <MainAccountCard
+            theme={theme}
             className="  right-6 top-14 z-40 h-auto w-80 rounded-2xl  bg-zinc-900 text-slate-50"
             innerColor="bg-zinc-800"
             hoverColor="hover:bg-zinc-700"

@@ -1,9 +1,7 @@
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import axiosInstance from "../../utils/axiosInstance";
-import useThemeStore from "@/store/useThemeStore";
 import { Theme } from "@/store/profileStore";
-import { useQueryClient } from "@tanstack/react-query";
 
 interface ToogleThemeButtonProps {
   className?: string;
@@ -16,18 +14,22 @@ const ToogleThemeButton = ({
   theme,
   setTheme,
 }: ToogleThemeButtonProps) => {
-  const cache = useQueryClient();
   const handleToogleTheme = async () => {
-    console.log(theme);
     try {
       if (theme === "light") {
-        setTheme("dark");
+        if (document.cookie) {
+          axiosInstance.patch("/user/change-theme", { theme: "dark" });
+        }
       }
+      setTheme("dark");
       if (theme === "dark") {
+        if (document.cookie) {
+          axiosInstance.patch("/user/change-theme", { theme: "light" });
+        }
         setTheme("light");
       }
-    } catch (error: any) {
-      console.log(error.data);
+    } catch (error) {
+      console.log(error);
     }
   };
   return (

@@ -8,6 +8,7 @@ import ToogleThemeButton from "../../Button/ToogleThemeButton";
 import ProfilePicture from "../../ProfilePicture";
 import { IProfile } from "@/hooks/useProfileQuery";
 import useThemeStoreItems from "@/store/useThemeStoreitems";
+import { Theme } from "@/store/profileStore";
 
 export interface MainAccountCardProps {
   profile: IProfile | undefined;
@@ -18,6 +19,7 @@ export interface MainAccountCardProps {
   cameraIconPosition: string;
   cameraIconSize: FontSize;
   ifLoading: boolean;
+  theme: Theme;
 }
 
 const MainAccountCard = ({
@@ -29,9 +31,10 @@ const MainAccountCard = ({
   cameraIconPosition,
   cameraIconSize,
   ifLoading,
+  theme,
 }: MainAccountCardProps) => {
   const { username, image } = profile;
-  const { theme, setTheme } = useThemeStoreItems();
+  const { setTheme } = useThemeStoreItems();
 
   return (
     <div className={`${className} absolute`}>

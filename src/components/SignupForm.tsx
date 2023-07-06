@@ -159,9 +159,6 @@ const SignupForm = () => {
     formik.setFieldValue(e.target.name, e.target.value);
   };
 
-  //styles
-  const input = "my-12 text-blackepicgame dark:text-lightgrey";
-
   return (
     <>
       <Form
@@ -176,7 +173,6 @@ const SignupForm = () => {
           label="Username"
           size={isMobile ? "small" : "medium"}
           variant="filled"
-          className={input}
           onChange={handleFormInput}
           helperText={error.username}
         />
@@ -188,7 +184,6 @@ const SignupForm = () => {
           type={isShowPassword ? "text" : "password"}
           variant="filled"
           size={isMobile ? "small" : "medium"}
-          className={input + "mr-9"}
           onChange={handleFormInput}
           helperText={error.password}
         />
@@ -219,7 +214,6 @@ const SignupForm = () => {
           label="Confirm password"
           type={isShowPassword2 ? "text" : "password"}
           variant="filled"
-          className={input}
           onChange={handleFormInput}
           helperText={error.password2}
         />

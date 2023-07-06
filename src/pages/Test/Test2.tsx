@@ -6,8 +6,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import EditAccount from "../auth/EditAccount/EditAccount";
 import ChangeAccount from "../auth/ChangeAccount/ChangeAccount";
 import Tooltip from "@/components/TooltipCustom";
-import DataGrid from "@/components/DataGrid/DataGridCustom";
-import DataGridCustom from "@/components/DataGrid/DataGridCustom";
+import DataGrid from "@/components/DataGrid/DataGridStock";
+import DataGridCustom from "@/components/DataGrid/DataGridStock";
 
 const Test2 = () => {
   return (

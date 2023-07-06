@@ -8,28 +8,28 @@ type NameDetail = {
   colordetail: ColorDetail[];
 };
 
-interface IStockData {
+export interface IDataStock {
   name: string;
   namedetail: NameDetail[];
 }
 
-interface IStockDataFlattened {
+export interface IFlatDataStock {
   name: string;
   color: string;
   length: number;
   quantity: number;
 }
-const flatData = (data: IStockData[]) => {
-  const container: IStockDataFlattened[] = [];
+const flatDataStock = (data: IDataStock[]) => {
+  const container: IFlatDataStock[] = [];
   data.forEach(({ name, namedetail }) =>
     namedetail.forEach(({ color, colordetail }) =>
       colordetail.forEach(({ length, quantity }) => {
-        const y = { name, color, length, quantity };
-        container.push(y);
+        const eachArray = { name, color, length, quantity };
+        container.push(eachArray);
       })
     )
   );
   return container;
 };
 
-export default flatData;
+export default flatDataStock;

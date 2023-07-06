@@ -1,4 +1,4 @@
-import DataGridCustom from "@/components/DataGrid/DataGridCustom";
+import DataGridCustom from "@/components/DataGrid/DataGridStock";
 
 const Stock = () => {
   return (

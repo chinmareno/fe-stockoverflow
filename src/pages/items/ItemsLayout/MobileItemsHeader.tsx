@@ -18,10 +18,10 @@ import { useQuery } from "@tanstack/react-query";
 import { wait } from "@/hooks/useProfileQuery";
 import useIsMenuOpenStore from "@/store/useIsMenuOpenStore";
 
-const MobileItemsHeader = () => {
+const MobileItemsHeader = ({ theme }) => {
   const { pathname } = useLocation();
   const currentLocation = pathname.split("/").splice(2, 1);
-  const { theme, setTheme } = useThemeStoreItems();
+  const { setTheme } = useThemeStoreItems();
   const { data: profile } = useQuery({
     queryKey: ["profile"],
     queryFn: () => wait(),
@@ -53,19 +53,25 @@ const MobileItemsHeader = () => {
             <NavigationMenuTrigger className="bg-[#F9FAFB] uppercase dark:bg-[#333333]">
               {currentLocation}
             </NavigationMenuTrigger>
-            <NavigationMenuContent>
-              <NavigationMenuLink className="flex flex-col  items-center  divide-y-2 px-3 pb-2 pt-1 capitalize">
+            <NavigationMenuContent className="flex flex-col  items-center  divide-y-2 px-3 pb-2 pt-1 capitalize">
+              <NavigationMenuLink>
                 <IconButton
                   iconClassName="ml-1"
                   icon={<HouseIcon fontSize="small" />}
                   title="Home"
                   to="home"
                 />
+              </NavigationMenuLink>
+
+              <NavigationMenuLink>
                 <IconButton
                   icon={<LayersIcon fontSize="small" />}
                   title="Stock"
                   to="stock"
                 />
+              </NavigationMenuLink>
+
+              <NavigationMenuLink>
                 <IconButton
                   icon={<AttachMoneyIcon />}
                   title="Profit"

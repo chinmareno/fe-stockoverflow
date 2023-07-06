@@ -18,7 +18,7 @@ const ToogleThemeSelect = ({
     setTheme(e.target.value as Theme);
     try {
       if (document.cookie) {
-        await axiosInstance.patch("/user/change-theme", {
+        axiosInstance.patch("/user/change-theme", {
           theme: e.target.value,
         });
       }
