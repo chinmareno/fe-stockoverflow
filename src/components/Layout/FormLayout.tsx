@@ -19,10 +19,10 @@ const FormLayout = (props: FormLayoutProps) => {
       <Logo iconSize={logoSize} className="text-3xl" />
       <div className=" mt-2 text-lg font-semibold md:text-lg  ">{title}</div>
       {children}
-      <div className="mt-1 flex  items-end text-sm md:text-base">
+      <div className="mt-1 flex items-end text-sm text-gray-500 md:text-base">
         <div className="pt-1  ">{bottomDescription} </div>
         <NavLink to={to}>
-          <div className="capitalize text-cyan-600 underline  hover:text-blue-800">
+          <div className="capitalize text-cyan-600   hover:text-blue-800">
             {linkTitle}
           </div>
         </NavLink>

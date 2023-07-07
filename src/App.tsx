@@ -22,7 +22,7 @@ import TermsOfService from "./pages/Constant/TermsOfService";
 import PrivacyPolicy from "./pages/Constant/PrivacyPolicy";
 import Home from "./pages/items/Home";
 import Profit from "./pages/items/Profit";
-import Stock from "./pages/items/Stock";
+import Stock from "./pages/items/Stock/Stock";
 import ItemsLayout from "./pages/items/ItemsLayout";
 import EditAccount from "./pages/auth/EditAccount/EditAccount";
 import ChangeAccount from "./pages/auth/ChangeAccount/ChangeAccount";

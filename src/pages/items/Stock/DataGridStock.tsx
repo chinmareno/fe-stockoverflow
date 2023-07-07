@@ -12,15 +12,16 @@ import "ag-grid-community/styles/ag-theme-alpine.css";
 
 import { useQuery } from "@tanstack/react-query";
 import axiosDummy from "@/utils/axiosDummy";
-import dataJson from "../../../db/alderon.json";
-import { IFlatDataStock } from "../../utils/flatData/flatDataStock";
+import dataJson from "../../../../db/alderon.json";
+import { IFlatDataStock } from "../../../utils/flatData/flatDataStock";
 import useThemeStoreItems from "@/store/useThemeStoreitems";
 import { useMediaQuery } from "@mui/material";
-import { Button } from "../ui/button";
+import { Button } from "../../../components/ui/button";
 import axiosInstance from "@/utils/axiosInstance";
 import { largeQuery, mediumQuery, mobileQuery } from "@/utils/mediaQuery";
 import { CellClickedEvent, GridOptions } from "ag-grid-community";
-import flatDataStock from "../../utils/flatData/flatDataStock";
+import flatDataStock from "../../../utils/flatData/flatDataStock";
+import useIsEditModalStockOpenStore from "@/store/useIsEditModalStockOpenStore";
 const DataGridCustom = () => {
   //Theme state,first use server state,remain use client server(but still update to the server)
   const { data: theme } = useQuery({
@@ -155,6 +156,11 @@ const DataGridCustom = () => {
     },
   };
 
+  const { setIsEditModalStockOpenStore } = useIsEditModalStockOpenStore();
+  const handleEditClick = () => {
+    setIsEditModalStockOpenStore(true);
+  };
+
   return (
     <div className=" flex justify-center">
       <div
@@ -175,7 +181,7 @@ const DataGridCustom = () => {
           <Button
             disabled={!isCellSelected}
             className="mr-2 select-none rounded-md bg-blue-500 text-xs text-white disabled:opacity-40 dark:bg-blue-700 md:text-lg lg:text-xl"
-            onClick={buttonListener}
+            onClick={handleEditClick}
             variant="outline"
             size={buttonSize()}
           >
