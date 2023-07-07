@@ -29,3 +29,8 @@
   height: 100%;
   background-size: 200% 100%;
 }
+div.ag-header-cell-label {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}

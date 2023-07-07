@@ -13,15 +13,14 @@ import "ag-grid-community/styles/ag-theme-alpine.css";
 import { useQuery } from "@tanstack/react-query";
 import axiosDummy from "@/utils/axiosDummy";
 import dataJson from "../../../db/alderon.json";
-import flatData, { IFlatDataStock } from "../../utils/flatData/flatDataStock";
+import { IFlatDataStock } from "../../utils/flatData/flatDataStock";
 import useThemeStoreItems from "@/store/useThemeStoreitems";
 import { useMediaQuery } from "@mui/material";
 import { Button } from "../ui/button";
 import axiosInstance from "@/utils/axiosInstance";
 import { largeQuery, mediumQuery, mobileQuery } from "@/utils/mediaQuery";
-import { CellClickedEvent } from "ag-grid-community";
+import { CellClickedEvent, GridOptions } from "ag-grid-community";
 import flatDataStock from "../../utils/flatData/flatDataStock";
-import { FontSize } from "../Button/ChangeAnotherAccountButton";
 const DataGridCustom = () => {
   //Theme state,first use server state,remain use client server(but still update to the server)
   const { data: theme } = useQuery({
@@ -58,15 +57,26 @@ const DataGridCustom = () => {
   const [isCellSelected, setIsCellSelected] = useState<boolean>();
 
   //Column Data Cell Configuration (not the header)
-  const cellClass = () => {
+  const headerClass = () => {
     if (isMobile) {
-      return "text-xs capitalize";
+      return "px-0 mx-auto";
     }
     if (isMedium) {
-      return "text-lg capitalize";
+      return "px-0 mx-auto";
     }
     if (isLarge) {
-      return "text-xl capitalize";
+      return "px-0 mx-auto";
+    }
+  };
+  const cellClass = () => {
+    if (isMobile) {
+      return "text-xs capitalize px-0 text-center";
+    }
+    if (isMedium) {
+      return "text-lg capitalize px-0 text-center";
+    }
+    if (isLarge) {
+      return "text-xl capitalize px-0 text-center";
     }
   };
   const width = () => {
@@ -82,15 +92,21 @@ const DataGridCustom = () => {
     return 200;
   };
   const [columnDefs, setColumnDefs] = useState([
-    { field: "name", filter: true, width: width(), cellClass: cellClass() },
-    { field: "color", width: width(), cellClass: cellClass() },
+    {
+      field: "name",
+      filter: true,
+      headerClass: headerClass() + " ml-2",
+      cellClass: cellClass(),
+    },
+    { field: "color", cellClass: cellClass(), headerClass: headerClass() },
     {
       field: "length",
-      width: width(),
+      headerClass: headerClass(),
       cellClass: cellClass() + " after:content-['m'] ",
     },
     {
       field: "quantity",
+      headerClass: headerClass(),
       cellClass: cellClass() + " after:content-['pcs'] ",
       cellClassRules: {
         "bg-red-500": "x<3",
@@ -129,31 +145,18 @@ const DataGridCustom = () => {
       return "lg";
     }
   };
+
+  const gridOptions: GridOptions = {
+    defaultColDef: {
+      resizable: true, // Enable column resizing
+    },
+    onFirstDataRendered: (params) => {
+      params.api?.sizeColumnsToFit(); // Automatically resize columns to fit the grid width
+    },
+  };
+
   return (
-    <div className=" flex flex-col items-center">
-      {/* Above data grid */}
-
-      <div className="ml-auto flex">
-        <Button
-          disabled={!isCellSelected}
-          className="mr-2 select-none rounded-md bg-blue-500 text-xs text-white disabled:opacity-40 dark:bg-blue-700 md:text-lg lg:text-xl"
-          onClick={buttonListener}
-          variant="outline"
-          size={buttonSize()}
-        >
-          Edit
-        </Button>
-        <Button
-          disabled={!isCellSelected}
-          className="select-none rounded-md bg-red-500 text-xs text-white disabled:opacity-40 dark:bg-red-700 md:mr-24 md:text-lg lg:mr-60 lg:text-xl"
-          variant="outline"
-          size={buttonSize()}
-        >
-          Delete
-        </Button>
-      </div>
-
-      {/* The Data Grid  */}
+    <div className=" flex justify-center">
       <div
         className={
           (themeStore || theme) == "light"
@@ -164,11 +167,31 @@ const DataGridCustom = () => {
           isMobile
             ? { width: "100vw", height: "89vh" }
             : isMedium
-            ? { width: "80vw", height: "85vh" }
+            ? { width: "85vw", height: "85vh" }
             : isLarge && { width: "70vw", height: "80vh" }
         }
       >
+        <div className="flex justify-end">
+          <Button
+            disabled={!isCellSelected}
+            className="mr-2 select-none rounded-md bg-blue-500 text-xs text-white disabled:opacity-40 dark:bg-blue-700 md:text-lg lg:text-xl"
+            onClick={buttonListener}
+            variant="outline"
+            size={buttonSize()}
+          >
+            Edit
+          </Button>
+          <Button
+            disabled={!isCellSelected}
+            className="select-none rounded-md bg-red-500 text-xs text-white disabled:opacity-40 dark:bg-red-700  md:text-lg  lg:text-xl"
+            variant="outline"
+            size={buttonSize()}
+          >
+            Delete
+          </Button>
+        </div>
         <AgGridReact
+          gridOptions={gridOptions}
           className={`font-body ${
             isMobile
               ? "text-[11px]"

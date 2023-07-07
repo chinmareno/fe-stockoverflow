@@ -12,6 +12,20 @@ export interface LoginErrorState {
 }
 
 const LoginForm = () => {
+  const navigate = useNavigate();
+  if (document.cookie) {
+    (async () => {
+      try {
+        const res = await axiosInstance.get("/user/profile");
+        if (res.status == 200) {
+          navigate("/items");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  }
+
   const [isShowPassword, setIsShowPassword] = useState(false);
   const handleShowPassword = () => {
     setIsShowPassword(!isShowPassword);
@@ -21,8 +35,6 @@ const LoginForm = () => {
     username: "",
     password: "",
   });
-
-  const navigate = useNavigate();
 
   const formik = useFormik({
     initialValues: {

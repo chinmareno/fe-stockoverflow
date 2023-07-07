@@ -15,12 +15,12 @@ const ButtonCard = (props: ButtonCardProps) => {
       <div className="flex h-32 w-32 items-center justify-center">
         <img src={img} />
       </div>
-      <h1 className="text-center font-serif text-3xl font-medium ">{title}</h1>
+      <h1 className="font-serif text-center text-3xl font-medium ">{title}</h1>
 
       <NavLink className="bg-lightgrey rounded-md" to={to}>
         <Button
           variant="contained"
-          className="h-13 w-52  text-xs font-bold uppercase  text-black dark:bg-black dark:text-white"
+          className="h-13 w-52  text-xs font-bold uppercase  text-white dark:bg-black dark:text-white"
         >
           {buttonTitle}
         </Button>
