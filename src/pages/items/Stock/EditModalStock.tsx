@@ -1,24 +1,55 @@
 import { Input } from "@/components/ui/input";
 import CloseIcon from "@mui/icons-material/Close";
-import useIsEditModalStockOpenStore from "../../../store/useIsEditModalStockOpenStore";
 import { Button } from "@/components/ui/button";
 import { useMediaQuery } from "@mui/material";
 import { largeQuery, mediumQuery } from "@/utils/mediaQuery";
-const EditModalStock = () => {
+import useDataStockForm from "@/store/useDataStockForm";
+import { FormEvent } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import axiosInstance from "@/utils/axiosInstance";
+import { ICellSelected } from "./DataGridStock";
+import useIsModalStockOpenStore from "../../../store/useIsModalStockOpenStore";
+const EditModalStock = ({
+  isCellSelected,
+  setIsCellSelected,
+}: ICellSelected) => {
   const { isEditModalStockOpenStore, setIsEditModalStockOpenStore } =
-    useIsEditModalStockOpenStore();
+    useIsModalStockOpenStore();
   const isMedium = useMediaQuery(mediumQuery);
   const isLarge = useMediaQuery(largeQuery);
 
   const handleCloseEditClick = () => {
     setIsEditModalStockOpenStore(false);
   };
+
+  //Edit stock quantity
+  const cache = useQueryClient();
+  const { name, type, length, quantity } = useDataStockForm();
+  const mutation = useMutation({
+    mutationFn: async (newquantity: number) => {
+      await axiosInstance.patch("/items/", {
+        name,
+        type,
+        length,
+        quantity: newquantity,
+      });
+      cache.invalidateQueries(["stock"]);
+    },
+  });
+  const handleEditSubmit = (e: FormEvent) => {
+    console.log("a");
+    setIsCellSelected(false);
+    setIsEditModalStockOpenStore(false);
+    const newQuantity = e.target.elements.quantity.value;
+    mutation.mutate(Number(newQuantity));
+  };
+
   return (
     <>
       {isEditModalStockOpenStore && (
         <div className="fixed left-0 top-0 z-30 flex h-screen w-screen items-center justify-center bg-gray-300/60 text-[#333333] dark:text-white">
           {/* Modal card  */}
-          <div className="relative flex rounded-md bg-[#F5F5F5] px-3 py-3 dark:bg-black md:px-6 md:py-6 lg:px-9 lg:py-9">
+          <div className="relative flex rounded-md bg-[#F5F5F5] px-3 py-3 ring-2 ring-blue-500 dark:bg-black dark:ring-blue-700 md:px-6 md:py-6 lg:px-20 lg:py-20">
             <button
               onClick={handleCloseEditClick}
               className="absolute right-0 top-0"
@@ -33,26 +64,35 @@ const EditModalStock = () => {
                 Details
               </h3>
               <div className="text-xs  sm:text-sm md:text-base lg:text-lg xl:text-xl">
-                <strong>Name:</strong> Steel
+                <strong>Name:</strong> {name}
               </div>
               <div className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl">
-                <strong>Type:</strong> White
+                <strong>Type:</strong> {type}
               </div>
               <div className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl">
-                <strong>Length:</strong> 8m
+                <strong>Length:</strong> {length}m
               </div>
             </div>
             {/* right side  */}
-            <form className="flex flex-col items-center justify-center self-stretch px-3">
+            <form
+              onSubmit={handleEditSubmit}
+              className="flex flex-col items-center justify-center self-stretch px-3"
+            >
               <div className="mb-2 text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl">
-                <strong className="font-semibold">Current stock: </strong>3pcs
+                <strong className="font-semibold">Current stock: </strong>
+                {quantity}pcs
               </div>
               <Input
+                autoFocus
+                required
+                autoComplete="off"
+                name="quantity"
                 placeholder="Edit your stock here"
                 type="number"
                 className="border-gray-400 pl-2 pr-0 text-xs dark:border-gray-600 sm:text-sm md:text-base lg:text-lg xl:text-xl"
               />
               <Button
+                type="submit"
                 variant="outline"
                 size={isLarge ? "lg" : isMedium ? "default" : "sm"}
                 className="mt-2 px-6 text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl"

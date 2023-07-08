@@ -1,28 +1,26 @@
-import {
-  useState,
-  useRef,
-  useEffect,
-  useMemo,
-  useCallback,
-  MouseEventHandler,
-} from "react";
+import { useState, useRef, useEffect, useMemo, useCallback } from "react";
 import { AgGridReact } from "ag-grid-react"; // the AG Grid React Component
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 
 import { useQuery } from "@tanstack/react-query";
-import axiosDummy from "@/utils/axiosDummy";
-import dataJson from "../../../../db/alderon.json";
-import { IFlatDataStock } from "../../../utils/flatData/flatDataStock";
 import useThemeStoreItems from "@/store/useThemeStoreitems";
 import { useMediaQuery } from "@mui/material";
 import { Button } from "../../../components/ui/button";
 import axiosInstance from "@/utils/axiosInstance";
 import { largeQuery, mediumQuery, mobileQuery } from "@/utils/mediaQuery";
 import { CellClickedEvent, GridOptions } from "ag-grid-community";
-import flatDataStock from "../../../utils/flatData/flatDataStock";
-import useIsEditModalStockOpenStore from "@/store/useIsEditModalStockOpenStore";
-const DataGridCustom = () => {
+import useIsEditModalStockOpenStore from "@/store/useIsModalStockOpenStore";
+import useDataStockForm from "@/store/useDataStockForm";
+
+export interface ICellSelected {
+  isCellSelected: boolean;
+  setIsCellSelected: (isCellSelected: boolean) => void;
+}
+const DataGridStock = ({
+  isCellSelected,
+  setIsCellSelected,
+}: ICellSelected) => {
   //Theme state,first use server state,remain use client server(but still update to the server)
   const { data: theme } = useQuery({
     queryKey: ["theme"],
@@ -40,22 +38,20 @@ const DataGridCustom = () => {
   const isLarge = useMediaQuery(largeQuery);
 
   //Server state management
-  const [rowData, setRowData] = useState<IFlatDataStock[]>();
+  const [rowData, setRowData] = useState();
   const { data, isSuccess } = useQuery({
     queryKey: ["stock"],
-    queryFn: () => axiosDummy.get("/comments"),
+    queryFn: async () => {
+      const { data } = await axiosInstance.get("/items/");
+      return data;
+    },
     keepPreviousData: true,
   });
   useEffect(() => {
-    console.log(mobileQuery);
-    const flatData = flatDataStock(dataJson);
-    setRowData(flatData);
-  }, []);
+    setRowData(data);
+  }, [data]);
 
   const gridRef = useRef();
-
-  //Just for close the hamburger/account menu when user selecting a cell
-  const [isCellSelected, setIsCellSelected] = useState<boolean>();
 
   //Column Data Cell Configuration (not the header)
   const headerClass = () => {
@@ -80,18 +76,7 @@ const DataGridCustom = () => {
       return "text-xl capitalize px-0 text-center";
     }
   };
-  const width = () => {
-    if (isMobile) {
-      return 85;
-    }
-    if (isMedium) {
-      return 160;
-    }
-    if (isLarge) {
-      return 220;
-    }
-    return 200;
-  };
+
   const [columnDefs, setColumnDefs] = useState([
     {
       field: "name",
@@ -99,7 +84,7 @@ const DataGridCustom = () => {
       headerClass: headerClass() + " ml-2",
       cellClass: cellClass(),
     },
-    { field: "color", cellClass: cellClass(), headerClass: headerClass() },
+    { field: "type", cellClass: cellClass(), headerClass: headerClass() },
     {
       field: "length",
       headerClass: headerClass(),
@@ -110,9 +95,8 @@ const DataGridCustom = () => {
       headerClass: headerClass(),
       cellClass: cellClass() + " after:content-['pcs'] ",
       cellClassRules: {
-        "bg-red-500": "x<3",
-        "bg-yellow-500": "x<5",
-        "bg-green-500": "x>=5",
+        "bg-red-500 dark:bg-red-700": "x<3",
+        "bg-yellow-500 dark:bg-yellow-600": "x<5",
       },
     },
   ]);
@@ -125,9 +109,16 @@ const DataGridCustom = () => {
     []
   );
 
-  const cellClickedListener = useCallback((event: CellClickedEvent) => {
-    console.log("cellClicked", event);
+  //Global state for form
+  const { setName, setLength, setType, setQuantity } = useDataStockForm();
+
+  const cellClickedListener = useCallback((e: CellClickedEvent) => {
+    console.log("cellClicked", e);
     setIsCellSelected(true);
+    setName(e.data.name);
+    setType(e.data.type);
+    setLength(e.data.length);
+    setQuantity(e.data.quantity);
   }, []);
 
   const buttonListener = useCallback(() => {
@@ -156,13 +147,17 @@ const DataGridCustom = () => {
     },
   };
 
-  const { setIsEditModalStockOpenStore } = useIsEditModalStockOpenStore();
+  const { setIsEditModalStockOpenStore, setIsAddModalStockOpenStore } =
+    useIsEditModalStockOpenStore();
   const handleEditClick = () => {
     setIsEditModalStockOpenStore(true);
   };
+  const handleAddClick = () => {
+    setIsAddModalStockOpenStore(true);
+  };
 
   return (
-    <div className=" flex justify-center">
+    <div className="mt-1 flex justify-center">
       <div
         className={
           (themeStore || theme) == "light"
@@ -179,18 +174,24 @@ const DataGridCustom = () => {
       >
         <div className="flex justify-end">
           <Button
+            className=" mr-2 select-none rounded-md bg-green-500 text-xs text-white hover:bg-green-600 disabled:opacity-40 dark:bg-green-700 hover:dark:bg-green-800 md:text-lg lg:text-xl"
+            onClick={handleAddClick}
+            size={buttonSize()}
+          >
+            Add
+          </Button>
+          <Button
             disabled={!isCellSelected}
-            className="mr-2 select-none rounded-md bg-blue-500 text-xs text-white disabled:opacity-40 dark:bg-blue-700 md:text-lg lg:text-xl"
+            className=" mr-2 select-none rounded-md bg-blue-500 text-xs text-white hover:bg-blue-600 disabled:opacity-40 dark:bg-blue-700 hover:dark:bg-blue-800 md:text-lg lg:text-xl"
             onClick={handleEditClick}
-            variant="outline"
             size={buttonSize()}
           >
             Edit
           </Button>
           <Button
             disabled={!isCellSelected}
-            className="select-none rounded-md bg-red-500 text-xs text-white disabled:opacity-40 dark:bg-red-700  md:text-lg  lg:text-xl"
-            variant="outline"
+            onClick={buttonListener}
+            className="select-none rounded-md bg-red-500 text-xs text-white hover:bg-red-600 disabled:opacity-40 dark:bg-red-700 hover:dark:bg-red-800  md:text-lg  lg:text-xl"
             size={buttonSize()}
           >
             Delete
@@ -217,4 +218,4 @@ const DataGridCustom = () => {
   );
 };
 
-export default DataGridCustom;
+export default DataGridStock;

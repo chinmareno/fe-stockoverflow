@@ -16,7 +16,6 @@ const TooltipCustom = ({ children, tooltip }: TooltipProps) => {
       <Tooltip>
         <TooltipTrigger asChild>{children}</TooltipTrigger>
         <TooltipContent
-          style={{ pointerEvents: "none" }}
           className="text-[#333333 ] disabled: bg-[#F1F1F1] font-semibold capitalize
 opacity-80 dark:bg-[#333333] dark:text-[#FFFFFF]"
         >

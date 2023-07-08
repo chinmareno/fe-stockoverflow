@@ -23,7 +23,7 @@ const ItemsLayout = () => {
     <div className={themeStore || theme}>
       <div
         className="background 
-        bg-[#F5F5F5 ] text-black
+        bg-gray-100 text-black
          dark:bg-neutral-900 dark:text-white"
       >
         <>
