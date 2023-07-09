@@ -2,6 +2,7 @@ import { NavLink } from "react-router-dom";
 import Logo from "../Logo";
 import { FontSize } from "../Button/ChangeAnotherAccountButton";
 import { ReactElement } from "react";
+import { Box, LinearProgress } from "@mui/material";
 
 interface FormLayoutProps {
   title: string;
@@ -15,7 +16,7 @@ const FormLayout = (props: FormLayoutProps) => {
   const { title, bottomDescription, linkTitle, children, to, logoSize } = props;
 
   return (
-    <div className="  flex  h-auto flex-col items-center  justify-center  rounded-md border   border-black  bg-white px-14 pb-10 pt-4 dark:border-none md:p-20  md:pb-6 ">
+    <div className="relative flex  h-auto flex-col items-center  justify-center  rounded-md border   border-black  bg-white px-14 pb-6 pt-4 dark:border-none md:p-20  md:pb-2 ">
       <Logo iconSize={logoSize} className="text-3xl" />
       <div className=" mt-2 text-lg font-semibold md:text-lg  ">{title}</div>
       {children}

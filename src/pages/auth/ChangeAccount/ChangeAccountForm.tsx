@@ -6,6 +6,7 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import axiosInstance from "@/utils/axiosInstance";
 import { useQueryClient } from "@tanstack/react-query";
+import useLoadingStore from "@/store/useLoadingStore";
 
 export interface LoginErrorState {
   username: string;
@@ -14,6 +15,9 @@ export interface LoginErrorState {
 
 const ChangeAccountForm = () => {
   const [isShowPassword, setIsShowPassword] = useState(false);
+  const { isChangeAccountLoading, setIsChangeAccountLoading } =
+    useLoadingStore();
+
   const handleShowPassword = () => {
     setIsShowPassword(!isShowPassword);
   };
@@ -86,13 +90,17 @@ const ChangeAccountForm = () => {
           });
           return;
         }
+        setIsChangeAccountLoading(true);
         const res = await axiosInstance.post("/user/login", data);
+        setIsChangeAccountLoading(false);
+
         console.log(res);
         if (res.status === 200) {
           cache.invalidateQueries({ queryKey: ["profile"] });
           navigate("/items");
         }
       } catch (error: any) {
+        setIsChangeAccountLoading(false);
         const errorData = error.response.data;
         console.log(error);
         console.log("erorr:" + error.res);
@@ -149,7 +157,11 @@ const ChangeAccountForm = () => {
           <VisibilityIcon fontSize="small" />
         )}
       </button>
-      <Button variant="contained" type="submit">
+      <Button
+        disabled={isChangeAccountLoading}
+        variant="contained"
+        type="submit"
+      >
         Enter
       </Button>
     </Form>

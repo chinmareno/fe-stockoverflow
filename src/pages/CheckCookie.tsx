@@ -18,7 +18,7 @@ const CheckCookie = () => {
     } catch (error) {
       navigate("/overview");
     }
-  }, []);
+  });
 
   return (
     <>

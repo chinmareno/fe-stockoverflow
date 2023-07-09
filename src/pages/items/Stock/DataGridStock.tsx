@@ -12,6 +12,7 @@ import { largeQuery, mediumQuery, mobileQuery } from "@/utils/mediaQuery";
 import { CellClickedEvent, GridOptions } from "ag-grid-community";
 import useIsEditModalStockOpenStore from "@/store/useIsModalStockOpenStore";
 import useDataStockForm from "@/store/useDataStockForm";
+import useIsAccountOpenStore from "@/store/useIsAccountOpenStore";
 
 export interface ICellSelected {
   isCellSelected: boolean;
@@ -111,8 +112,8 @@ const DataGridStock = ({
 
   //Global state for form
   const { setName, setLength, setType, setQuantity } = useDataStockForm();
-
   const cellClickedListener = useCallback((e: CellClickedEvent) => {
+    setIsProfileOpen(false);
     console.log("cellClicked", e);
     setIsCellSelected(true);
     setName(e.data.name);
@@ -142,18 +143,28 @@ const DataGridStock = ({
     defaultColDef: {
       resizable: true, // Enable column resizing
     },
-    onFirstDataRendered: (params) => {
-      params.api?.sizeColumnsToFit(); // Automatically resize columns to fit the grid width
+    onGridReady: (params) => {
+      params.api?.sizeColumnsToFit();
     },
   };
 
-  const { setIsEditModalStockOpenStore, setIsAddModalStockOpenStore } =
-    useIsEditModalStockOpenStore();
+  const {
+    setIsEditModalStockOpenStore,
+    setIsAddModalStockOpenStore,
+    setIsDeleteModalStockOpenStore,
+  } = useIsEditModalStockOpenStore();
+  const { setIsProfileOpen } = useIsAccountOpenStore();
   const handleEditClick = () => {
     setIsEditModalStockOpenStore(true);
+    setIsProfileOpen(false);
   };
   const handleAddClick = () => {
     setIsAddModalStockOpenStore(true);
+    setIsProfileOpen(false);
+  };
+  const handleDeleteClick = () => {
+    setIsDeleteModalStockOpenStore(true);
+    setIsProfileOpen(false);
   };
 
   return (
@@ -190,7 +201,7 @@ const DataGridStock = ({
           </Button>
           <Button
             disabled={!isCellSelected}
-            onClick={buttonListener}
+            onClick={handleDeleteClick}
             className="select-none rounded-md bg-red-500 text-xs text-white hover:bg-red-600 disabled:opacity-40 dark:bg-red-700 hover:dark:bg-red-800  md:text-lg  lg:text-xl"
             size={buttonSize()}
           >

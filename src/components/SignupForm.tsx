@@ -6,11 +6,13 @@ import { ChangeEvent, useState } from "react";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { LoginErrorState } from "./LoginForm";
+import useLoadingStore from "@/store/useLoadingStore";
 
 interface SignupErrorState extends LoginErrorState {
   password2: string;
 }
 const SignupForm = () => {
+  const { isSignupLoading, setIsSignupLoading } = useLoadingStore();
   const pattern = /^[a-zA-Z0-9]*$/;
 
   const [isShowPassword, setIsShowPassword] = useState(false);
@@ -127,15 +129,17 @@ const SignupForm = () => {
           username: data.username,
           password: data.password,
         };
+        setIsSignupLoading(true);
         const res = await axiosInstance.post(
           "/user/signup",
           dataWithoutDoublePassword
         );
-
+        setIsSignupLoading(false);
         if (res.status == 201) {
-          navigate("/items");
+          navigate("/items/home");
         }
       } catch (error: any) {
+        setIsSignupLoading(false);
         const data = error.response.data;
         switch (data) {
           case "Username has been taken":
@@ -233,7 +237,7 @@ const SignupForm = () => {
             <VisibilityIcon fontSize={isMobile ? "small" : "medium"} />
           )}
         </button>
-        <Button variant="contained" type="submit">
+        <Button disabled={isSignupLoading} variant="contained" type="submit">
           Continue
         </Button>
       </Form>

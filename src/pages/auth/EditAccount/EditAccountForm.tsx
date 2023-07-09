@@ -1,10 +1,11 @@
 import { useFormik } from "formik";
-import { Form, useNavigate } from "react-router-dom";
+import { Form } from "react-router-dom";
 import { Button, TextField } from "@mui/material";
 import { useState } from "react";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import axiosInstance from "@/utils/axiosInstance";
+import useLoadingStore from "@/store/useLoadingStore";
 
 export interface LoginErrorState {
   username: string;
@@ -16,6 +17,7 @@ const EditAccountForm = ({
 }: {
   setIsOpen: (state: boolean) => void;
 }) => {
+  const { isEditAccountLoading, setIsEditAccountLoading } = useLoadingStore();
   const [isShowPassword, setIsShowPassword] = useState(false);
   const handleShowPassword = () => {
     setIsShowPassword(!isShowPassword);
@@ -25,8 +27,6 @@ const EditAccountForm = ({
     username: "",
     password: "",
   });
-
-  const navigate = useNavigate();
 
   const formik = useFormik({
     initialValues: {
@@ -41,24 +41,7 @@ const EditAccountForm = ({
       };
       try {
         setError({ username: "", password: "" });
-        if (data.username === "" || data.password === "") {
-          if (!data.username && !data.password) {
-            setError({
-              username: "Username can't be empty",
-              password: "Password can't be empty",
-            });
-            return;
-          }
-          if (data.username)
-            if (data.username === "") {
-              setError({ username: "Username can't be empty", password: "" });
-            }
 
-          if (data.password === "") {
-            setError({ username: "", password: "Password can't be empty" });
-          }
-          return;
-        }
         if (4 > data.username.length) {
           setError({
             username: "Username length min 4 characters",
@@ -87,12 +70,14 @@ const EditAccountForm = ({
           });
           return;
         }
+        setIsEditAccountLoading(true);
         const res = await axiosInstance.post("/user/login", data);
+        setIsEditAccountLoading(false);
         if (res.status === 201) {
           setIsOpen(true);
         }
-        navigate("/items");
       } catch (error: any) {
+        setIsEditAccountLoading(false);
         const errorData = error.response.data;
         console.log(error);
         console.log("erorr:" + error.res);
@@ -150,7 +135,11 @@ const EditAccountForm = ({
             <VisibilityIcon fontSize="small" />
           )}
         </button>
-        <Button variant="contained" type="submit">
+        <Button
+          disabled={isEditAccountLoading}
+          variant="contained"
+          type="submit"
+        >
           Submit
         </Button>
       </Form>

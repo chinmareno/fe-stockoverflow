@@ -8,11 +8,13 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axiosInstance from "@/utils/axiosInstance";
 import { ICellSelected } from "./DataGridStock";
 import useIsModalStockOpenStore from "@/store/useIsModalStockOpenStore";
+import { useToast } from "@/components/ui/use-toast";
 
 const AddModalStock = ({
   isCellSelected,
   setIsCellSelected,
 }: ICellSelected) => {
+  const { toast } = useToast();
   const { isAddModalStockOpenStore, setIsAddModalStockOpenStore } =
     useIsModalStockOpenStore();
   const isMedium = useMediaQuery(mediumQuery);
@@ -36,19 +38,30 @@ const AddModalStock = ({
       length: number;
       quantity: number;
     }) => {
-      await axiosInstance.post("/items/", {
-        name,
-        type,
-        length,
-        quantity,
-      });
-      cache.invalidateQueries(["stock"]);
+      try {
+        await axiosInstance.post("/items/", {
+          name,
+          type,
+          length,
+          quantity,
+        });
+        toast({
+          description: "New product added",
+          duration: 3000,
+        });
+        cache.invalidateQueries(["stock"]);
+      } catch (error) {
+        toast({
+          variant: "destructive",
+          duration: 5000,
+          description: "Failed add new product",
+        });
+      }
     },
   });
-  const handleAddSubmit = (e: FormEvent) => {
+  const handleAddSubmit = (e: any) => {
     setIsCellSelected(false);
     setIsAddModalStockOpenStore(false);
-
     const name = e.target.elements.name.value;
     const type = e.target.elements.type.value;
     const length = e.target.elements.lengths.value;

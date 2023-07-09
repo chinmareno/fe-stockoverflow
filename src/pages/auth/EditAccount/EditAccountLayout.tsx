@@ -13,7 +13,7 @@ const EditAccountLayout = (props: FormLayoutProps) => {
   const { title, children, logoSize } = props;
 
   return (
-    <div className="  flex  h-auto flex-col items-center  justify-center  rounded-md border   border-black  bg-white px-14 pb-10 pt-4 dark:border-none md:p-20  md:pb-6 ">
+    <div className="  flex  h-auto flex-col items-center  justify-center  rounded-md border   border-black  bg-white px-4 pb-10 pt-4 dark:border-none md:px-7 md:py-8  md:pb-6 ">
       <Logo iconSize={logoSize} className="text-3xl" />
       <div className=" mt-2 text-lg font-semibold md:text-lg  ">{title}</div>
       {children}

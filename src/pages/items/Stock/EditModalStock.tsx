@@ -9,6 +9,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axiosInstance from "@/utils/axiosInstance";
 import { ICellSelected } from "./DataGridStock";
 import useIsModalStockOpenStore from "../../../store/useIsModalStockOpenStore";
+import { useToast } from "@/components/ui/use-toast";
 const EditModalStock = ({
   isCellSelected,
   setIsCellSelected,
@@ -21,23 +22,34 @@ const EditModalStock = ({
   const handleCloseEditClick = () => {
     setIsEditModalStockOpenStore(false);
   };
-
+  const { toast } = useToast();
   //Edit stock quantity
   const cache = useQueryClient();
   const { name, type, length, quantity } = useDataStockForm();
   const mutation = useMutation({
     mutationFn: async (newquantity: number) => {
-      await axiosInstance.patch("/items/", {
-        name,
-        type,
-        length,
-        quantity: newquantity,
-      });
-      cache.invalidateQueries(["stock"]);
+      try {
+        await axiosInstance.patch("/items/", {
+          name,
+          type,
+          length,
+          quantity: newquantity,
+        });
+        cache.invalidateQueries(["stock"]);
+        toast({
+          description: "Product quantity changed",
+          duration: 3000,
+        });
+      } catch (error) {
+        toast({
+          duration: 5000,
+          variant: "destructive",
+          description: "Failed to update product quantity",
+        });
+      }
     },
   });
-  const handleEditSubmit = (e: FormEvent) => {
-    console.log("a");
+  const handleEditSubmit = (e: any) => {
     setIsCellSelected(false);
     setIsEditModalStockOpenStore(false);
     const newQuantity = e.target.elements.quantity.value;

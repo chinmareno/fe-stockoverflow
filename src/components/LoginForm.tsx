@@ -5,6 +5,7 @@ import { Button, TextField } from "@mui/material";
 import { useState } from "react";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import VisibilityIcon from "@mui/icons-material/Visibility";
+import useLoadingStore from "@/store/useLoadingStore";
 
 export interface LoginErrorState {
   username: string;
@@ -12,6 +13,7 @@ export interface LoginErrorState {
 }
 
 const LoginForm = () => {
+  const { isLoginLoading, setIsLoginLoading } = useLoadingStore();
   const navigate = useNavigate();
   if (document.cookie) {
     (async () => {
@@ -95,10 +97,13 @@ const LoginForm = () => {
           });
           return;
         }
+        setIsLoginLoading(true);
         const res = await axiosInstance.post("/user/login", data);
+        setIsLoginLoading(false);
         console.log(res);
-        navigate("/items");
+        navigate("/items/home");
       } catch (error: any) {
+        setIsLoginLoading(false);
         const errorData = error.response.data;
         console.log(error);
         console.log("erorr:" + error.res);
@@ -156,7 +161,7 @@ const LoginForm = () => {
             <VisibilityIcon fontSize="small" />
           )}
         </button>
-        <Button variant="contained" type="submit">
+        <Button variant="contained" disabled={isLoginLoading} type="submit">
           Login
         </Button>
       </Form>

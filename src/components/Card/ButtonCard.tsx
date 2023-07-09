@@ -20,7 +20,7 @@ const ButtonCard = (props: ButtonCardProps) => {
       <NavLink className="bg-lightgrey rounded-md" to={to}>
         <Button
           variant="contained"
-          className="h-13 w-52  text-xs font-bold uppercase  text-white dark:bg-black dark:text-white"
+          className="py-3 text-xs font-bold uppercase  text-white dark:bg-black dark:text-white"
         >
           {buttonTitle}
         </Button>

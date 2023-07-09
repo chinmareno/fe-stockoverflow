@@ -16,7 +16,7 @@ const OverviewCard = (props: OverviewCardProps) => {
     >
       <img className="h-32 w-32" src={img} />
       <div className="flex w-full flex-col items-center justify-center gap-5">
-        <h2 className="text-26 text-center font-mono  font-thin capitalize ">
+        <h2 className="text-26 font-mono text-center  font-semibold capitalize ">
           {title}
         </h2>
         <h3 className=" text-18 dark:text-gray text-center text-slate-500">

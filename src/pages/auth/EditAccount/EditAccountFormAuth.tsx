@@ -6,11 +6,13 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import axiosInstance from "@/utils/axiosInstance";
 import { LoginErrorState } from "./EditAccountForm";
+import useLoadingStore from "@/store/useLoadingStore";
 
 interface SignupErrorState extends LoginErrorState {
   password2: string;
 }
 const EditAccountFormAuth = () => {
+  const { isEditAccountLoading, setIsEditAccountLoading } = useLoadingStore();
   const pattern = /^[a-zA-Z0-9]*$/;
 
   const [isShowPassword, setIsShowPassword] = useState(false);
@@ -127,13 +129,14 @@ const EditAccountFormAuth = () => {
           username: data.username,
           password: data.password,
         };
+        setIsEditAccountLoading(true);
         const res = await axiosInstance.patch(
           "/user/change-username-password",
           dataWithoutDoublePassword
         );
-
-        if (res.status == 201) {
-          navigate("/items");
+        setIsEditAccountLoading(false);
+        if (res.status == 200) {
+          navigate("/items/home");
         }
       } catch (error: any) {
         const data = error.response.data;
@@ -158,10 +161,6 @@ const EditAccountFormAuth = () => {
   const handleFormInput = (e: ChangeEvent<HTMLInputElement>) => {
     formik.setFieldValue(e.target.name, e.target.value);
   };
-
-  //styles
-  const input = "my-12 text-blackepicgame dark:text-lightgrey";
-
   return (
     <>
       <Form
@@ -176,7 +175,6 @@ const EditAccountFormAuth = () => {
           label="Username"
           size={isMobile ? "small" : "medium"}
           variant="filled"
-          className={input}
           onChange={handleFormInput}
           helperText={error.username}
         />
@@ -188,7 +186,6 @@ const EditAccountFormAuth = () => {
           type={isShowPassword ? "text" : "password"}
           variant="filled"
           size={isMobile ? "small" : "medium"}
-          className={input + "mr-9"}
           onChange={handleFormInput}
           helperText={error.password}
         />
@@ -219,7 +216,6 @@ const EditAccountFormAuth = () => {
           label="Confirm password"
           type={isShowPassword2 ? "text" : "password"}
           variant="filled"
-          className={input}
           onChange={handleFormInput}
           helperText={error.password2}
         />
@@ -239,7 +235,11 @@ const EditAccountFormAuth = () => {
             <VisibilityIcon fontSize={isMobile ? "small" : "medium"} />
           )}
         </button>
-        <Button variant="contained" type="submit">
+        <Button
+          disabled={isEditAccountLoading}
+          variant="contained"
+          type="submit"
+        >
           Confirm
         </Button>
       </Form>
