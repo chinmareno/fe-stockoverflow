@@ -3,12 +3,13 @@ import CloseIcon from "@mui/icons-material/Close";
 import { Button } from "@/components/ui/button";
 import { useMediaQuery } from "@mui/material";
 import { largeQuery, mediumQuery } from "@/utils/mediaQuery";
-import { FormEvent } from "react";
+import { FormEvent, useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axiosInstance from "@/utils/axiosInstance";
 import { ICellSelected } from "./DataGridStock";
 import useIsModalStockOpenStore from "@/store/useIsModalStockOpenStore";
 import { useToast } from "@/components/ui/use-toast";
+import toRupiahFormat from "@/utils/toRupiahFormat";
 
 const AddModalStock = ({
   isCellSelected,
@@ -32,18 +33,26 @@ const AddModalStock = ({
       type,
       length,
       quantity,
+      cost,
     }: {
       name: string;
       type: string;
       length: number;
       quantity: number;
+      cost: number;
     }) => {
       try {
+        const currentDate = new Date();
+        const utcOffsetMinutes = 7 * 60;
+        currentDate.setMinutes(currentDate.getMinutes() + utcOffsetMinutes);
+
         await axiosInstance.post("/items/", {
           name,
           type,
           length,
           quantity,
+          cost,
+          date: currentDate.toISOString(),
         });
         toast({
           description: "New product added",
@@ -66,13 +75,30 @@ const AddModalStock = ({
     const type = e.target.elements.type.value;
     const length = e.target.elements.lengths.value;
     const quantity = e.target.elements.quantity.value;
-    console.log(quantity + length);
     mutation.mutate({
       name,
       type,
       length: parseInt(length),
       quantity: parseInt(quantity),
+      cost: parseInt(rupiah),
     });
+    setRupiah("");
+  };
+
+  const [rupiah, setRupiah] = useState("");
+  const handleCostChange = (e: any) => {
+    const { value, inputType } = e.target;
+    const formattedValue = value.replace(/[^0-9]/g, "");
+    if (inputType === "deleteContentBackward") {
+      setRupiah(formattedValue);
+    } else {
+      if (formattedValue.length == 10) {
+        return;
+      }
+      if (!isNaN(formattedValue)) {
+        setRupiah(formattedValue);
+      }
+    }
   };
 
   return (
@@ -82,7 +108,10 @@ const AddModalStock = ({
           {/* Modal card  */}
           <div className="relative flex rounded-md bg-[#F5F5F5] px-5 py-3 ring-2 ring-blue-500 dark:bg-black dark:ring-blue-700 md:px-6 md:py-6 lg:px-20 lg:py-20">
             <button
-              onClick={handleCloseAddClick}
+              onClick={() => {
+                handleCloseAddClick();
+                setRupiah("");
+              }}
               className="absolute right-0 top-0"
             >
               <CloseIcon
@@ -140,6 +169,18 @@ const AddModalStock = ({
                 name="quantity"
                 placeholder="Type here"
                 type="number"
+                className="border-gray-400 pl-2 pr-0 text-xs dark:border-gray-600 sm:text-sm md:text-base lg:text-lg xl:text-xl"
+              />
+              <label className="text-xs capitalize sm:text-sm md:text-base lg:text-lg xl:text-xl">
+                cost per meter:
+              </label>
+              <Input
+                required
+                autoComplete="off"
+                name="cost"
+                onChange={handleCostChange}
+                type="text"
+                value={"Rp " + toRupiahFormat(rupiah)}
                 className="border-gray-400 pl-2 pr-0 text-xs dark:border-gray-600 sm:text-sm md:text-base lg:text-lg xl:text-xl"
               />
               <Button

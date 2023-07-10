@@ -1,9 +1,9 @@
-import useProfileStore from "@/store/profileStore";
+import useThemeStore from "@/store/useThemeStore";
 import ButtonCard from "../../components/Card/ButtonCard";
 import OverviewCard from "../../components/Card/OverviewCard";
 
 const LandingPage = () => {
-  const { theme } = useProfileStore();
+  const { theme } = useThemeStore();
   const features = [
     {
       img:

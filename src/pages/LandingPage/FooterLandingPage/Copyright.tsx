@@ -1,6 +1,6 @@
 const Copyright = () => {
   return (
-    <div className="flex lg:p-0 lg:text-lg md:text-2xl text-lg font-serif py-2 font-light items-end">
+    <div className="font-serif flex items-end py-2 text-lg font-extrabold md:text-2xl lg:p-0 lg:text-lg">
       Copyright © 2023 stockoverflow Inc.
     </div>
   );

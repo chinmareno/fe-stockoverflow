@@ -13,6 +13,8 @@ import { CellClickedEvent, GridOptions } from "ag-grid-community";
 import useIsEditModalStockOpenStore from "@/store/useIsModalStockOpenStore";
 import useDataStockForm from "@/store/useDataStockForm";
 import useIsAccountOpenStore from "@/store/useIsAccountOpenStore";
+import toLocaleDate from "@/utils/toLocaleDate";
+import toRupiahFormat from "@/utils/toRupiahFormat";
 
 export interface ICellSelected {
   isCellSelected: boolean;
@@ -34,6 +36,7 @@ const DataGridStock = ({
   const { theme: themeStore } = useThemeStoreItems();
 
   //Media query utils
+  const isTooSmall = useMediaQuery("(max-width:390px)");
   const isMobile = useMediaQuery(mobileQuery);
   const isMedium = useMediaQuery(mediumQuery);
   const isLarge = useMediaQuery(largeQuery);
@@ -78,6 +81,32 @@ const DataGridStock = ({
     }
   };
 
+  const toLocaleDate = (date: any) => {
+    const det = new Date(date.value);
+    const localDateString = det.toLocaleDateString();
+    if (isTooSmall) {
+      const dateParts = localDateString.split("/"); // Split the string into parts
+
+      // Create a new Date object with the provided date parts
+      const date = new Date(`${dateParts[1]}-${dateParts[0]}-${dateParts[2]}`);
+
+      // Get the year, month, and day from the date object
+      const year = date.getFullYear().toString().slice(-2); // Extract the last two digits of the year
+      const month = (date.getMonth() + 1).toString().padStart(2, "0"); // Add leading zero if necessary
+      const day = date.getDate().toString().padStart(2, "0"); // Add leading zero if necessary
+
+      // Create the updated date string with the desired format
+      const updatedDateString = `${day}/${month}/${year}`;
+      return updatedDateString;
+    }
+    return localDateString;
+  };
+  const appendRpIfNotSmall = () => {
+    if (!isTooSmall) {
+      return " before:content-['Rp.'] ";
+    }
+    return "";
+  };
   const [columnDefs, setColumnDefs] = useState([
     {
       field: "name",
@@ -89,42 +118,52 @@ const DataGridStock = ({
     {
       field: "length",
       headerClass: headerClass(),
-      cellClass: cellClass() + " after:content-['m'] ",
+      cellClass: cellClass() + " after:content-['m']",
     },
     {
       field: "quantity",
+      headerName: "Stock",
       headerClass: headerClass(),
-      cellClass: cellClass() + " after:content-['pcs'] ",
-      cellClassRules: {
-        "bg-red-500 dark:bg-red-700": "x<3",
-        "bg-yellow-500 dark:bg-yellow-600": "x<5",
-      },
+      cellClass: cellClass(),
+    },
+    {
+      field: "cost",
+      headerName: "Cost/m",
+      cellClass: cellClass() + appendRpIfNotSmall(),
+      headerClass: headerClass(),
+      valueFormatter: ({ value }: any) => toRupiahFormat(value),
+    },
+    {
+      field: "date",
+      cellClass: cellClass(),
+      headerClass: headerClass(),
+      valueFormatter: toLocaleDate,
     },
   ]);
 
   // Default config for all column
+
   const defaultColDef = useMemo(
     () => ({
+      suppressMovable: true,
       sortable: true,
     }),
     []
   );
 
   //Global state for form
-  const { setName, setLength, setType, setQuantity } = useDataStockForm();
+  const { setName, setLength, setType, setQuantity, setDate, setCost } =
+    useDataStockForm();
   const cellClickedListener = useCallback((e: CellClickedEvent) => {
-    setIsProfileOpen(false);
     console.log("cellClicked", e);
+    setIsProfileOpen(false);
     setIsCellSelected(true);
     setName(e.data.name);
     setType(e.data.type);
     setLength(e.data.length);
     setQuantity(e.data.quantity);
-  }, []);
-
-  const buttonListener = useCallback(() => {
-    const selectedRow = gridRef.current.api.getSelectedNodes();
-    console.log(selectedRow);
+    setDate(e.data.date);
+    setCost(e.data.cost);
   }, []);
 
   const buttonSize = () => {
@@ -146,6 +185,7 @@ const DataGridStock = ({
     onGridReady: (params) => {
       params.api?.sizeColumnsToFit();
     },
+    suppressDragLeaveHidesColumns: true,
   };
 
   const {

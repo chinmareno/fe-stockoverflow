@@ -10,6 +10,7 @@ import { ICellSelected } from "./DataGridStock";
 import useIsModalStockOpenStore from "@/store/useIsModalStockOpenStore";
 import { useToast } from "@/components/ui/use-toast";
 import useDataStockForm from "@/store/useDataStockForm";
+import toRupiahFormat from "@/utils/toRupiahFormat";
 
 const DeleteModalStock = ({
   isCellSelected,
@@ -25,14 +26,16 @@ const DeleteModalStock = ({
     setIsDeleteModalStockOpenStore(false);
   };
 
-  const { name, type, length, quantity } = useDataStockForm();
+  const { name, type, length, quantity, cost, date } = useDataStockForm();
   const cache = useQueryClient();
 
   const mutation = useMutation({
     mutationFn: async () => {
       try {
+        const dateFormatted = new Date(date);
+        const isoDate = dateFormatted.toISOString();
         await axiosInstance.delete("/items/", {
-          params: { name, type, length },
+          params: { name, type, length, cost, date: isoDate },
         });
         toast({
           description: "Product deleted",
@@ -82,6 +85,12 @@ const DeleteModalStock = ({
             </label>
             <label className="text-xs capitalize sm:text-sm md:text-base lg:text-lg xl:text-xl">
               quantity: {quantity}
+            </label>
+            <label className="text-xs capitalize sm:text-sm md:text-base lg:text-lg xl:text-xl">
+              purchase price/m: Rp{toRupiahFormat(cost.toString())}
+            </label>
+            <label className="text-xs capitalize sm:text-sm md:text-base lg:text-lg xl:text-xl">
+              purchase date: {date}
             </label>
             <Button
               onClick={handleDeleteClick}

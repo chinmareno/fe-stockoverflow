@@ -10,6 +10,8 @@ import axiosInstance from "@/utils/axiosInstance";
 import { ICellSelected } from "./DataGridStock";
 import useIsModalStockOpenStore from "../../../store/useIsModalStockOpenStore";
 import { useToast } from "@/components/ui/use-toast";
+import toRupiahFormat from "@/utils/toRupiahFormat";
+import toLocaleDate from "@/utils/toLocaleDate";
 const EditModalStock = ({
   isCellSelected,
   setIsCellSelected,
@@ -23,17 +25,23 @@ const EditModalStock = ({
     setIsEditModalStockOpenStore(false);
   };
   const { toast } = useToast();
+
   //Edit stock quantity
   const cache = useQueryClient();
-  const { name, type, length, quantity } = useDataStockForm();
+  const { name, type, length, quantity, date, cost } = useDataStockForm();
   const mutation = useMutation({
     mutationFn: async (newquantity: number) => {
       try {
+        const dateFormatted = new Date(date);
+        const isoDate = dateFormatted.toISOString();
+
         await axiosInstance.patch("/items/", {
           name,
           type,
           length,
           quantity: newquantity,
+          date: isoDate,
+          cost,
         });
         cache.invalidateQueries(["stock"]);
         toast({
@@ -54,6 +62,11 @@ const EditModalStock = ({
     setIsEditModalStockOpenStore(false);
     const newQuantity = e.target.elements.quantity.value;
     mutation.mutate(Number(newQuantity));
+  };
+  const toLocaleDate = (date: any) => {
+    const det = new Date(date);
+    const localDateString = det.toLocaleDateString();
+    return localDateString;
   };
 
   return (
@@ -83,6 +96,13 @@ const EditModalStock = ({
               </div>
               <div className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl">
                 <strong>Length:</strong> {length}m
+              </div>
+              <div className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl">
+                <strong>Purchase price/m:</strong> Rp{" "}
+                {toRupiahFormat(cost.toString())}
+              </div>
+              <div className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl">
+                <strong>Purchase date:</strong> {toLocaleDate(date)}
               </div>
             </div>
             {/* right side  */}
