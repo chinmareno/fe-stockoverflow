@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 
 const BlurScreenWrapper = ({ children }: { children: ReactNode }) => {
   return (
-    <div className="fixed h-screen w-screen bg-gray-200/60">{children}</div>
+    <div className="fixed h-screen w-screen bg-gray-300/60">{children}</div>
   );
 };
 

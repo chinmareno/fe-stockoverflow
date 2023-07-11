@@ -11,7 +11,6 @@ import { ICellSelected } from "./DataGridStock";
 import useIsModalStockOpenStore from "../../../store/useIsModalStockOpenStore";
 import { useToast } from "@/components/ui/use-toast";
 import toRupiahFormat from "@/utils/toRupiahFormat";
-import toLocaleDate from "@/utils/toLocaleDate";
 const EditModalStock = ({
   isCellSelected,
   setIsCellSelected,

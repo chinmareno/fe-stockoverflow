@@ -9,7 +9,6 @@ import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import LayersIcon from "@mui/icons-material/Layers";
 import TooltipCustom from "@/components/TooltipCustom";
 import useIsAccountOpenStore from "@/store/useIsAccountOpenStore";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 const DesktopItemsHeader = ({ theme }: { theme: string }) => {
   const { data: profile, isLoading } = useQuery({
@@ -31,7 +30,7 @@ const DesktopItemsHeader = ({ theme }: { theme: string }) => {
     <header className=" flex items-center justify-center bg-[#a6c0d4] py-4 shadow-lg  dark:bg-[#333333]">
       <Logo iconSize="large" className="ml-5 mr-auto select-none text-3xl" />
       <nav className="mr-40 mt-4 flex gap-10 ">
-        <NavLinkCustom to="home">
+        <NavLinkCustom  to="home">
           <HouseIcon />
         </NavLinkCustom>
         <NavLinkCustom to="stock">
@@ -45,7 +44,7 @@ const DesktopItemsHeader = ({ theme }: { theme: string }) => {
       <div className="relative ml-auto mr-12 flex flex-col items-end">
         <TooltipCustom tooltip={profile?.username}>
           <button onClick={handleProfileClick}>
-            <Avatar>
+            <Avatar className="h-16 w-16">
               <AvatarImage src={profile ? profile?.image : ""} />
               <AvatarFallback className="bg-inherit">
                 {avatarFallBack}

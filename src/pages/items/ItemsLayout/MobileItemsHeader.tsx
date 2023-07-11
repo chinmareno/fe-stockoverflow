@@ -34,7 +34,7 @@ const MobileItemsHeader = ({ theme }) => {
   return (
     <header className="relative flex  justify-between bg-[#F9FAFB] pb-3 shadow-md dark:bg-[#333333]">
       <NavLink className="ml-1" to="/user/edit-account-image">
-        <Avatar>
+        <Avatar className="h-[38px] w-[38px]">
           <AvatarImage src={profile?.image} />
           <AvatarFallback className="bg-inherit">
             {avatarFallBack}

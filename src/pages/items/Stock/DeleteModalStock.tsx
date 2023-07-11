@@ -57,6 +57,11 @@ const DeleteModalStock = ({
     mutation.mutate();
   };
 
+  const toLocaleDate = (date: any) => {
+    const det = new Date(date);
+    const localDateString = det.toLocaleDateString();
+    return localDateString;
+  };
   return (
     <>
       {isDeleteModalStockOpenStore && (
@@ -81,16 +86,16 @@ const DeleteModalStock = ({
               type: {type}
             </label>
             <label className="text-xs capitalize  sm:text-sm md:text-base lg:text-lg xl:text-xl">
-              length (m): {length}
+              length: {length}m
             </label>
             <label className="text-xs capitalize sm:text-sm md:text-base lg:text-lg xl:text-xl">
-              quantity: {quantity}
+              quantity: {quantity}pcs
             </label>
             <label className="text-xs capitalize sm:text-sm md:text-base lg:text-lg xl:text-xl">
               purchase price/m: Rp{toRupiahFormat(cost.toString())}
             </label>
             <label className="text-xs capitalize sm:text-sm md:text-base lg:text-lg xl:text-xl">
-              purchase date: {date}
+              purchase date: {toLocaleDate(date)}
             </label>
             <Button
               onClick={handleDeleteClick}

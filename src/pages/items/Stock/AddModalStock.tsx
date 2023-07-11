@@ -3,8 +3,8 @@ import CloseIcon from "@mui/icons-material/Close";
 import { Button } from "@/components/ui/button";
 import { useMediaQuery } from "@mui/material";
 import { largeQuery, mediumQuery } from "@/utils/mediaQuery";
-import { FormEvent, useState } from "react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useEffect, useRef, useState } from "react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axiosInstance from "@/utils/axiosInstance";
 import { ICellSelected } from "./DataGridStock";
 import useIsModalStockOpenStore from "@/store/useIsModalStockOpenStore";
@@ -69,6 +69,14 @@ const AddModalStock = ({
     },
   });
   const handleAddSubmit = (e: any) => {
+    e.preventDefault();
+    if (!rupiah) {
+      toast({
+        duration: 5000,
+        description: "Don't forget to enter the price :)",
+      });
+      return;
+    }
     setIsCellSelected(false);
     setIsAddModalStockOpenStore(false);
     const name = e.target.elements.name.value;
@@ -130,11 +138,12 @@ const AddModalStock = ({
                 name:
               </label>
               <Input
+                list="nameOption"
                 autoFocus
                 required
                 autoComplete="off"
                 name="name"
-                placeholder="Type here"
+                placeholder="Enter product name"
                 type="text"
                 className="border-gray-400 pl-2 pr-0 text-xs dark:border-gray-600 sm:text-sm md:text-base lg:text-lg xl:text-xl"
               />
@@ -142,10 +151,11 @@ const AddModalStock = ({
                 type:
               </label>
               <Input
+                list="typeOption"
                 required
                 autoComplete="off"
                 name="type"
-                placeholder="Type here"
+                placeholder="Enter product type"
                 type="text"
                 className="border-gray-400 pl-2 pr-0 text-xs dark:border-gray-600 sm:text-sm md:text-base lg:text-lg xl:text-xl"
               />
@@ -153,10 +163,12 @@ const AddModalStock = ({
                 length (m):
               </label>
               <Input
+                min="1"
+                step={0.5}
                 required
                 autoComplete="off"
                 name="lengths"
-                placeholder="Type here"
+                placeholder="Enter product length"
                 type="number"
                 className="border-gray-400 pl-2 pr-0 text-xs dark:border-gray-600 sm:text-sm md:text-base lg:text-lg xl:text-xl"
               />
@@ -164,10 +176,12 @@ const AddModalStock = ({
                 quantity:
               </label>
               <Input
+                min="1"
+                step="1"
                 required
                 autoComplete="off"
                 name="quantity"
-                placeholder="Type here"
+                placeholder="Enter product quantity"
                 type="number"
                 className="border-gray-400 pl-2 pr-0 text-xs dark:border-gray-600 sm:text-sm md:text-base lg:text-lg xl:text-xl"
               />

@@ -27,7 +27,10 @@ const ProfilePicture = ({
           {avatarFallBack}
         </AvatarFallback>
       </Avatar>
-      <NavLink className={`absolute ${CameraIconPosition}`} to="/user/login">
+      <NavLink
+        className={`absolute ${CameraIconPosition}`}
+        to="/user/edit-account-image"
+      >
         <PhotoCameraIcon fontSize={iconSize} />
       </NavLink>
     </div>

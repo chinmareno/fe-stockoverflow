@@ -82,8 +82,7 @@ const DataGridStock = ({
   };
 
   const toLocaleDate = (date: any) => {
-    const det = new Date(date.value);
-    const localDateString = det.toLocaleDateString();
+    const localDateString = date.value;
     if (isTooSmall) {
       const dateParts = localDateString.split("/"); // Split the string into parts
 
