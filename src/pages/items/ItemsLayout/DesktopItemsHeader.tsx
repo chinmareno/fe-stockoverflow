@@ -9,13 +9,25 @@ import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import LayersIcon from "@mui/icons-material/Layers";
 import TooltipCustom from "@/components/TooltipCustom";
 import useIsAccountOpenStore from "@/store/useIsAccountOpenStore";
+import axiosInstance from "@/utils/axiosInstance";
+import { useEffect, useState } from "react";
 
 const DesktopItemsHeader = ({ theme }: { theme: string }) => {
-  const { data: profile, isLoading } = useQuery({
+  const { data: profile } = useQuery({
     queryKey: ["profile"],
-    queryFn: () => wait(),
+    queryFn: async () => {
+      const { data } = await axiosInstance.get("/user/profile");
+      return data;
+    },
     placeholderData: { username: "Guest" },
   });
+  const [image, setImage] = useState("");
+  useEffect(() => {
+    if (profile.image)
+      setImage(import.meta.env.VITE_SERVER_URL + "/" + profile.image);
+    console.log(image);
+    console.log("image");
+  }, [profile]);
   const cache = useQueryClient();
 
   const { isProfileOpen, setIsProfileOpen } = useIsAccountOpenStore();
@@ -30,7 +42,7 @@ const DesktopItemsHeader = ({ theme }: { theme: string }) => {
     <header className=" flex items-center justify-center bg-[#a6c0d4] py-4 shadow-lg  dark:bg-[#333333]">
       <Logo iconSize="large" className="ml-5 mr-auto select-none text-3xl" />
       <nav className="mr-40 mt-4 flex gap-10 ">
-        <NavLinkCustom  to="home">
+        <NavLinkCustom to="home">
           <HouseIcon />
         </NavLinkCustom>
         <NavLinkCustom to="stock">
@@ -45,7 +57,7 @@ const DesktopItemsHeader = ({ theme }: { theme: string }) => {
         <TooltipCustom tooltip={profile?.username}>
           <button onClick={handleProfileClick}>
             <Avatar className="h-16 w-16">
-              <AvatarImage src={profile ? profile?.image : ""} />
+              <AvatarImage src={image} />
               <AvatarFallback className="bg-inherit">
                 {avatarFallBack}
               </AvatarFallback>
@@ -62,7 +74,6 @@ const DesktopItemsHeader = ({ theme }: { theme: string }) => {
             iconSize="medium"
             cameraIconSize="small"
             profile={profile}
-            ifLoading={isLoading}
             cameraIconPosition="bottom-2 right-3"
           />
         )}

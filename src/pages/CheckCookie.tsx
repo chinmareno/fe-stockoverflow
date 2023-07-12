@@ -1,3 +1,4 @@
+import { Toaster } from "@/components/ui/toaster";
 import axiosInstance from "@/utils/axiosInstance";
 import { useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
@@ -23,6 +24,7 @@ const CheckCookie = () => {
   return (
     <>
       <Outlet />
+      <Toaster />
     </>
   );
 };

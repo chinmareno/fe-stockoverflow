@@ -22,7 +22,7 @@ const ProfilePicture = ({
   return (
     <div className={`${className} relative `}>
       <Avatar className="mr-auto ">
-        <AvatarImage src={image} />
+        <AvatarImage src={import.meta.env.VITE_SERVER_URL + "/" + image} />
         <AvatarFallback className="bg-inherit text-white ">
           {avatarFallBack}
         </AvatarFallback>

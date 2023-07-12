@@ -45,9 +45,11 @@ function App(): JSX.Element {
         <Route path="user">
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<Signup />} />
-          <Route path="edit-account-image" element={<EditAccountImage />} />
-          <Route path="edit-account" element={<EditAccount />} />
-          <Route path="change-account" element={<ChangeAccount />} />
+          <Route element={<CheckCookie />}>
+            <Route path="edit-account-image" element={<EditAccountImage />} />
+            <Route path="edit-account" element={<EditAccount />} />
+            <Route path="change-account" element={<ChangeAccount />} />
+          </Route>
           <Route index element={<Navigate to="login" />} />
         </Route>
 
@@ -57,7 +59,6 @@ function App(): JSX.Element {
             <Route path="home" element={<Home />} />
             <Route path="stock" element={<Stock />} />
             <Route path="profit" element={<Profit />} />
-
             <Route index element={<Navigate to="/items/home" />} />
           </Route>
         </Route>

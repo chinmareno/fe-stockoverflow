@@ -1,4 +1,4 @@
-import { LinearProgress } from "@mui/material";
+import { Box, LinearProgress } from "@mui/material";
 
 import ChangeAnotherAccountButton, {
   FontSize,
@@ -18,7 +18,6 @@ export interface MainAccountCardProps {
   iconSize: FontSize;
   cameraIconPosition: string;
   cameraIconSize: FontSize;
-  ifLoading: boolean;
   theme: Theme;
 }
 
@@ -30,7 +29,6 @@ const MainAccountCard = ({
   iconSize,
   cameraIconPosition,
   cameraIconSize,
-  ifLoading,
   theme,
 }: MainAccountCardProps) => {
   const { username, image } = profile;
@@ -56,11 +54,6 @@ const MainAccountCard = ({
       <ManageYourAccountButton
         className={`font-helvetica mb-12  ml-3 mr-auto rounded-lg border border-white px-3 py-1 font-medium ${hoverColor}`}
       />
-      {ifLoading && (
-        <div className="mt-5">
-          <LinearProgress color="primary" />
-        </div>
-      )}
       <ChangeAnotherAccountButton
         iconSize={iconSize}
         className={`mt-4 flex gap-4 rounded-b-xl py-3 pl-6 ${innerColor}  ${hoverColor}`}

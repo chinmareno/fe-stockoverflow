@@ -15,8 +15,9 @@ import HamburgerMenu from "@/components/Menu/HamburgerMenu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import useThemeStoreItems from "@/store/useThemeStoreitems";
 import { useQuery } from "@tanstack/react-query";
-import { wait } from "@/hooks/useProfileQuery";
 import useIsMenuOpenStore from "@/store/useIsMenuOpenStore";
+import axiosInstance from "@/utils/axiosInstance";
+import { useEffect, useState } from "react";
 
 const MobileItemsHeader = ({ theme }) => {
   const { pathname } = useLocation();
@@ -24,18 +25,28 @@ const MobileItemsHeader = ({ theme }) => {
   const { setTheme } = useThemeStoreItems();
   const { data: profile } = useQuery({
     queryKey: ["profile"],
-    queryFn: () => wait(),
+    queryFn: async () => {
+      const { data } = await axiosInstance.get("/user/profile");
+      return data;
+    },
     placeholderData: { username: "Guest" },
   });
+  const [image, setImage] = useState("");
+  useEffect(() => {
+    if (profile.image)
+      setImage(import.meta.env.VITE_SERVER_URL + "/" + profile.image);
+    console.log(image);
+    console.log("image");
+  }, [profile]);
+
   const { setIsMenuOpen } = useIsMenuOpenStore();
 
   const avatarFallBack = profile?.username.substring(0, 5);
-
   return (
     <header className="relative flex  justify-between bg-[#F9FAFB] pb-3 shadow-md dark:bg-[#333333]">
       <NavLink className="ml-1" to="/user/edit-account-image">
         <Avatar className="h-[38px] w-[38px]">
-          <AvatarImage src={profile?.image} />
+          <AvatarImage src={image} />
           <AvatarFallback className="bg-inherit">
             {avatarFallBack}
           </AvatarFallback>

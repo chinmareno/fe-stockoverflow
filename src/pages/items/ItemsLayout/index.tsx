@@ -5,7 +5,6 @@ import { Outlet } from "react-router-dom";
 import useThemeStoreItems from "@/store/useThemeStoreitems";
 import { useQuery } from "@tanstack/react-query";
 import axiosInstance from "@/utils/axiosInstance";
-import { Toaster } from "@/components/ui/toaster";
 
 const ItemsLayout = () => {
   const isMobile = useMediaQuery("(max-width:767px)");
@@ -34,7 +33,6 @@ const ItemsLayout = () => {
         <main>
           <Outlet />
         </main>
-        <Toaster />
       </div>
     </div>
   );
