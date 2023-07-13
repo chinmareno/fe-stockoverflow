@@ -10,6 +10,7 @@ import { ICellSelected } from "./DataGridStock";
 import useIsModalStockOpenStore from "@/store/useIsModalStockOpenStore";
 import { useToast } from "@/components/ui/use-toast";
 import toRupiahFormat from "@/utils/toRupiahFormat";
+import useStockHistoryStore from "@/store/useStockHistoryStore";
 
 const AddModalStock = ({
   isCellSelected,
@@ -26,6 +27,8 @@ const AddModalStock = ({
   };
 
   //Add stock quantity
+  const { setAction } = useStockHistoryStore();
+
   const cache = useQueryClient();
   const mutation = useMutation({
     mutationFn: async ({
@@ -58,6 +61,15 @@ const AddModalStock = ({
           description: "New product added",
           duration: 3000,
         });
+        setAction({
+          name,
+          cost,
+          date: currentDate.toISOString(),
+          length,
+          quantity,
+          type,
+          actionName: "create",
+        });
         cache.invalidateQueries(["stock"]);
       } catch (error) {
         toast({
@@ -68,6 +80,7 @@ const AddModalStock = ({
       }
     },
   });
+
   const handleAddSubmit = (e: any) => {
     e.preventDefault();
     if (!rupiah) {
@@ -90,6 +103,7 @@ const AddModalStock = ({
       quantity: parseInt(quantity),
       cost: parseInt(rupiah),
     });
+
     setRupiah("");
   };
 

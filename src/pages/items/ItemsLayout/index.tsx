@@ -5,10 +5,12 @@ import { Outlet } from "react-router-dom";
 import useThemeStoreItems from "@/store/useThemeStoreitems";
 import { useQuery } from "@tanstack/react-query";
 import axiosInstance from "@/utils/axiosInstance";
+import { largeQuery, mediumQuery, mobileQuery } from "@/utils/mediaQuery";
 
 const ItemsLayout = () => {
-  const isMobile = useMediaQuery("(max-width:767px)");
-  const isMedium = useMediaQuery("(min-width:768px)");
+  const isMobile = useMediaQuery(mobileQuery);
+  const isMedium = useMediaQuery(mediumQuery);
+  const isLarge = useMediaQuery(largeQuery);
   const { data: theme } = useQuery({
     queryKey: ["theme"],
     queryFn: async () => {
@@ -27,8 +29,8 @@ const ItemsLayout = () => {
          dark:bg-neutral-900 dark:text-white"
       >
         <>
-          {isMobile && <MobileItemsHeader theme={themeStore || theme} />}
-          {isMedium && <DesktopItemsHeader theme={themeStore || theme} />}
+          {isMedium && <MobileItemsHeader theme={themeStore || theme} />}
+          {isLarge && <DesktopItemsHeader theme={themeStore || theme} />}
         </>
         <main>
           <Outlet />

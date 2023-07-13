@@ -27,6 +27,7 @@ import ItemsLayout from "./pages/items/ItemsLayout";
 import EditAccount from "./pages/auth/EditAccount/EditAccount";
 import ChangeAccount from "./pages/auth/ChangeAccount/ChangeAccount";
 import Test2 from "./pages/Test/Test2";
+import Invoice from "./pages/items/Invoice/Invoice";
 
 function App(): JSX.Element {
   const router = createBrowserRouter(
@@ -59,6 +60,7 @@ function App(): JSX.Element {
             <Route path="home" element={<Home />} />
             <Route path="stock" element={<Stock />} />
             <Route path="profit" element={<Profit />} />
+            <Route path="invoice" element={<Invoice />} />
             <Route index element={<Navigate to="/items/home" />} />
           </Route>
         </Route>

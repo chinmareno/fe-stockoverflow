@@ -10,7 +10,7 @@ interface IconButtonProps {
 }
 const IconButton = ({ icon, to, title, iconClassName }: IconButtonProps) => {
   return (
-    <NavLink className="flex flex-row gap-3 py-2" to={to}>
+    <NavLink className="flex flex-row py-2" to={to}>
       <div className={iconClassName}>{icon}</div>
       <div className="text-lg">{title}</div>
     </NavLink>

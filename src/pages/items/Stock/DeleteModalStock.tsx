@@ -11,6 +11,7 @@ import useIsModalStockOpenStore from "@/store/useIsModalStockOpenStore";
 import { useToast } from "@/components/ui/use-toast";
 import useDataStockForm from "@/store/useDataStockForm";
 import toRupiahFormat from "@/utils/toRupiahFormat";
+import useStockHistoryStore from "@/store/useStockHistoryStore";
 
 const DeleteModalStock = ({
   isCellSelected,
@@ -28,6 +29,7 @@ const DeleteModalStock = ({
 
   const { name, type, length, quantity, cost, date } = useDataStockForm();
   const cache = useQueryClient();
+  const { setAction } = useStockHistoryStore();
 
   const mutation = useMutation({
     mutationFn: async () => {
@@ -42,6 +44,15 @@ const DeleteModalStock = ({
           duration: 3000,
         });
         cache.invalidateQueries(["stock"]);
+        setAction({
+          name,
+          cost,
+          date: isoDate,
+          length,
+          quantity,
+          type,
+          actionName: "delete",
+        });
       } catch (error) {
         toast({
           variant: "destructive",

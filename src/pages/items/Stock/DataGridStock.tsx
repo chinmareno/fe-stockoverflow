@@ -3,9 +3,9 @@ import { AgGridReact } from "ag-grid-react"; // the AG Grid React Component
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-alpine.css";
 
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import useThemeStoreItems from "@/store/useThemeStoreitems";
-import { useMediaQuery } from "@mui/material";
+import { CircularProgress, useMediaQuery } from "@mui/material";
 import { Button } from "../../../components/ui/button";
 import axiosInstance from "@/utils/axiosInstance";
 import { largeQuery, mediumQuery, mobileQuery } from "@/utils/mediaQuery";
@@ -13,8 +13,17 @@ import { CellClickedEvent, GridOptions } from "ag-grid-community";
 import useIsEditModalStockOpenStore from "@/store/useIsModalStockOpenStore";
 import useDataStockForm from "@/store/useDataStockForm";
 import useIsAccountOpenStore from "@/store/useIsAccountOpenStore";
-import toLocaleDate from "@/utils/toLocaleDate";
 import toRupiahFormat from "@/utils/toRupiahFormat";
+import ModeEditIcon from "@mui/icons-material/ModeEdit";
+import AddIcon from "@mui/icons-material/Add";
+import DeleteIcon from "@mui/icons-material/Delete";
+import UndoIcon from "@mui/icons-material/Undo";
+import RedoIcon from "@mui/icons-material/Redo";
+import { useToast } from "@/components/ui/use-toast";
+import useStockHistoryStore, {
+  useTemporalStockHistory,
+} from "@/store/useStockHistoryStore";
+import useLoadingStore from "@/store/useLoadingStore";
 
 export interface ICellSelected {
   isCellSelected: boolean;
@@ -57,48 +66,38 @@ const DataGridStock = ({
 
   const gridRef = useRef();
 
-  //Column Data Cell Configuration (not the header)
   const headerClass = () => {
+    let headerClass = "bg-gray-400 flex dark:bg-gray-600 p-0";
     if (isMobile) {
-      return "px-0 mx-auto";
+      headerClass + " mx-0";
     }
     if (isMedium) {
-      return "px-0 mx-auto";
+      headerClass + " mx-0";
     }
     if (isLarge) {
-      return "px-0 mx-auto";
+      headerClass + " mx-0";
     }
+    return headerClass;
   };
   const cellClass = () => {
+    let allMedia = " ";
     if (isMobile) {
-      return "text-xs capitalize px-0 text-center";
+      return allMedia + "text-xs capitalize px-0 text-center";
     }
     if (isMedium) {
-      return "text-lg capitalize px-0 text-center";
+      return allMedia + "text-lg capitalize px-0 text-center";
     }
     if (isLarge) {
-      return "text-xl capitalize px-0 text-center";
+      return allMedia + "text-xl capitalize px-0 text-center";
     }
   };
 
   const toLocaleDate = (date: any) => {
-    const localDateString = date.value;
-    if (isTooSmall) {
-      const dateParts = localDateString.split("/"); // Split the string into parts
-
-      // Create a new Date object with the provided date parts
-      const date = new Date(`${dateParts[1]}-${dateParts[0]}-${dateParts[2]}`);
-
-      // Get the year, month, and day from the date object
-      const year = date.getFullYear().toString().slice(-2); // Extract the last two digits of the year
-      const month = (date.getMonth() + 1).toString().padStart(2, "0"); // Add leading zero if necessary
-      const day = date.getDate().toString().padStart(2, "0"); // Add leading zero if necessary
-
-      // Create the updated date string with the desired format
-      const updatedDateString = `${day}/${month}/${year}`;
-      return updatedDateString;
-    }
-    return localDateString;
+    const localDateString = date.value.split("/") as string;
+    const monthNumber = Number(localDateString[1]) - 1;
+    return (
+      localDateString[0] + "/" + String(monthNumber) + "/" + localDateString[2]
+    );
   };
   const appendRpIfNotSmall = () => {
     if (!isTooSmall) {
@@ -110,8 +109,8 @@ const DataGridStock = ({
     {
       field: "name",
       filter: true,
-      headerClass: headerClass() + " ml-2",
-      cellClass: cellClass(),
+      headerClass: headerClass(),
+      cellClass: cellClass() + " pr-6",
     },
     { field: "type", cellClass: cellClass(), headerClass: headerClass() },
     {
@@ -206,6 +205,157 @@ const DataGridStock = ({
     setIsProfileOpen(false);
   };
 
+  const { setIsLoading, isLoading } = useLoadingStore();
+  const { toast } = useToast();
+  const { actionName, cost, date, length, name, quantity, type } =
+    useStockHistoryStore();
+  const cache = useQueryClient();
+  const { undo, redo, futureStates, pastStates } = useTemporalStockHistory(
+    (state) => state
+  );
+  const handleUndoStock = async () => {
+    if (pastStates.length == 1 || !name) {
+      return;
+    }
+    setIsLoading(true);
+    switch (actionName) {
+      case "create":
+        try {
+          const dateFormatted = new Date(date);
+          const isoDate = dateFormatted.toISOString();
+          await axiosInstance.delete("/items/", {
+            params: { name, type, length, cost, date: isoDate, quantity },
+          });
+          cache.invalidateQueries(["stock"]);
+          undo();
+        } catch (error) {
+          toast({
+            variant: "destructive",
+            duration: 5000,
+            description: "Undo failed",
+          });
+        }
+        break;
+      case "edit":
+        try {
+          const dateFormatted = new Date(date);
+          const isoDate = dateFormatted.toISOString();
+
+          await axiosInstance.patch("/items/", {
+            name,
+            type,
+            length,
+            quantity,
+            date: isoDate,
+            cost,
+            editStock: true,
+          });
+          cache.invalidateQueries(["stock"]);
+
+          undo();
+        } catch (error) {
+          toast({
+            variant: "destructive",
+            duration: 5000,
+            description: "Undo failed",
+          });
+        }
+        break;
+      case "delete":
+        try {
+          await axiosInstance.post("/items/", {
+            name,
+            type,
+            length,
+            quantity,
+            cost,
+            date,
+          });
+
+          cache.invalidateQueries(["stock"]);
+          undo();
+        } catch (error) {
+          toast({
+            variant: "destructive",
+            duration: 5000,
+            description: "Undo failed",
+          });
+        }
+        break;
+    }
+    setIsLoading(false);
+  };
+
+  const handleRedoStock = async () => {
+    if (futureStates.length == 0) {
+      return;
+    }
+    const { name, actionName, cost, date, length, quantity, type } =
+      futureStates[futureStates.length - 1];
+    {
+      setIsLoading(true);
+      switch (actionName) {
+        case "create":
+          try {
+            await axiosInstance.post("/items/", {
+              name,
+              type,
+              length,
+              quantity,
+              cost,
+              date,
+            });
+
+            cache.invalidateQueries(["stock"]);
+          } catch (error) {
+            toast({
+              variant: "destructive",
+              duration: 5000,
+              description: "Redo failed",
+            });
+          }
+          break;
+        case "edit":
+          try {
+            await axiosInstance.patch("/items/", {
+              name,
+              type,
+              length,
+              quantity,
+              date,
+              cost,
+              editStock: true,
+            });
+            cache.invalidateQueries(["stock"]);
+          } catch (error) {
+            toast({
+              variant: "destructive",
+              duration: 5000,
+              description: "Redo failed",
+            });
+          }
+          break;
+        case "delete":
+          try {
+            await axiosInstance.delete("/items/", {
+              params: { name, type, length, cost, date, quantity },
+            });
+            cache.invalidateQueries(["stock"]);
+          } catch (error) {
+            toast({
+              variant: "destructive",
+              duration: 5000,
+              description: "Redo failed",
+            });
+          }
+
+          break;
+      }
+
+      setIsLoading(false);
+    }
+    redo();
+  };
   return (
     <div className="mt-1 flex justify-center">
       <div
@@ -224,27 +374,66 @@ const DataGridStock = ({
       >
         <div className="flex justify-end">
           <Button
-            className=" mr-2 select-none rounded-md bg-green-500 text-xs text-white hover:bg-green-600 disabled:opacity-40 dark:bg-green-700 hover:dark:bg-green-800 md:text-lg lg:text-xl"
+            disabled={isLoading}
+            onClick={handleUndoStock}
+            className=" mr-4 select-none gap-1 rounded-md bg-white text-xs text-slate-800 hover:bg-white disabled:opacity-40 dark:bg-sky-950 dark:text-white dark:hover:bg-sky-950 md:text-lg lg:text-xl lg:hover:bg-slate-200 lg:hover:dark:bg-sky-800"
+          >
+            <UndoIcon
+              fontSize={
+                isMobile ? "small" : isMedium ? "medium" : isLarge && "medium"
+              }
+              size={buttonSize()}
+            />
+          </Button>
+          <Button
+            disabled={isLoading}
+            onClick={handleRedoStock}
+            className=" mr-auto select-none gap-1 rounded-md bg-white text-xs text-slate-800 hover:bg-white disabled:opacity-40 dark:bg-sky-950 dark:text-white dark:hover:bg-sky-950 md:text-lg lg:text-xl lg:hover:bg-slate-200 lg:hover:dark:bg-sky-800"
+          >
+            <RedoIcon
+              fontSize={
+                isMobile ? "small" : isMedium ? "medium" : isLarge && "medium"
+              }
+              size={buttonSize()}
+            />
+          </Button>
+          <Button
+            className=" mr-2 flex select-none justify-center gap-1 rounded-md bg-green-500 text-xs text-white hover:bg-green-600 disabled:opacity-40 dark:bg-green-700 hover:dark:bg-green-800 md:px-5 md:text-lg lg:text-xl"
             onClick={handleAddClick}
             size={buttonSize()}
           >
-            Add
+            <AddIcon
+              fontSize={
+                isMobile ? "small" : isMedium ? "medium" : isLarge && "medium"
+              }
+            />
+            {isLarge && "Add "}
           </Button>
           <Button
             disabled={!isCellSelected}
-            className=" mr-2 select-none rounded-md bg-blue-500 text-xs text-white hover:bg-blue-600 disabled:opacity-40 dark:bg-blue-700 hover:dark:bg-blue-800 md:text-lg lg:text-xl"
+            className=" mr-2 flex select-none justify-center gap-1 rounded-md bg-blue-500 text-xs text-white hover:bg-blue-600 disabled:opacity-40 dark:bg-blue-700 hover:dark:bg-blue-800 md:px-4 md:text-lg lg:text-xl"
             onClick={handleEditClick}
             size={buttonSize()}
           >
-            Edit
+            <ModeEditIcon
+              fontSize={
+                isMobile ? "small" : isMedium ? "medium" : isLarge && "medium"
+              }
+            />
+            {isLarge && "Edit Stock"}
           </Button>
           <Button
             disabled={!isCellSelected}
             onClick={handleDeleteClick}
-            className="select-none rounded-md bg-red-500 text-xs text-white hover:bg-red-600 disabled:opacity-40 dark:bg-red-700 hover:dark:bg-red-800  md:text-lg  lg:text-xl"
+            className="flex select-none justify-center gap-1 rounded-md bg-red-500 text-xs text-white hover:bg-red-600 disabled:opacity-40 dark:bg-red-700 hover:dark:bg-red-800 md:px-5  md:text-lg  lg:text-xl"
             size={buttonSize()}
           >
-            Delete
+            <DeleteIcon
+              fontSize={
+                isMobile ? "small" : isMedium ? "medium" : isLarge && "medium"
+              }
+            />
+            {isLarge && "Delete "}
           </Button>
         </div>
         <AgGridReact

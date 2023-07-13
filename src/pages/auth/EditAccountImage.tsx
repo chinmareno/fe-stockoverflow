@@ -44,7 +44,7 @@ const EditAccountImage = () => {
       });
       cache.invalidateQueries(["profile"]);
       toast({
-        description: "Image upload successfully",
+        description: "Profile image changed successfully",
         duration: 3000,
       });
       setIsUploading(false);
@@ -52,8 +52,10 @@ const EditAccountImage = () => {
     } catch (error) {
       toast({
         variant: "destructive",
-        description: "Failed to upload image",
-        duration: 5000,
+        title: "Failed to upload image",
+        description:
+          "Make sure your image less than 5mb & use this format(.jpg .jpeg .png)",
+        duration: 7000,
       });
       setIsUploading(false);
     }

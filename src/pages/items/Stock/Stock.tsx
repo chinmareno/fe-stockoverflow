@@ -8,10 +8,8 @@ import DeleteModalStock from "./DeleteModalStock";
 
 const Stock = () => {
   const [isCellSelected, setIsCellSelected] = useState<boolean>(false);
-  const { isLoading } = useLoadingStore();
   return (
     <>
-      {isLoading && <Loading />}
       <AddModalStock
         isCellSelected={isCellSelected}
         setIsCellSelected={setIsCellSelected}

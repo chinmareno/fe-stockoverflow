@@ -35,6 +35,10 @@ div.ag-header-cell-label {
   text-align: center;
 }
 
+div.ag-header-cell-text {
+  overflow: visible;
+}
+
 body {
   font-family: "Helvetica", Arial, sans-serif;
 }

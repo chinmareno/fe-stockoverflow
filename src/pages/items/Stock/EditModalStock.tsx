@@ -11,6 +11,7 @@ import { ICellSelected } from "./DataGridStock";
 import useIsModalStockOpenStore from "../../../store/useIsModalStockOpenStore";
 import { useToast } from "@/components/ui/use-toast";
 import toRupiahFormat from "@/utils/toRupiahFormat";
+import useStockHistoryStore from "@/store/useStockHistoryStore";
 const EditModalStock = ({
   isCellSelected,
   setIsCellSelected,
@@ -28,6 +29,8 @@ const EditModalStock = ({
   //Edit stock quantity
   const cache = useQueryClient();
   const { name, type, length, quantity, date, cost } = useDataStockForm();
+  const { setAction } = useStockHistoryStore();
+
   const mutation = useMutation({
     mutationFn: async (newquantity: number) => {
       try {
@@ -41,11 +44,21 @@ const EditModalStock = ({
           quantity: newquantity,
           date: isoDate,
           cost,
+          editStock: true,
         });
         cache.invalidateQueries(["stock"]);
         toast({
           description: "Product quantity changed",
           duration: 3000,
+        });
+        setAction({
+          name,
+          cost,
+          date: isoDate,
+          length,
+          quantity,
+          type,
+          actionName: "edit",
         });
       } catch (error) {
         toast({

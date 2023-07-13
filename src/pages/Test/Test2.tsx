@@ -14,7 +14,12 @@ const Test2 = () => {
     <div className="flex h-screen w-screen items-center justify-center border bg-cyan-100">
       <div className="mb-10 rounded-3xl border   bg-slate-700/25 p-10">
         {/* Put Your Component Down Here */}
-        <DataGridCustom />
+        <div className="bg-rose-800">asda</div>
+        <div className="relative  flex flex-col bg-rose-100">
+          <div className="translate-y-1/2 bg-slate-600">asa</div>
+          <div className="bg-slate-600">asa</div>
+        </div>
+        <div className="bg-rose-800">asda</div>
       </div>
     </div>
   );

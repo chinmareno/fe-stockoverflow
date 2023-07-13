@@ -19,7 +19,7 @@ const TooltipCustom = ({ children, tooltip }: TooltipProps) => {
           className="text-[#333333 ] disabled: bg-[#F1F1F1] font-semibold capitalize
 opacity-80 dark:bg-[#333333] dark:text-[#FFFFFF]"
         >
-          <p className="animate-fade duration-75 ease-in-out">{tooltip}</p>
+          <p className="animate-fade select-none ease-in-out">{tooltip}</p>
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>

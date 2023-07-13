@@ -18,6 +18,7 @@ import { useQuery } from "@tanstack/react-query";
 import useIsMenuOpenStore from "@/store/useIsMenuOpenStore";
 import axiosInstance from "@/utils/axiosInstance";
 import { useEffect, useState } from "react";
+import ReceiptIcon from "@mui/icons-material/Receipt";
 
 const MobileItemsHeader = ({ theme }) => {
   const { pathname } = useLocation();
@@ -35,8 +36,6 @@ const MobileItemsHeader = ({ theme }) => {
   useEffect(() => {
     if (profile.image)
       setImage(import.meta.env.VITE_SERVER_URL + "/" + profile.image);
-    console.log(image);
-    console.log("image");
   }, [profile]);
 
   const { setIsMenuOpen } = useIsMenuOpenStore();
@@ -67,10 +66,10 @@ const MobileItemsHeader = ({ theme }) => {
             <NavigationMenuContent className="flex flex-col  items-center  divide-y-2 px-3 pb-2 pt-1 capitalize">
               <NavigationMenuLink>
                 <IconButton
-                  iconClassName="ml-1"
                   icon={<HouseIcon fontSize="small" />}
                   title="Home"
                   to="home"
+                  iconClassName="-ml-3 mr-1"
                 />
               </NavigationMenuLink>
 
@@ -79,6 +78,7 @@ const MobileItemsHeader = ({ theme }) => {
                   icon={<LayersIcon fontSize="small" />}
                   title="Stock"
                   to="stock"
+                  iconClassName="-ml-4 mr-1"
                 />
               </NavigationMenuLink>
 
@@ -87,6 +87,15 @@ const MobileItemsHeader = ({ theme }) => {
                   icon={<AttachMoneyIcon />}
                   title="Profit"
                   to="profit"
+                  iconClassName="-ml-4 mr-1"
+                />
+              </NavigationMenuLink>
+              <NavigationMenuLink>
+                <IconButton
+                  icon={<ReceiptIcon />}
+                  title="Invoice"
+                  to="invoice"
+                  iconClassName="mr-1"
                 />
               </NavigationMenuLink>
             </NavigationMenuContent>
