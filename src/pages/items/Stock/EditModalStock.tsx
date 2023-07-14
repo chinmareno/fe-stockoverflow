@@ -57,6 +57,7 @@ const EditModalStock = ({
           date: isoDate,
           length,
           quantity,
+          newQuantity: newquantity,
           type,
           actionName: "edit",
         });

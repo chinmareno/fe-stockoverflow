@@ -1,7 +1,11 @@
-import React from "react";
+import InvoiceCard from "./InvoiceCard";
 
 const Invoice = () => {
-  return <div>Invoice</div>;
+  return (
+    <div>
+      <InvoiceCard />
+    </div>
+  );
 };
 
 export default Invoice;

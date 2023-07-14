@@ -60,7 +60,7 @@ const DesktopItemsHeader = ({ theme }: { theme: string }) => {
         {isProfileOpen && (
           <MainAccountCard
             theme={theme}
-            className="  right-6 top-14 z-40 h-auto w-80 rounded-2xl  bg-zinc-900 text-slate-50"
+            className="  right-1 top-16 z-40 h-auto w-80 rounded-2xl  bg-zinc-900 text-slate-50"
             innerColor="bg-zinc-800"
             hoverColor="hover:bg-zinc-700"
             iconSize="medium"

@@ -214,17 +214,17 @@ const DataGridStock = ({
     (state) => state
   );
   const handleUndoStock = async () => {
-    if (pastStates.length == 1 || !name) {
+    console.log(pastStates);
+    if (!name) {
+      console.log("objek");
       return;
     }
     setIsLoading(true);
     switch (actionName) {
       case "create":
         try {
-          const dateFormatted = new Date(date);
-          const isoDate = dateFormatted.toISOString();
           await axiosInstance.delete("/items/", {
-            params: { name, type, length, cost, date: isoDate, quantity },
+            params: { name, type, length, cost, date, quantity },
           });
           cache.invalidateQueries(["stock"]);
           undo();
@@ -288,10 +288,21 @@ const DataGridStock = ({
 
   const handleRedoStock = async () => {
     if (futureStates.length == 0) {
+      console.log("redo ksoong");
       return;
     }
-    const { name, actionName, cost, date, length, quantity, type } =
-      futureStates[futureStates.length - 1];
+    console.log(futureStates);
+    const {
+      name,
+      actionName,
+      cost,
+      date,
+      length,
+      quantity,
+      newQuantity,
+      type,
+    } = futureStates[futureStates.length - 1];
+    console.log(date + "dan" + quantity);
     {
       setIsLoading(true);
       switch (actionName) {
@@ -307,6 +318,7 @@ const DataGridStock = ({
             });
 
             cache.invalidateQueries(["stock"]);
+            redo();
           } catch (error) {
             toast({
               variant: "destructive",
@@ -321,12 +333,13 @@ const DataGridStock = ({
               name,
               type,
               length,
-              quantity,
+              quantity: newQuantity,
               date,
               cost,
               editStock: true,
             });
             cache.invalidateQueries(["stock"]);
+            redo();
           } catch (error) {
             toast({
               variant: "destructive",
@@ -341,6 +354,7 @@ const DataGridStock = ({
               params: { name, type, length, cost, date, quantity },
             });
             cache.invalidateQueries(["stock"]);
+            redo();
           } catch (error) {
             toast({
               variant: "destructive",
@@ -354,7 +368,6 @@ const DataGridStock = ({
 
       setIsLoading(false);
     }
-    redo();
   };
   return (
     <div className="mt-1 flex justify-center">
@@ -376,7 +389,7 @@ const DataGridStock = ({
           <Button
             disabled={isLoading}
             onClick={handleUndoStock}
-            className=" mr-4 select-none gap-1 rounded-md bg-white text-xs text-slate-800 hover:bg-white disabled:opacity-40 dark:bg-sky-950 dark:text-white dark:hover:bg-sky-950 md:text-lg lg:text-xl lg:hover:bg-slate-200 lg:hover:dark:bg-sky-800"
+            className=" mr-4 select-none gap-1 rounded-md bg-white text-xs text-slate-800 shadow-md hover:bg-white disabled:opacity-40 dark:bg-sky-950 dark:text-white dark:hover:bg-sky-950 md:text-lg lg:text-xl lg:hover:bg-slate-200 lg:hover:dark:bg-sky-800"
           >
             <UndoIcon
               fontSize={
@@ -388,7 +401,7 @@ const DataGridStock = ({
           <Button
             disabled={isLoading}
             onClick={handleRedoStock}
-            className=" mr-auto select-none gap-1 rounded-md bg-white text-xs text-slate-800 hover:bg-white disabled:opacity-40 dark:bg-sky-950 dark:text-white dark:hover:bg-sky-950 md:text-lg lg:text-xl lg:hover:bg-slate-200 lg:hover:dark:bg-sky-800"
+            className=" mr-auto select-none gap-1 rounded-md bg-white text-xs text-slate-800 shadow-md hover:bg-white disabled:opacity-40 dark:bg-sky-950 dark:text-white dark:hover:bg-sky-950 md:text-lg lg:text-xl lg:hover:bg-slate-200 lg:hover:dark:bg-sky-800"
           >
             <RedoIcon
               fontSize={
@@ -397,6 +410,16 @@ const DataGridStock = ({
               size={buttonSize()}
             />
           </Button>
+          <button
+            onClick={() => {
+              // console.log(pastStates);
+              // console.log(quantity);
+              // console.log(futureStates[futureStates.length - 1].newQuan);
+              console.log(futureStates);
+            }}
+          >
+            cobaaaaaa
+          </button>
           <Button
             className=" mr-2 flex select-none justify-center gap-1 rounded-md bg-green-500 text-xs text-white hover:bg-green-600 disabled:opacity-40 dark:bg-green-700 hover:dark:bg-green-800 md:px-5 md:text-lg lg:text-xl"
             onClick={handleAddClick}
