@@ -42,6 +42,8 @@ const DeleteModalStock = ({
         toast({
           description: "Product deleted",
           duration: 3000,
+          title: "Success",
+          className: "border-green-500 dark:border-green-700 border-l-8",
         });
         cache.invalidateQueries(["stock"]);
         setAction({
@@ -58,6 +60,7 @@ const DeleteModalStock = ({
           variant: "destructive",
           duration: 5000,
           description: "Failed deleting product",
+          className: "border-0",
         });
       }
     },

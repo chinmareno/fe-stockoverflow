@@ -58,7 +58,9 @@ const AddModalStock = ({
           date: currentDate.toISOString(),
         });
         toast({
+          title: "Success",
           description: "New product added",
+          className: "border-green-500 dark:border-green-700 border-l-8",
           duration: 3000,
         });
         setAction({
@@ -73,9 +75,11 @@ const AddModalStock = ({
         cache.invalidateQueries(["stock"]);
       } catch (error) {
         toast({
+          title: "Uh oh something wrong!",
           variant: "destructive",
           duration: 5000,
-          description: "Failed add new product",
+          className: "border-0",
+          description: "Failed to add new product",
         });
       }
     },

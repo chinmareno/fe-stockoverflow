@@ -44,18 +44,21 @@ const EditAccountImage = () => {
       });
       cache.invalidateQueries(["profile"]);
       toast({
-        description: "Profile image changed successfully",
+        description: "Avatar changed",
         duration: 3000,
+        title: "Success",
+        className: "border-green-500 dark:border-green-700 border-l-8",
       });
       setIsUploading(false);
       nav(-1);
     } catch (error) {
       toast({
         variant: "destructive",
-        title: "Failed to upload image",
+        title: "Uh oh something wrong!",
         description:
           "Make sure your image less than 5mb & use this format(.jpg .jpeg .png)",
         duration: 7000,
+        className: "border-0",
       });
       setIsUploading(false);
     }

@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { useMediaQuery } from "@mui/material";
 import { largeQuery, mediumQuery } from "@/utils/mediaQuery";
 import useDataStockForm from "@/store/useDataStockForm";
-import { FormEvent } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axiosInstance from "@/utils/axiosInstance";
 import { ICellSelected } from "./DataGridStock";
@@ -48,8 +47,10 @@ const EditModalStock = ({
         });
         cache.invalidateQueries(["stock"]);
         toast({
-          description: "Product quantity changed",
+          description: "Quantity changed",
           duration: 3000,
+          className: "border-green-500 dark:border-green-700 border-l-8",
+          title: "Success",
         });
         setAction({
           name,
@@ -66,6 +67,7 @@ const EditModalStock = ({
           duration: 5000,
           variant: "destructive",
           description: "Failed to update product quantity",
+          className: "border-0",
         });
       }
     },

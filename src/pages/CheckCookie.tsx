@@ -24,7 +24,6 @@ const CheckCookie = () => {
   return (
     <>
       <Outlet />
-      <Toaster />
     </>
   );
 };

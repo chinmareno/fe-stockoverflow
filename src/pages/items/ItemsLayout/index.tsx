@@ -6,6 +6,7 @@ import useThemeStoreItems from "@/store/useThemeStoreitems";
 import { useQuery } from "@tanstack/react-query";
 import axiosInstance from "@/utils/axiosInstance";
 import { largeQuery, mediumQuery, mobileQuery } from "@/utils/mediaQuery";
+import { Toaster } from "@/components/ui/toaster";
 
 const ItemsLayout = () => {
   const isMobile = useMediaQuery(mobileQuery);
@@ -34,6 +35,7 @@ const ItemsLayout = () => {
         </>
         <main>
           <Outlet />
+          <Toaster />
         </main>
       </div>
     </div>

@@ -27,7 +27,9 @@ import ItemsLayout from "./pages/items/ItemsLayout";
 import EditAccount from "./pages/auth/EditAccount/EditAccount";
 import ChangeAccount from "./pages/auth/ChangeAccount/ChangeAccount";
 import Test2 from "./pages/Test/Test2";
-import Invoice from "./pages/items/Invoice/Invoice";
+import Invoice from "./pages/Invoice/Invoice";
+import NewInvoice from "./pages/Invoice/NewInvoice/NewInvoice";
+import EditInvoice from "./pages/Invoice/EditInvoice/EditInvoice";
 
 function App(): JSX.Element {
   const router = createBrowserRouter(
@@ -60,7 +62,11 @@ function App(): JSX.Element {
             <Route path="home" element={<Home />} />
             <Route path="stock" element={<Stock />} />
             <Route path="profit" element={<Profit />} />
-            <Route path="invoice" element={<Invoice />} />
+            <Route path="invoice">
+              <Route path="new-invoice" element={<NewInvoice />} />
+              <Route path="edit-invoice/:id" element={<EditInvoice />} />
+              <Route index element={<Invoice />} />
+            </Route>
             <Route index element={<Navigate to="/items/home" />} />
           </Route>
         </Route>

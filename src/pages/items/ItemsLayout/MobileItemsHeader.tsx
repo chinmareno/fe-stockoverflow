@@ -42,7 +42,7 @@ const MobileItemsHeader = ({ theme }) => {
 
   const avatarFallBack = profile?.username.substring(0, 5);
   return (
-    <header className="relative flex  justify-between bg-[#F9FAFB] pb-3 shadow-md dark:bg-[#333333]">
+    <header className="relative flex  justify-between bg-[#a6c0d4] pb-3 shadow-md dark:bg-[#333333]">
       <NavLink className="ml-1" to="/user/edit-account-image">
         <Avatar className="h-[38px] w-[38px]">
           <AvatarImage src={image} />
@@ -60,7 +60,7 @@ const MobileItemsHeader = ({ theme }) => {
       >
         <NavigationMenuList>
           <NavigationMenuItem>
-            <NavigationMenuTrigger className="bg-[#F9FAFB] uppercase dark:bg-[#333333]">
+            <NavigationMenuTrigger className="bg-transparent uppercase hover:bg-transparent focus:bg-transparent active:bg-transparent">
               {currentLocation}
             </NavigationMenuTrigger>
             <NavigationMenuContent className="flex flex-col  items-center  divide-y-2 px-3 pb-2 pt-1 capitalize">

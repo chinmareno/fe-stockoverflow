@@ -9,63 +9,20 @@ import axiosInstance from "@/utils/axiosInstance";
 import useIsModalStockOpenStore from "@/store/useIsModalStockOpenStore";
 import { useToast } from "@/components/ui/use-toast";
 import toRupiahFormat from "@/utils/toRupiahFormat";
-import useStockHistoryStore from "@/store/useStockHistoryStore";
+import { InvoiceItem } from "../Invoice";
+import { useForm } from "react-hook-form";
 
-const InvoiceAddProductForm = () => {
+interface InvoiceAddProductFormProps {
+  setIsAddOpen: (isAddOpen: boolean) => void;
+  setInvoiceItem: (InvoiceItem: InvoiceItem) => void;
+  setTotalPrice: (totalPrice: number) => void;
+}
+const InvoiceAddProductForm = ({
+  setIsAddOpen,
+  setInvoiceItem,
+  setTotalPrice,
+}: InvoiceAddProductFormProps) => {
   const { toast } = useToast();
-  const { isAddModalStockOpenStore, setIsAddModalStockOpenStore } =
-    useIsModalStockOpenStore();
-
-  const handleCloseAddClick = () => {
-    setIsAddModalStockOpenStore(false);
-  };
-
-  //Add stock quantity
-  const { setAction } = useStockHistoryStore();
-
-  const cache = useQueryClient();
-  const mutation = useMutation({
-    mutationFn: async ({
-      name,
-      type,
-      length,
-      quantity,
-      cost,
-    }: {
-      name: string;
-      type: string;
-      length: number;
-      quantity: number;
-      cost: number;
-    }) => {
-      try {
-        const currentDate = new Date();
-        const utcOffsetMinutes = 7 * 60;
-        currentDate.setMinutes(currentDate.getMinutes() + utcOffsetMinutes);
-
-        await axiosInstance.post("/items/", {
-          name,
-          type,
-          length,
-          quantity,
-          cost,
-          date: currentDate.toISOString(),
-        });
-        toast({
-          description: "New product added",
-          duration: 3000,
-        });
-
-        cache.invalidateQueries(["stock"]);
-      } catch (error) {
-        toast({
-          variant: "destructive",
-          duration: 5000,
-          description: "Failed add new product",
-        });
-      }
-    },
-  });
 
   const handleAddSubmit = (e: any) => {
     e.preventDefault();
@@ -76,18 +33,45 @@ const InvoiceAddProductForm = () => {
       });
       return;
     }
-    setIsAddModalStockOpenStore(false);
-    const name = e.target.elements.name.value;
-    const type = e.target.elements.type.value;
-    const length = e.target.elements.lengths.value;
-    const quantity = e.target.elements.quantity.value;
-    mutation.mutate({
-      name,
-      type,
-      length: parseInt(length),
-      quantity: parseInt(quantity),
-      cost: parseInt(rupiah),
+    const selectedProduct = [];
+    productData?.map(({ name, type, length, quantity }) => {
+      if (
+        name == nameSelected &&
+        type == typeSelected &&
+        length == watch("length")
+      ) {
+        selectedProduct.push({ name, type, length, quantity });
+      }
     });
+    if (!selectedProduct.length > 0) {
+      return toast({
+        description: "We don't have that length",
+        className: "dark:border-0",
+      });
+    }
+    console.log(selectedProduct);
+    if (watch("quantity") > selectedProduct[0].quantity) {
+      return toast({
+        description: "We don't have that amount of quantity",
+        className: "dark:border-0",
+      });
+    }
+    setIsAddOpen(false);
+    const name = nameSelected;
+    const type = typeSelected;
+    const length = watch("length");
+    const quantitySelected = watch("quantity");
+    setInvoiceItem((prev) => [
+      ...prev,
+      {
+        name,
+        length,
+        price: Number(rupiah),
+        quantity: Number(quantitySelected),
+        type,
+      },
+    ]);
+    setTotalPrice((prev) => prev + Number(rupiah) * Number(quantitySelected));
 
     setRupiah("");
   };
@@ -127,15 +111,11 @@ const InvoiceAddProductForm = () => {
 
     keepPreviousData: true,
   });
-  const [data, setData] = useState<ProductData[] | undefined>();
   const [name, setName] = useState<Set<string> | unknown>([]);
   const [nameSelected, setNameSelected] = useState("");
   const [type, setType] = useState<Set<string> | unknown>([]);
   const [typeSelected, setTypeSelected] = useState("");
-  const [length, setLength] = useState<string[]>([]);
-  const [quantity, setQuantity] = useState([]);
   useEffect(() => {
-    setData(productData);
     const nameUnique = new Set();
     productData?.map(({ name }) => {
       if (!nameUnique.has(name)) {
@@ -146,10 +126,9 @@ const InvoiceAddProductForm = () => {
   }, [productData]);
 
   const handleNameChange = (e) => {
-    console.log("object");
     const nameSelected = e.target.innerText;
     const typeUnique = new Set();
-    data?.map(({ name, type }) => {
+    productData?.map(({ name, type, length, quantity }) => {
       if (name == nameSelected && !typeUnique.has(type)) {
         typeUnique.add(type);
       }
@@ -159,50 +138,21 @@ const InvoiceAddProductForm = () => {
   };
   const handleTypeChange = (e) => {
     const typeSelected = e.target.innerText;
-    const lengthUnique = new Set();
-    data?.map(({ name, type, length }) => {
-      if (
-        name == nameSelected &&
-        type == typeSelected &&
-        !lengthUnique.has(length)
-      ) {
-        lengthUnique.add(length);
-      }
-    });
+
     setTypeSelected(typeSelected);
-    setLength(Array.from(lengthUnique).map((length) => String(length)));
   };
-  const handleLengthChange = (e) => {
-    const lengthSelected = e.target.innerText;
-    const { quantity: quantityRemain } = data?.find(
-      ({ name, type, length, quantity }) => {
-        if (
-          name == nameSelected &&
-          type == typeSelected &&
-          length == lengthSelected
-        ) {
-          return true;
-        }
-      }
-    );
-    console.log(data);
-    console.log(nameSelected + typeSelected + lengthSelected);
-    const quantityCanBeSelect = [];
-    for (let i = 0; i < quantityRemain; i++) {
-      quantityCanBeSelect.push(String(i + 1));
-    }
-    setQuantity(quantityCanBeSelect);
-  };
+
+  const { watch, register } = useForm();
+
   return (
     <>
-      (
-      <div className="fixed left-0 top-0 z-30 flex h-screen w-screen items-center justify-center bg-gray-300/60 text-[#333333] dark:text-white">
+      <div className="fixed left-0 top-0 z-30 flex h-screen w-screen items-center justify-center bg-gray-300/60 text-[#333333] ">
         {/* Modal card  */}
-        <div className="relative flex rounded-md bg-[#F5F5F5] px-5 py-3 ring-2 ring-blue-500 dark:bg-black dark:ring-blue-700 md:px-6 md:py-6 lg:px-20 lg:py-20">
+        <div className="relative flex rounded-md bg-[#F5F5F5] px-5 py-3 ring-2 ring-blue-500 dark:bg-[#F0F0F0] dark:ring-blue-700 md:px-6 md:py-6 lg:px-20 lg:py-20">
           <button
             onClick={() => {
-              handleCloseAddClick();
               setRupiah("");
+              setIsAddOpen(false);
             }}
             className="absolute right-0 top-0"
           >
@@ -220,7 +170,7 @@ const InvoiceAddProductForm = () => {
             </label>
 
             <Autocomplete
-              className="border-gray-400 text-xs dark:border-gray-600 sm:text-sm md:text-base lg:text-lg xl:text-xl"
+              className="border-gray-400 text-xs dark:border-gray-600  sm:text-sm md:text-base lg:text-lg xl:text-xl"
               disablePortal
               clearIcon={null}
               onChange={handleNameChange}
@@ -230,6 +180,7 @@ const InvoiceAddProductForm = () => {
               renderInput={(params) => (
                 <TextField
                   {...params}
+                  required
                   size={isMobile ? "small" : "medium"}
                   className="text-xs capitalize  sm:text-sm md:text-base lg:text-lg xl:text-xl"
                   label="name"
@@ -248,6 +199,7 @@ const InvoiceAddProductForm = () => {
               renderInput={(params) => (
                 <TextField
                   {...params}
+                  required
                   size={isMobile ? "small" : "medium"}
                   className="text-xs capitalize  sm:text-sm md:text-base lg:text-lg xl:text-xl"
                   label="type"
@@ -255,61 +207,50 @@ const InvoiceAddProductForm = () => {
               )}
             />
 
-            <Autocomplete
-              className="border-gray-400  text-xs dark:border-gray-600 sm:text-sm md:text-base lg:text-lg xl:text-xl"
-              disablePortal
-              onChange={handleLengthChange}
-              autoSelect={true}
-              options={length}
+            <TextField
+              type="number"
+              label="Length(m)"
+              step={0.5}
               fullWidth
-              clearIcon={null}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  className="text-xs capitalize  sm:text-sm md:text-base lg:text-lg xl:text-xl"
-                  size={isMobile ? "small" : "medium"}
-                  label=" length(m)"
-                />
-              )}
-            />
-            <Input
+              autoComplete="off"
+              size={isMobile ? "small" : "medium"}
               required
-              size={20}
+              className="border-gray-400 text-xs capitalize dark:border-gray-600  sm:text-sm md:text-base lg:text-lg xl:text-xl"
+              {...register("length", { required: true })}
+            />
+            <TextField
+              fullWidth
+              required
+              size={isMobile ? "small" : "medium"}
               onChange={handleCostChange}
               autoComplete="off"
               name="cost"
               type="text"
               value={"Rp " + toRupiahFormat(rupiah)}
-              className="border-gray-400 pl-2 pr-0 text-xs dark:border-gray-600 sm:text-sm md:text-base lg:text-lg xl:text-xl"
+              className="border-gray-400 bg-transparent text-xs dark:border-gray-600 sm:text-sm md:text-base lg:text-lg xl:text-xl"
             />
-            <Autocomplete
-              autoSelect={true}
-              className="border-gray-400 text-xs dark:border-gray-600 sm:text-sm md:text-base lg:text-lg xl:text-xl"
-              disablePortal
-              clearIcon={null}
-              options={quantity}
+            <TextField
               fullWidth
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  className="text-xs capitalize  sm:text-sm md:text-base lg:text-lg xl:text-xl"
-                  size={isMobile ? "small" : "medium"}
-                  label=" quantity(pcs)"
-                />
-              )}
+              required
+              type="number"
+              autoComplete="off"
+              size={isMobile ? "small" : "medium"}
+              step={1}
+              className="border-gray-400  text-xs capitalize dark:border-gray-600  sm:text-sm md:text-base lg:text-lg xl:text-xl"
+              label=" quantity"
+              {...register("quantity", { required: true })}
             />
             <Button
               type="submit"
               variant="outline"
               size={isLarge ? "lg" : isMedium ? "default" : "sm"}
-              className="mt-2 px-6 text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl"
+              className="mt-2 border-black bg-slate-100 px-6 text-xs dark:bg-black dark:text-white sm:text-sm md:text-base lg:text-lg xl:text-xl"
             >
-              Add
+              ADD
             </Button>
           </form>
         </div>
       </div>
-      )
     </>
   );
 };

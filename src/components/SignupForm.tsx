@@ -196,7 +196,7 @@ const SignupForm = () => {
           className={`absolute right-2 ${
             (isMobile && error.password) || error.password2
               ? "bottom-[183px]"
-              : "bottom-[158px]"
+              : "bottom-[156px]"
           } ${
             (!isMobile && error.password) || error.password2
               ? "bottom-[190px]"

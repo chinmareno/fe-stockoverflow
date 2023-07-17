@@ -120,7 +120,7 @@ const DataGridStock = ({
     },
     {
       field: "quantity",
-      headerName: "Stock",
+      headerName: "Quantity",
       headerClass: headerClass(),
       cellClass: cellClass(),
     },
@@ -410,16 +410,7 @@ const DataGridStock = ({
               size={buttonSize()}
             />
           </Button>
-          <button
-            onClick={() => {
-              // console.log(pastStates);
-              // console.log(quantity);
-              // console.log(futureStates[futureStates.length - 1].newQuan);
-              console.log(futureStates);
-            }}
-          >
-            cobaaaaaa
-          </button>
+
           <Button
             className=" mr-2 flex select-none justify-center gap-1 rounded-md bg-green-500 text-xs text-white hover:bg-green-600 disabled:opacity-40 dark:bg-green-700 hover:dark:bg-green-800 md:px-5 md:text-lg lg:text-xl"
             onClick={handleAddClick}
