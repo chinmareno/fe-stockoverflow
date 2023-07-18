@@ -3,7 +3,6 @@ import CloseIcon from "@mui/icons-material/Close";
 import { Button } from "@/components/ui/button";
 import { useMediaQuery } from "@mui/material";
 import { largeQuery, mediumQuery } from "@/utils/mediaQuery";
-import { FormEvent } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axiosInstance from "@/utils/axiosInstance";
 import { ICellSelected } from "./DataGridStock";
@@ -27,17 +26,15 @@ const DeleteModalStock = ({
     setIsDeleteModalStockOpenStore(false);
   };
 
-  const { name, type, length, quantity, cost, date } = useDataStockForm();
+  const { name, type, length, quantity, cost } = useDataStockForm();
   const cache = useQueryClient();
   const { setAction } = useStockHistoryStore();
 
   const mutation = useMutation({
     mutationFn: async () => {
       try {
-        const dateFormatted = new Date(date);
-        const isoDate = dateFormatted.toISOString();
         await axiosInstance.delete("/items/", {
-          params: { name, type, length, cost, date: isoDate },
+          params: { name, type, length, cost },
         });
         toast({
           description: "Product deleted",
@@ -49,7 +46,6 @@ const DeleteModalStock = ({
         setAction({
           name,
           cost,
-          date: isoDate,
           length,
           quantity,
           type,
@@ -71,11 +67,6 @@ const DeleteModalStock = ({
     mutation.mutate();
   };
 
-  const toLocaleDate = (date: any) => {
-    const det = new Date(date);
-    const localDateString = det.toLocaleDateString();
-    return localDateString;
-  };
   return (
     <>
       {isDeleteModalStockOpenStore && (
@@ -108,9 +99,7 @@ const DeleteModalStock = ({
             <label className="text-xs capitalize sm:text-sm md:text-base lg:text-lg xl:text-xl">
               purchase price/m: Rp{toRupiahFormat(cost.toString())}
             </label>
-            <label className="text-xs capitalize sm:text-sm md:text-base lg:text-lg xl:text-xl">
-              purchase date: {toLocaleDate(date)}
-            </label>
+
             <Button
               onClick={handleDeleteClick}
               variant="outline"

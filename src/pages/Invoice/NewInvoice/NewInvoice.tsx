@@ -63,7 +63,6 @@ const NewInvoice = () => {
 
   const cache = useQueryClient();
   const navigate = useNavigate();
-
   const mutation = useMutation({
     onError: () =>
       toast({
@@ -73,6 +72,13 @@ const NewInvoice = () => {
       }),
     onSuccess: () => {
       cache.invalidateQueries(["invoice", date]);
+      cache.invalidateQueries(["profit", date]);
+      toast({
+        title: "Success",
+        description: "Invoice created successfully",
+        duration: 3000,
+        className: "border-green-500 dark:border-green-700 border-l-8",
+      });
       navigate("/items/invoice");
     },
     mutationFn: async ({
@@ -83,7 +89,7 @@ const NewInvoice = () => {
       totalPrice,
       paidStatus,
     }: IMakeInvoice) => {
-      await axiosInstance.post("invoice/", {
+      const items = await axiosInstance.post("invoice/", {
         buyer,
         date,
         invoiceItem,
@@ -91,6 +97,7 @@ const NewInvoice = () => {
         totalPrice,
         paidStatus,
       });
+      console.log(items);
     },
   });
 

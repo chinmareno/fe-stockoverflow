@@ -10,7 +10,6 @@ type StockHistoryState = {
   quantity: number;
   newQuantity?: number;
   cost: number;
-  date: string;
   actionName: ActionName;
 };
 interface IStockHistory {
@@ -21,7 +20,6 @@ interface IStockHistory {
   quantity: number;
   newQuantity?: number;
   cost: number;
-  date: string;
   setAction: ({
     name,
     type,
@@ -29,7 +27,6 @@ interface IStockHistory {
     quantity,
     newQuantity,
     cost,
-    date,
     actionName,
   }: StockHistoryState) => void;
 }
@@ -45,11 +42,9 @@ const useStockHistoryStore = create<IStockHistory>()(
       quantity: 0,
       newQuantity: 0,
       cost: 0,
-      date: "",
       setAction: ({
         actionName,
         cost,
-        date,
         length,
         name,
         type,
@@ -59,7 +54,6 @@ const useStockHistoryStore = create<IStockHistory>()(
         set(() => ({
           actionName,
           cost,
-          date,
           length,
           name,
           quantity,

@@ -92,13 +92,6 @@ const DataGridStock = ({
     }
   };
 
-  const toLocaleDate = (date: any) => {
-    const localDateString = date.value.split("/") as string;
-    const monthNumber = Number(localDateString[1]) - 1;
-    return (
-      localDateString[0] + "/" + String(monthNumber) + "/" + localDateString[2]
-    );
-  };
   const appendRpIfNotSmall = () => {
     if (!isTooSmall) {
       return " before:content-['Rp.'] ";
@@ -126,16 +119,10 @@ const DataGridStock = ({
     },
     {
       field: "cost",
-      headerName: "Cost/m",
+      headerName: "Price/m",
       cellClass: cellClass() + appendRpIfNotSmall(),
       headerClass: headerClass(),
       valueFormatter: ({ value }: any) => toRupiahFormat(value),
-    },
-    {
-      field: "date",
-      cellClass: cellClass(),
-      headerClass: headerClass(),
-      valueFormatter: toLocaleDate,
     },
   ]);
 
@@ -150,7 +137,7 @@ const DataGridStock = ({
   );
 
   //Global state for form
-  const { setName, setLength, setType, setQuantity, setDate, setCost } =
+  const { setName, setLength, setType, setQuantity, setCost } =
     useDataStockForm();
   const cellClickedListener = useCallback((e: CellClickedEvent) => {
     console.log("cellClicked", e);
@@ -160,7 +147,6 @@ const DataGridStock = ({
     setType(e.data.type);
     setLength(e.data.length);
     setQuantity(e.data.quantity);
-    setDate(e.data.date);
     setCost(e.data.cost);
   }, []);
 
@@ -207,7 +193,7 @@ const DataGridStock = ({
 
   const { setIsLoading, isLoading } = useLoadingStore();
   const { toast } = useToast();
-  const { actionName, cost, date, length, name, quantity, type } =
+  const { actionName, cost, length, name, quantity, type } =
     useStockHistoryStore();
   const cache = useQueryClient();
   const { undo, redo, futureStates, pastStates } = useTemporalStockHistory(
@@ -216,7 +202,7 @@ const DataGridStock = ({
   const handleUndoStock = async () => {
     console.log(pastStates);
     if (!name) {
-      console.log("objek");
+      console.log("no undo again");
       return;
     }
     setIsLoading(true);
@@ -224,7 +210,7 @@ const DataGridStock = ({
       case "create":
         try {
           await axiosInstance.delete("/items/", {
-            params: { name, type, length, cost, date, quantity },
+            params: { name, type, length, cost, quantity },
           });
           cache.invalidateQueries(["stock"]);
           undo();
@@ -238,15 +224,11 @@ const DataGridStock = ({
         break;
       case "edit":
         try {
-          const dateFormatted = new Date(date);
-          const isoDate = dateFormatted.toISOString();
-
           await axiosInstance.patch("/items/", {
             name,
             type,
             length,
             quantity,
-            date: isoDate,
             cost,
             editStock: true,
           });
@@ -269,7 +251,6 @@ const DataGridStock = ({
             length,
             quantity,
             cost,
-            date,
           });
 
           cache.invalidateQueries(["stock"]);
@@ -292,17 +273,8 @@ const DataGridStock = ({
       return;
     }
     console.log(futureStates);
-    const {
-      name,
-      actionName,
-      cost,
-      date,
-      length,
-      quantity,
-      newQuantity,
-      type,
-    } = futureStates[futureStates.length - 1];
-    console.log(date + "dan" + quantity);
+    const { name, actionName, cost, length, quantity, newQuantity, type } =
+      futureStates[futureStates.length - 1];
     {
       setIsLoading(true);
       switch (actionName) {
@@ -314,7 +286,6 @@ const DataGridStock = ({
               length,
               quantity,
               cost,
-              date,
             });
 
             cache.invalidateQueries(["stock"]);
@@ -334,7 +305,6 @@ const DataGridStock = ({
               type,
               length,
               quantity: newQuantity,
-              date,
               cost,
               editStock: true,
             });
@@ -351,7 +321,7 @@ const DataGridStock = ({
         case "delete":
           try {
             await axiosInstance.delete("/items/", {
-              params: { name, type, length, cost, date, quantity },
+              params: { name, type, length, cost, quantity },
             });
             cache.invalidateQueries(["stock"]);
             redo();

@@ -9,13 +9,20 @@ import {
 } from "@/components/ui/table";
 import useInvoiceDateStore from "@/store/useInvoiceDateStore";
 import axiosInstance from "@/utils/axiosInstance";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { format } from "date-fns/esm";
 import { InvoiceProps } from "../Invoice";
 import { useEffect, useState } from "react";
 import { Select } from "@/components/ui/select";
 import PaidStatusSelect from "./PaidStatusSelect";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import toRupiahFormat from "@/utils/toRupiahFormat";
+import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/use-toast";
+import DeleteIcon from "@mui/icons-material/Delete";
+import BlurScreenWrapper from "@/components/BlurScreenWrapper";
+import CloseIcon from "@mui/icons-material/Close";
+import useLastItemDecreased from "@/store/useLastItemDecreased";
 
 const EditInvoice = () => {
   const { date: selectedDate } = useInvoiceDateStore();
@@ -43,12 +50,120 @@ const EditInvoice = () => {
   }, [invoice?.paidStatus]);
 
   const [isPaid, setIsPaid] = useState(true);
+
+  const { toast } = useToast();
+  const cache = useQueryClient();
+  const navigate = useNavigate();
+  const mutationPaidStatus = useMutation({
+    mutationFn: async ({ paidStatus }: { paidStatus: string }) => {
+      await axiosInstance.patch("invoice/", {
+        invoiceId: invoice?.id,
+        paidStatus,
+      });
+    },
+    onSuccess: () => {
+      toast({
+        title: "Success",
+        description: "Paid status changed successfully",
+        duration: 3000,
+        className: "border-green-500 dark:border-green-700 border-l-8",
+      });
+      cache.invalidateQueries([
+        "invoice",
+        format(selectedDate, "dd MMMM yyyy"),
+      ]);
+      navigate("/items/invoice");
+    },
+    onError: () => {
+      toast({
+        title: "Uh oh something wrong!",
+        description: "Please try again.",
+        variant: "destructive",
+      });
+    },
+  });
+
+  const mutationDelete = useMutation({
+    mutationFn: async () => {
+      await axiosInstance.delete("invoice/" + selectedInvoiceId);
+    },
+    onSuccess: () => {
+      toast({
+        title: "Success",
+        description: "Invoice deleted successfully",
+        duration: 3000,
+        className: "border-green-500 dark:border-green-700 border-l-8",
+      });
+      cache.invalidateQueries([
+        "invoice",
+        format(selectedDate, "dd MMMM yyyy"),
+      ]);
+      navigate("/items/invoice");
+    },
+    onError: () => {
+      toast({
+        title: "Uh oh something wrong!",
+        description: "Please try again.",
+        variant: "destructive",
+      });
+    },
+  });
+
+  const handleDoneClick = () => {
+    let paidStatusBoolean;
+    if (invoice?.paidStatus == "PAID") {
+      paidStatusBoolean = true;
+    } else {
+      paidStatusBoolean = false;
+    }
+    if (paidStatusBoolean == isPaid) {
+      return navigate("/items/invoice");
+    }
+    let paidStatus;
+    if (isPaid) {
+      paidStatus = "PAID";
+    } else {
+      paidStatus = "UNPAID";
+    }
+    mutationPaidStatus.mutate({ paidStatus });
+  };
+  const [confirmDelete, setConfirmDelete] = useState(false);
+
+  const handleDeleteClick = () => {
+    mutationDelete.mutate();
+  };
   return (
     <>
       {invoice ? (
         <>
-          <PaidStatusSelect isPaid={isPaid} setIsPaid={setIsPaid} />
-          <div className="mt-3 text-xs md:text-base">
+          {confirmDelete && (
+            <BlurScreenWrapper>
+              <div className="flex h-screen w-screen items-center justify-center">
+                <div className="relative flex flex-col gap-4 rounded-md border border-gray-400 bg-white p-4 dark:border-blue-500 dark:bg-black">
+                  <button
+                    className="absolute right-1 top-1"
+                    onClick={() => setConfirmDelete(false)}
+                  >
+                    <CloseIcon />
+                  </button>
+                  <h3>Invoice Delete Confirmation</h3>
+                  <header>Are you sure want to delete permanently ?</header>
+                  <Button onClick={handleDeleteClick}>Confirm</Button>
+                </div>
+              </div>
+            </BlurScreenWrapper>
+          )}
+          <div className="ml-1 mt-2 flex">
+            <PaidStatusSelect isPaid={isPaid} setIsPaid={setIsPaid} />
+
+            <Button
+              onClick={() => setConfirmDelete(true)}
+              className="ml-auto mr-2 bg-red-500 text-black hover:bg-red-600 dark:bg-red-700 dark:text-white hover:dark:bg-red-800"
+            >
+              <DeleteIcon />
+            </Button>
+          </div>
+          <div className="ml-2 mt-3 text-xs md:text-base">
             <div>
               Date : <b>{format(selectedDate, "dd MMMM yyyy")}</b>
             </div>
@@ -81,7 +196,8 @@ const EditInvoice = () => {
                           <TableCell className="w-[15%]">Rp.{price}</TableCell>
                           <TableCell className="w-[15%]">{quantity}</TableCell>
                           <TableCell className="w-[15%]">
-                            Rp.{Number(price) * Number(quantity)}
+                            Rp.
+                            {toRupiahFormat(Number(price) * Number(quantity))}
                           </TableCell>
                         </TableRow>
                       );
@@ -89,8 +205,16 @@ const EditInvoice = () => {
                   )}
               </TableBody>
 
-              <TableCaption>Total Price :Rp.{invoice.totalPrice}</TableCaption>
+              <TableCaption>
+                Total Price :Rp.{toRupiahFormat(invoice.totalPrice)}
+              </TableCaption>
             </Table>
+            <Button
+              onClick={handleDoneClick}
+              className="fixed bottom-0 left-0 w-screen font-semibold uppercase"
+            >
+              Done
+            </Button>
           </div>
         </>
       ) : (

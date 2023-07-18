@@ -21,7 +21,7 @@ import CheckCookie from "./pages/CheckCookie";
 import TermsOfService from "./pages/Constant/TermsOfService";
 import PrivacyPolicy from "./pages/Constant/PrivacyPolicy";
 import Home from "./pages/items/Home";
-import Profit from "./pages/items/Profit";
+import Profit from "./pages/Profit/Profit";
 import Stock from "./pages/items/Stock/Stock";
 import ItemsLayout from "./pages/items/ItemsLayout";
 import EditAccount from "./pages/auth/EditAccount/EditAccount";

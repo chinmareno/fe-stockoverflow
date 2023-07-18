@@ -55,7 +55,6 @@ const AddModalStock = ({
           length,
           quantity,
           cost,
-          date: currentDate.toISOString(),
         });
         toast({
           title: "Success",
@@ -66,7 +65,6 @@ const AddModalStock = ({
         setAction({
           name,
           cost,
-          date: currentDate.toISOString(),
           length,
           quantity,
           type,

@@ -11,6 +11,7 @@ import useIsModalStockOpenStore from "../../../store/useIsModalStockOpenStore";
 import { useToast } from "@/components/ui/use-toast";
 import toRupiahFormat from "@/utils/toRupiahFormat";
 import useStockHistoryStore from "@/store/useStockHistoryStore";
+
 const EditModalStock = ({
   isCellSelected,
   setIsCellSelected,
@@ -27,21 +28,17 @@ const EditModalStock = ({
 
   //Edit stock quantity
   const cache = useQueryClient();
-  const { name, type, length, quantity, date, cost } = useDataStockForm();
+  const { name, type, length, quantity, cost } = useDataStockForm();
   const { setAction } = useStockHistoryStore();
 
   const mutation = useMutation({
     mutationFn: async (newquantity: number) => {
       try {
-        const dateFormatted = new Date(date);
-        const isoDate = dateFormatted.toISOString();
-
         await axiosInstance.patch("/items/", {
           name,
           type,
           length,
           quantity: newquantity,
-          date: isoDate,
           cost,
           editStock: true,
         });
@@ -55,7 +52,6 @@ const EditModalStock = ({
         setAction({
           name,
           cost,
-          date: isoDate,
           length,
           quantity,
           newQuantity: newquantity,
@@ -77,11 +73,6 @@ const EditModalStock = ({
     setIsEditModalStockOpenStore(false);
     const newQuantity = e.target.elements.quantity.value;
     mutation.mutate(Number(newQuantity));
-  };
-  const toLocaleDate = (date: any) => {
-    const det = new Date(date);
-    const localDateString = det.toLocaleDateString();
-    return localDateString;
   };
 
   return (
@@ -112,12 +103,9 @@ const EditModalStock = ({
               <div className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl">
                 <strong>Length:</strong> {length}m
               </div>
-              <div className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl">
-                <strong>Purchase price/m:</strong> Rp{" "}
-                {toRupiahFormat(cost.toString())}
-              </div>
-              <div className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl">
-                <strong>Purchase date:</strong> {toLocaleDate(date)}
+              <div className="flex flex-col text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl">
+                <strong>Purchase price/m:</strong>
+                <div>Rp.{toRupiahFormat(cost.toString())}</div>
               </div>
             </div>
             {/* right side  */}

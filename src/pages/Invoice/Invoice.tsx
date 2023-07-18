@@ -50,9 +50,10 @@ const Invoice = () => {
       setDate(e);
     }
   };
+
   return (
     <>
-      <div className="flex justify-center">
+      <div className="mt-2 flex justify-center">
         <Popover>
           <PopoverTrigger asChild>
             <Button variant={"outline"}>
@@ -70,13 +71,8 @@ const Invoice = () => {
           </PopoverContent>
         </Popover>
       </div>
-      {error ? (
-        <div className="flex justify-center">Gada</div>
-      ) : isLoading ? (
-        <div className="flex justify-center">loading</div>
-      ) : (
-        data && <InvoiceList data={data} />
-      )}
+      {isLoading && <div className="flex justify-center">loading</div>}
+      {data?.length > 0 ? <InvoiceList data={data} /> : <div>gada</div>}
       <NavLink to="new-invoice">
         <Button
           variant={"outline"}

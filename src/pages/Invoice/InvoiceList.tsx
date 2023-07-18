@@ -1,23 +1,22 @@
 import toRupiahFormat from "@/utils/toRupiahFormat";
 import { InvoiceProps } from "./Invoice";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 interface InvoiceListProps {
   data: InvoiceProps[];
 }
 const InvoiceList = ({ data }: InvoiceListProps) => {
-  const navigate = useNavigate();
   const invoices = data;
 
   return (
-    <div className="mt-2 flex flex-col divide-y-2 divide-gray-300 border-b-2 border-b-gray-300">
-      <div className="mb-1 flex text-xs uppercase">
+    <div className="mt-4 flex flex-col divide-y-2 divide-gray-300 border-b-2 border-b-gray-300">
+      <div className="mb-1 flex text-xs font-semibold uppercase">
         <div className="w-2/5">Date</div>
-        <div className="w-1/4">Seller</div>
         <div className="w-1/4">Buyer</div>
+        <div className="w-1/4">Status</div>
         <div className="w-2/5">Total price</div>
       </div>
-      {invoices.map(({ buyer, date, id, seller, totalPrice, paidStatus }) => {
+      {invoices.map(({ buyer, date, id, totalPrice, paidStatus }) => {
         return (
           <NavLink
             key={id}
@@ -25,7 +24,7 @@ const InvoiceList = ({ data }: InvoiceListProps) => {
             to={`edit-invoice/${id}`}
           >
             <div className="w-2/5">{date}</div>
-            <div className="w-1/4">{buyer}</div>
+            <div className="w-1/4 capitalize">{buyer}</div>
             <div
               className={`w-1/4 ${
                 paidStatus == "PAID" ? "text-green-500" : "text-red-500"
