@@ -15,6 +15,7 @@ import { format } from "date-fns";
 import InvoiceList from "./InvoiceList";
 import { NavLink } from "react-router-dom";
 import useInvoiceDateStore from "@/store/useInvoiceDateStore";
+import InvoiceSkeleton from "./InvoiceSkeleton";
 
 export type InvoiceItem = {
   name: string;
@@ -53,9 +54,9 @@ const Invoice = () => {
 
   return (
     <>
-      <div className="mt-2 flex justify-center">
+      <div className="mt-2 flex flex-col items-center justify-center">
         <Popover>
-          <PopoverTrigger asChild>
+          <PopoverTrigger asChild className="w-1/2 lg:w-1/3">
             <Button variant={"outline"}>
               <CalendarMonthIcon className="mr-2 h-4 w-4" />
               {date ? format(date, "dd MMM yyyy") : <span>Pick a date</span>}
@@ -70,9 +71,21 @@ const Invoice = () => {
             />
           </PopoverContent>
         </Popover>
+        <NavLink to="unpaid-invoice" className="ml-auto mr-2">
+          <Button
+            className="text-blue-700 dark:text-blue-800 md:text-lg lg:mr-7"
+            variant="link"
+          >
+            Go To Unpaid Invoice
+          </Button>
+        </NavLink>
       </div>
-      {isLoading && <div className="flex justify-center">loading</div>}
-      {data?.length > 0 ? <InvoiceList data={data} /> : <div>gada</div>}
+      {isLoading && <InvoiceSkeleton />}
+      {data?.length > 0 ? (
+        <InvoiceList data={data} />
+      ) : (
+        !isLoading && <div>No Invoice In This Date</div>
+      )}
       <NavLink to="new-invoice">
         <Button
           variant={"outline"}

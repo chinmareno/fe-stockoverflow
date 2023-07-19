@@ -2,7 +2,7 @@ import { useFormik } from "formik";
 import { Form, useNavigate } from "react-router-dom";
 import axiosInstance from "../utils/axiosInstance";
 import { Button, TextField } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import useLoadingStore from "@/store/useLoadingStore";
@@ -15,18 +15,20 @@ export interface LoginErrorState {
 const LoginForm = () => {
   const { isLoginLoading, setIsLoginLoading } = useLoadingStore();
   const navigate = useNavigate();
-  if (document.cookie) {
-    (async () => {
-      try {
-        const res = await axiosInstance.get("/user/profile");
-        if (res.status == 200) {
-          navigate("/items");
+  useEffect(() => {
+    if (document.cookie) {
+      (async () => {
+        try {
+          const res = await axiosInstance.get("/user/profile");
+          if (res.status == 200) {
+            navigate("/items");
+          }
+        } catch (error) {
+          console.log(error);
         }
-      } catch (error) {
-        console.log(error);
-      }
-    })();
-  }
+      })();
+    }
+  }, []);
 
   const [isShowPassword, setIsShowPassword] = useState(false);
   const handleShowPassword = () => {

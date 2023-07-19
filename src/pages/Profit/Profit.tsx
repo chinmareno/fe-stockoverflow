@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import RupiahInput from "@/components/Input/RupiahInput";
+import ProfitSkeleton from "./ProfitSkeleton";
 
 type ProfitItem = {
   profitId: string;
@@ -21,7 +22,7 @@ export interface IProfit {
 }
 const Profit = () => {
   const [date, setDate] = useState(new Date());
-  const { data: profit } = useQuery({
+  const { data: profit, isLoading } = useQuery({
     queryFn: async () => {
       const { data } = await axiosInstance.get<Promise<IProfit>>(
         "/profit/" + format(date, "MMMM yyyy")
@@ -148,8 +149,10 @@ const Profit = () => {
           onChange={handleDateChange}
         />
         <label className="font-semibold md:text-lg lg:text-2xl">
-          Month Profit : Rp. {toRupiahFormat(monthProfit)}
+          Total Month Profit : Rp. {toRupiahFormat(monthProfit)}
         </label>
+        {isLoading && <ProfitSkeleton />}
+
         {profit ? (
           <div className="mt-4 flex w-full flex-col divide-y-2 divide-gray-300 border-b-2 border-b-gray-300">
             <div className="mb-1 flex text-xs font-semibold uppercase md:text-base lg:text-xl">
@@ -157,6 +160,7 @@ const Profit = () => {
               <div className="w-1/3">type</div>
               <div className="w-1/3">Total profit</div>
             </div>
+            {isLoading && <ProfitSkeleton />}
             {profit?.profitItem.map(({ name, type, totalProfit, id }) => {
               return (
                 <button
@@ -177,7 +181,11 @@ const Profit = () => {
             })}
           </div>
         ) : (
-          <div>gada</div>
+          !isLoading && (
+            <div className="md:text-lg lg:text-2xl">
+              No Profit At This Month
+            </div>
+          )
         )}
       </div>
     </>

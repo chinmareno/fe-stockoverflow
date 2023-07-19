@@ -20,7 +20,7 @@ import Test from "./pages/Test/Test";
 import CheckCookie from "./pages/CheckCookie";
 import TermsOfService from "./pages/Constant/TermsOfService";
 import PrivacyPolicy from "./pages/Constant/PrivacyPolicy";
-import Home from "./pages/items/Home";
+import Home from "./pages/Home/Home";
 import Profit from "./pages/Profit/Profit";
 import Stock from "./pages/items/Stock/Stock";
 import ItemsLayout from "./pages/items/ItemsLayout";
@@ -30,6 +30,8 @@ import Test2 from "./pages/Test/Test2";
 import Invoice from "./pages/Invoice/Invoice";
 import NewInvoice from "./pages/Invoice/NewInvoice/NewInvoice";
 import EditInvoice from "./pages/Invoice/EditInvoice/EditInvoice";
+import Error from "./pages/Constant/Error";
+import UnpaidInvoice from "./pages/Invoice/UnpaidInvoice/UnpaidInvoice";
 
 function App(): JSX.Element {
   const router = createBrowserRouter(
@@ -45,7 +47,7 @@ function App(): JSX.Element {
         <Route path="privacy-policy" element={<PrivacyPolicy />} />
         <Route path="terms-of-service" element={<TermsOfService />} />
 
-        <Route path="user">
+        <Route path="user" errorElement={<Error />}>
           <Route path="login" element={<Login />} />
           <Route path="signup" element={<Signup />} />
           <Route element={<CheckCookie />}>
@@ -57,7 +59,7 @@ function App(): JSX.Element {
         </Route>
 
         {/* this bottom is cookie protected route */}
-        <Route path="items" element={<CheckCookie />}>
+        <Route path="items" errorElement={<Error />} element={<CheckCookie />}>
           <Route element={<ItemsLayout />}>
             <Route path="home" element={<Home />} />
             <Route path="stock" element={<Stock />} />
@@ -65,6 +67,7 @@ function App(): JSX.Element {
             <Route path="invoice">
               <Route path="new-invoice" element={<NewInvoice />} />
               <Route path="edit-invoice/:id" element={<EditInvoice />} />
+              <Route path="unpaid-invoice" element={<UnpaidInvoice />} />
               <Route index element={<Invoice />} />
             </Route>
             <Route index element={<Navigate to="/items/home" />} />

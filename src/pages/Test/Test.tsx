@@ -15,13 +15,15 @@ import useTest, { useTemporalStore } from "@/store/useTest";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import InvoiceList from "../Invoice/InvoiceList";
+import ProfitSkeleton from "../Profit/ProfitSkeleton";
+import HomeSkeleton from "../Home/HomeSkeleton";
 
 const Test = () => {
   return (
     <div className="flex h-screen w-screen items-center justify-center border bg-cyan-100">
       <div className="mb-10 flex gap-7 rounded-3xl border   bg-slate-700/25 p-10">
         {/* Put Your Component Down Here */}
-        <InvoiceList />
+        <ProfitSkeleton />
       </div>
     </div>
   );
