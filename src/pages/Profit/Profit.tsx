@@ -1,7 +1,7 @@
 import axiosInstance from "@/utils/axiosInstance";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { format } from "date-fns";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toRupiahFormat from "@/utils/toRupiahFormat";
 import CloseIcon from "@mui/icons-material/Close";
 import { useForm } from "react-hook-form";
@@ -16,7 +16,7 @@ type ProfitItem = {
   totalProfit: number;
   id: string;
 };
-interface IProfit {
+export interface IProfit {
   profitItem: ProfitItem[];
 }
 const Profit = () => {
@@ -97,7 +97,18 @@ const Profit = () => {
       setSelectedTotalProfit(e);
     }
   };
+  const [monthProfit, setMonthProfit] = useState(0);
+  useEffect(() => {
+    if (profit)
+      setMonthProfit(
+        profit?.profitItem.reduce((acc, curr) => acc + curr.totalProfit, 0)
+      );
+    else {
+      setMonthProfit(0);
+    }
+  }, [profit]);
 
+  console.log(profit?.profitItem);
   return (
     <>
       {isEditOpen && (
@@ -128,17 +139,20 @@ const Profit = () => {
           </div>
         </div>
       )}
-      <div className="mt-3 flex w-full   flex-col items-center">
+      <div className="mt-3 flex w-full flex-col   items-center gap-2">
         <input
           type="month"
-          className="rounded-md border  bg-transparent p-2"
+          className="rounded-md border  bg-transparent  p-2 md:text-lg lg:text-2xl"
           value={format(date, "yyyy-MM")}
           min="2023-07"
           onChange={handleDateChange}
         />
+        <label className="font-semibold md:text-lg lg:text-2xl">
+          Month Profit : Rp. {toRupiahFormat(monthProfit)}
+        </label>
         {profit ? (
           <div className="mt-4 flex w-full flex-col divide-y-2 divide-gray-300 border-b-2 border-b-gray-300">
-            <div className="mb-1 flex text-xs font-semibold uppercase">
+            <div className="mb-1 flex text-xs font-semibold uppercase md:text-base lg:text-xl">
               <div className="w-1/3">name</div>
               <div className="w-1/3">type</div>
               <div className="w-1/3">Total profit</div>
@@ -147,7 +161,7 @@ const Profit = () => {
               return (
                 <button
                   key={id}
-                  className="flex pt-3 text-start  text-xs hover:bg-slate-200 dark:hover:bg-neutral-800"
+                  className="flex pt-3 text-start text-xs  hover:bg-slate-200 dark:hover:bg-neutral-800 md:text-base lg:text-xl"
                   onClick={() =>
                     handleProfitClick({
                       date: format(date, "MMMM yyyy"),

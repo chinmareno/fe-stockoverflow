@@ -10,7 +10,7 @@ const InvoiceList = ({ data }: InvoiceListProps) => {
 
   return (
     <div className="mt-4 flex flex-col divide-y-2 divide-gray-300 border-b-2 border-b-gray-300">
-      <div className="mb-1 flex text-xs font-semibold uppercase">
+      <div className="mb-1 flex text-xs font-semibold uppercase md:text-base lg:text-xl">
         <div className="w-2/5">Date</div>
         <div className="w-1/4">Buyer</div>
         <div className="w-1/4">Status</div>
@@ -20,7 +20,7 @@ const InvoiceList = ({ data }: InvoiceListProps) => {
         return (
           <NavLink
             key={id}
-            className="flex items-end pt-3 text-xs hover:bg-slate-200 dark:hover:bg-neutral-800  "
+            className="flex items-end pt-3 text-xs hover:bg-slate-200 dark:hover:bg-neutral-800 md:text-base lg:text-xl  "
             to={`edit-invoice/${id}`}
           >
             <div className="w-2/5">{date}</div>
