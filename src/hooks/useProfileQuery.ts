@@ -5,7 +5,7 @@ export interface IProfile {
   image: string;
 }
 
-const getProfile = async (): <Promise<IProfile>> => {
+const getProfile = async () => {
   const res = await axiosInstance.get("/user/profile");
   return res.data;
 };
@@ -23,6 +23,4 @@ const propil = {
   image: "https://github.com/shadcn.png",
 };
 
-
-
-export { propil,  getProfile };
+export { propil, getProfile };
