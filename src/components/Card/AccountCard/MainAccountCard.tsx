@@ -8,17 +8,16 @@ import ToogleThemeButton from "../../Button/ToogleThemeButton";
 import ProfilePicture from "../../ProfilePicture";
 import { IProfile } from "@/hooks/useProfileQuery";
 import useThemeStoreItems from "@/store/useThemeStoreitems";
-import { Theme } from "@/store/profileStore";
 
 export interface MainAccountCardProps {
-  profile: IProfile | undefined;
+  profile: IProfile;
   className?: string;
   innerColor: string;
   hoverColor: string;
   iconSize: FontSize;
   cameraIconPosition: string;
   cameraIconSize: FontSize;
-  theme: Theme;
+  theme: "dark" | "light";
 }
 
 const MainAccountCard = ({

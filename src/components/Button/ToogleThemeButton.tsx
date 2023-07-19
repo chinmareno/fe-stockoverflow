@@ -1,8 +1,8 @@
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import axiosInstance from "../../utils/axiosInstance";
-import { Theme } from "@/store/profileStore";
 
+type Theme = "dark" | "light";
 interface ToogleThemeButtonProps {
   className?: string;
   theme: Theme;

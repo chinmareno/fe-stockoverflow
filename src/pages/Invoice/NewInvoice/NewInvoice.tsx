@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { format } from "date-fns";
 import { useRef, useState } from "react";
 import { InvoiceItem } from "../Invoice";
@@ -100,7 +100,13 @@ const NewInvoice = () => {
       console.log(items);
     },
   });
-
+  const { data: profile } = useQuery({
+    queryKey: ["profile"],
+    queryFn: async () => {
+      const { data } = await axiosInstance.get("/user/profile");
+      return data;
+    },
+  });
   const { register, watch } = useForm();
 
   const handleCreate = async () => {
@@ -180,14 +186,17 @@ const NewInvoice = () => {
         <div className="flex">
           <p className="mr-1">Seller:</p>
           <input
+            autoComplete="off"
             {...register("seller", { required: true })}
             placeholder="Enter name"
+            defaultValue={profile.seller}
             className="bg-transparent "
           />
         </div>
         <div className="flex ">
           <p className="mr-1">Buyer:</p>
           <input
+            autoComplete="off"
             {...register("buyer", { required: true })}
             placeholder="Enter name"
             className="bg-transparent "
