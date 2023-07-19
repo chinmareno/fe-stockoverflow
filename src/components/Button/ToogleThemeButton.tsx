@@ -2,11 +2,10 @@ import DarkModeIcon from "@mui/icons-material/DarkMode";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import axiosInstance from "../../utils/axiosInstance";
 
-type Theme = "dark" | "light";
 interface ToogleThemeButtonProps {
   className?: string;
-  theme: Theme;
-  setTheme: (theme: Theme) => void;
+  theme: string;
+  setTheme: (theme: string) => void;
 }
 
 const ToogleThemeButton = ({

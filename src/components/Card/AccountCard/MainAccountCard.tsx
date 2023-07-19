@@ -15,9 +15,7 @@ export interface MainAccountCardProps {
   innerColor: string;
   hoverColor: string;
   iconSize: FontSize;
-  cameraIconPosition: string;
-  cameraIconSize: FontSize;
-  theme: "dark" | "light";
+  theme: string;
 }
 
 const MainAccountCard = ({
@@ -26,8 +24,6 @@ const MainAccountCard = ({
   innerColor,
   hoverColor,
   iconSize,
-  cameraIconPosition,
-  cameraIconSize,
   theme,
 }: MainAccountCardProps) => {
   const { username, image } = profile;
@@ -37,11 +33,10 @@ const MainAccountCard = ({
     <div className={`${className} absolute`}>
       <div className="flex">
         <ProfilePicture
+          iconSize={iconSize}
           image={image}
           username={username}
           className="flex p-4 "
-          CameraIconPosition={cameraIconPosition}
-          iconSize={cameraIconSize}
         />
         <div className="mr-auto mt-7">{username ? username : "Guest"}</div>
       </div>

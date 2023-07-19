@@ -11,6 +11,7 @@ interface AccountCardProps {
   hoverColor: string;
   textColor: string;
   iconSize: FontSize;
+  theme: string;
 }
 const AccountCard = ({
   profile,
@@ -19,6 +20,7 @@ const AccountCard = ({
   hoverColor,
   textColor,
   iconSize,
+  theme,
 }: AccountCardProps) => {
   return (
     <>
@@ -26,6 +28,7 @@ const AccountCard = ({
         className={`${textColor} ${outerColor} flex w-96 flex-col items-center rounded-t-3xl px-3 text-white`}
       >
         <MainAccountCard
+          theme={theme}
           iconSize={iconSize}
           className={`${innerColor} relative  mb-1 mt-2 flex w-full  flex-col rounded-xl `}
           profile={profile}

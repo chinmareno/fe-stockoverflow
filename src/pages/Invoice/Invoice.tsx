@@ -46,7 +46,7 @@ const Invoice = () => {
     },
     retry: 1,
   });
-  const selectDate = (e) => {
+  const selectDate = (e: any) => {
     if (e) {
       setDate(e);
     }
@@ -81,7 +81,7 @@ const Invoice = () => {
         </NavLink>
       </div>
       {isLoading && <InvoiceSkeleton />}
-      {data?.length > 0 ? (
+      {(data?.length as any) > 0 ? (
         <InvoiceList data={data} />
       ) : (
         !isLoading && <div>No Invoice In This Date</div>

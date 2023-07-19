@@ -3,7 +3,7 @@ import { InvoiceProps } from "./Invoice";
 import { NavLink } from "react-router-dom";
 
 interface InvoiceListProps {
-  data: InvoiceProps[];
+  data?: InvoiceProps[];
 }
 const InvoiceList = ({ data }: InvoiceListProps) => {
   const invoices = data;
@@ -16,7 +16,7 @@ const InvoiceList = ({ data }: InvoiceListProps) => {
         <div className="w-1/4">Status</div>
         <div className="w-2/5">Total price</div>
       </div>
-      {invoices.map(({ buyer, date, id, totalPrice, paidStatus }) => {
+      {invoices?.map(({ buyer, date, id, totalPrice, paidStatus }) => {
         return (
           <NavLink
             key={id}

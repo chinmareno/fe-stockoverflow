@@ -55,7 +55,7 @@ const NewInvoice = () => {
     const id = setTimeout(() => {
       setConfirmDelete(false);
     }, 3000);
-    setTimeOutId(id);
+    setTimeOutId(id as any);
   };
 
   const [isPaid, setIsPaid] = useState(true);

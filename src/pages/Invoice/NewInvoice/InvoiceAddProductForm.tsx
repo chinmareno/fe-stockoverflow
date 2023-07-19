@@ -14,8 +14,8 @@ import { useForm } from "react-hook-form";
 
 interface InvoiceAddProductFormProps {
   setIsAddOpen: (isAddOpen: boolean) => void;
-  setInvoiceItem: (InvoiceItem: InvoiceItem) => void;
-  setTotalPrice: (totalPrice: number) => void;
+  setInvoiceItem: (InvoiceItem: any) => void;
+  setTotalPrice: (totalPrice: any) => void;
 }
 const InvoiceAddProductForm = ({
   setIsAddOpen,
@@ -33,7 +33,7 @@ const InvoiceAddProductForm = ({
       });
       return;
     }
-    const selectedProduct = [];
+    const selectedProduct = [] as any;
     productData?.map(({ name, type, length, quantity }) => {
       if (
         name == nameSelected &&
@@ -43,7 +43,7 @@ const InvoiceAddProductForm = ({
         selectedProduct.push({ name, type, length, quantity });
       }
     });
-    if (!selectedProduct.length > 0) {
+    if (selectedProduct.length < 0) {
       return toast({
         description: "We don't have that length",
         className: "dark:border-0",
@@ -61,7 +61,7 @@ const InvoiceAddProductForm = ({
     const type = typeSelected;
     const length = watch("length");
     const quantitySelected = watch("quantity");
-    setInvoiceItem((prev) => [
+    setInvoiceItem((prev: InvoiceItem[]) => [
       ...prev,
       {
         name,
@@ -71,7 +71,9 @@ const InvoiceAddProductForm = ({
         type,
       },
     ]);
-    setTotalPrice((prev) => prev + Number(rupiah) * Number(quantitySelected));
+    setTotalPrice(
+      (prev: number) => prev + Number(rupiah) * Number(quantitySelected)
+    );
 
     setRupiah("");
   };
@@ -125,7 +127,7 @@ const InvoiceAddProductForm = ({
     setName(Array.from(nameUnique).map((name) => name));
   }, [productData]);
 
-  const handleNameChange = (e) => {
+  const handleNameChange = (e: any) => {
     const nameSelected = e.target.innerText;
     const typeUnique = new Set();
     productData?.map(({ name, type, length, quantity }) => {
@@ -136,7 +138,7 @@ const InvoiceAddProductForm = ({
     setNameSelected(nameSelected);
     setType(Array.from(typeUnique).map((type) => type));
   };
-  const handleTypeChange = (e) => {
+  const handleTypeChange = (e: any) => {
     const typeSelected = e.target.innerText;
 
     setTypeSelected(typeSelected);
@@ -175,7 +177,7 @@ const InvoiceAddProductForm = ({
               clearIcon={null}
               onChange={handleNameChange}
               autoSelect={true}
-              options={name}
+              options={name as any}
               fullWidth
               renderInput={(params) => (
                 <TextField
@@ -192,7 +194,7 @@ const InvoiceAddProductForm = ({
               className="border-gray-400 text-xs dark:border-gray-600 sm:text-sm md:text-base lg:text-lg xl:text-xl"
               disablePortal
               onChange={handleTypeChange}
-              options={type}
+              options={type as any}
               clearIcon={null}
               autoSelect={true}
               fullWidth
@@ -210,7 +212,6 @@ const InvoiceAddProductForm = ({
             <TextField
               type="number"
               label="Length(m)"
-              step={0.5}
               fullWidth
               autoComplete="off"
               size={isMobile ? "small" : "medium"}
@@ -226,7 +227,7 @@ const InvoiceAddProductForm = ({
               autoComplete="off"
               name="cost"
               type="text"
-              value={"Rp " + toRupiahFormat(rupiah)}
+              value={"Rp " + toRupiahFormat(rupiah as any)}
               className="border-gray-400 bg-transparent text-xs dark:border-gray-600 sm:text-sm md:text-base lg:text-lg xl:text-xl"
             />
             <TextField
@@ -235,7 +236,6 @@ const InvoiceAddProductForm = ({
               type="number"
               autoComplete="off"
               size={isMobile ? "small" : "medium"}
-              step={1}
               className="border-gray-400  text-xs capitalize dark:border-gray-600  sm:text-sm md:text-base lg:text-lg xl:text-xl"
               label=" quantity"
               {...register("quantity", { required: true })}

@@ -11,8 +11,8 @@ interface AccountMenuProps {
   iconSize: FontSize;
 
   outerColor: string;
-  hoverColor?: string;
-  textColor?: string;
+  hoverColor: string;
+  textColor: string;
 }
 const AccountMenu = ({
   innerColor,
@@ -22,15 +22,18 @@ const AccountMenu = ({
   textColor,
 }: AccountMenuProps) => {
   const [isAccountOpen, setIsAccountOpen] = useState(false);
-  const [profile, setProfile] = useState({ username: "" });
+  const [profile, setProfile] = useState({
+    username: "",
+    image: "",
+    theme: "light",
+  });
   const handleAccountClick = async () => {
     setIsAccountOpen(!isAccountOpen);
     if (!isAccountOpen) {
       try {
         const res = await axiosInstance.get("/user/profile");
-        const { username } = res.data;
-        console.log(username);
-        setProfile({ username });
+        const { username, image = "", theme } = res.data;
+        setProfile({ username, image, theme });
       } catch (error) {
         console.log("error adalah :  " + error);
       }
@@ -60,6 +63,7 @@ const AccountMenu = ({
       </button>
       {isAccountOpen && (
         <AccountCard
+          theme={profile.theme}
           iconSize={iconSize}
           hoverColor={hoverColor}
           textColor={textColor}
