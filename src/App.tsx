@@ -16,7 +16,6 @@ import Login from "./pages/auth/Login";
 import Signup from "./pages/auth/Signup";
 
 import LandingPageLayout from "./pages/LandingPage/LandingPageLayout";
-import Test from "./pages/Test/Test";
 import CheckCookie from "./pages/CheckCookie";
 import TermsOfService from "./pages/Constant/TermsOfService";
 import PrivacyPolicy from "./pages/Constant/PrivacyPolicy";
@@ -26,7 +25,6 @@ import Stock from "./pages/items/Stock/Stock";
 import ItemsLayout from "./pages/items/ItemsLayout";
 import EditAccount from "./pages/auth/EditAccount/EditAccount";
 import ChangeAccount from "./pages/auth/ChangeAccount/ChangeAccount";
-import Test2 from "./pages/Test/Test2";
 import Invoice from "./pages/Invoice/Invoice";
 import NewInvoice from "./pages/Invoice/NewInvoice/NewInvoice";
 import EditInvoice from "./pages/Invoice/EditInvoice/EditInvoice";
@@ -37,9 +35,6 @@ function App(): JSX.Element {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <>
-        <Route path="test" element={<Test />} />
-        <Route path="test2" element={<Test2 />} />
-
         <Route path="overview" element={<LandingPageLayout />}>
           <Route index element={<LandingPage />} />
         </Route>
