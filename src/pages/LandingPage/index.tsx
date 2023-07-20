@@ -27,19 +27,19 @@ const LandingPage = () => {
         "Keep a record of your business expenses, generate expense reports to monitor costs and optimize your spending.",
     },
     {
-      img: "/assets/image/easy.svg",
+      img: "src/assets/image/easy.svg",
       title: "Easy to use",
       description:
         "Add new products, update their details and track inventory levels with just a few clicks. ",
     },
     {
-      img: "/assets/image/Invoice.svg",
+      img: "src/assets/image/Invoice.svg",
       title: "digital invoice",
       description:
         "Join the digital revolution and contribute to saving the earth by using paperless invoice.",
     },
     {
-      img: "/assets/image/Notifications_Isometric.svg",
+      img: "src/assets/image/Notifications_Isometric.svg",
       title: "Real-time Notifications (unavailable yet)",
       description:
         "Stay updated with real-time notifications for new orders, low stock alerts, and notification urself can customized.",
@@ -60,8 +60,8 @@ const LandingPage = () => {
         <ButtonCard
           img={
             theme === "light"
-              ? "/assets/image/herolight.svg"
-              : "/assets/image/herodark.svg"
+              ? "src/assets/image/herolight.svg"
+              : "src/assets/image/herodark.svg"
           }
           title="Everyone can be an entrepreneur"
           description="We are helping you to take the common business task so you can focus on the products itself "
