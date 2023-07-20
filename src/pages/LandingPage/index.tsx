@@ -6,7 +6,8 @@ import logisticbiru from "@/assets/image/logisticbiru.svg";
 import easy from "@/assets/image/easy.svg";
 import Invoice from "@/assets/image/Invoice.svg";
 import Notifications_Isometric from "@/assets/image/Notifications_Isometric.svg";
-
+import herolight from "@/assets/image/herolight.svg";
+import herodark from "@/assets/image/herodark.svg";
 const LandingPage = () => {
   const { theme } = useThemeStore();
   const features = [
@@ -60,11 +61,7 @@ const LandingPage = () => {
           <img src="https://cdn2.unrealengine.com/epic-games-store-self-service-publishing-tools-4554ceb470ed.webp" />
         </div>
         <ButtonCard
-          img={
-            theme === "light"
-              ? "@/assets/image/herolight.svg"
-              : "@/assets/image/herodark.svg"
-          }
+          img={theme === "light" ? herolight : herodark}
           title="Everyone can be an entrepreneur"
           description="We are helping you to take the common business task so you can focus on the products itself "
           to="/user/signup"
