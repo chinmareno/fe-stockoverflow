@@ -1,6 +1,6 @@
 import { Box, LinearProgress, useMediaQuery } from "@mui/material";
-import heroPc from "../../../../assets/image/loginpc.jpeg";
-import heroMobile from "../../../../assets/image/loginmobile.jpeg";
+import heroPc from "../../../../src/assets/image/loginpc.jpeg";
+import heroMobile from "../../../../src/assets/image/loginmobile.jpeg";
 import EditAccountLayout from "../EditAccount/EditAccountLayout";
 import ChangeAccountForm from "./ChangeAccountForm";
 import useLoadingStore from "@/store/useLoadingStore";
