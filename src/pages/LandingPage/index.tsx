@@ -1,15 +1,17 @@
 import useThemeStore from "@/store/useThemeStore";
 import ButtonCard from "../../components/Card/ButtonCard";
 import OverviewCard from "../../components/Card/OverviewCard";
+import logisticlight from "@/assets/image/logisticlight.svg";
+import logisticbiru from "@/assets/image/logisticbiru.svg";
+import easy from "@/assets/image/easy.svg";
+import Invoice from "@/assets/image/Invoice.svg";
+import Notifications_Isometric from "@/assets/image/Notifications_Isometric.svg";
 
 const LandingPage = () => {
   const { theme } = useThemeStore();
   const features = [
     {
-      img:
-        theme === "light"
-          ? "/assets/image/logisticlight.svg"
-          : "/assets/image/logisticbiru.svg",
+      img: theme === "light" ? logisticlight : logisticbiru,
       title: "Stock Management",
       description:
         "Efficiently manage your inventory by keeping track of the best-selling products and optimizing your stock levels.",
@@ -27,19 +29,19 @@ const LandingPage = () => {
         "Keep a record of your business expenses, generate expense reports to monitor costs and optimize your spending.",
     },
     {
-      img: "src/assets/image/easy.svg",
+      img: easy,
       title: "Easy to use",
       description:
         "Add new products, update their details and track inventory levels with just a few clicks. ",
     },
     {
-      img: "src/assets/image/Invoice.svg",
+      img: Invoice,
       title: "digital invoice",
       description:
         "Join the digital revolution and contribute to saving the earth by using paperless invoice.",
     },
     {
-      img: "src/assets/image/Notifications_Isometric.svg",
+      img: Notifications_Isometric,
       title: "Real-time Notifications (unavailable yet)",
       description:
         "Stay updated with real-time notifications for new orders, low stock alerts, and notification urself can customized.",
@@ -60,8 +62,8 @@ const LandingPage = () => {
         <ButtonCard
           img={
             theme === "light"
-              ? "src/assets/image/herolight.svg"
-              : "src/assets/image/herodark.svg"
+              ? "@/assets/image/herolight.svg"
+              : "@/assets/image/herodark.svg"
           }
           title="Everyone can be an entrepreneur"
           description="We are helping you to take the common business task so you can focus on the products itself "

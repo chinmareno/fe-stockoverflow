@@ -35,10 +35,6 @@ function App(): JSX.Element {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <>
-        <Route path="overview" element={<LandingPageLayout />}>
-          <Route index element={<LandingPage />} />
-        </Route>
-
         <Route path="privacy-policy" element={<PrivacyPolicy />} />
         <Route path="terms-of-service" element={<TermsOfService />} />
 
@@ -70,7 +66,10 @@ function App(): JSX.Element {
         </Route>
         {/* this top is cookie protected route */}
 
-        <Route path="/" element={<Navigate to="overview" />} />
+        <Route path="/" element={<LandingPageLayout />}>
+          <Route index element={<LandingPage />} />
+        </Route>
+
         <Route path="*" element={<NotFound />} />
       </>
     )
