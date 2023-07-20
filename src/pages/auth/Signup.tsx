@@ -1,8 +1,8 @@
 import SignupForm from "../../components/SignupForm";
 import FormLayout from "../../components/Layout/FormLayout";
 import { Box, LinearProgress, useMediaQuery } from "@mui/material";
-import heroMobile from "../../../assets/image/loginmobile.jpeg";
-import heroPc from "../../../assets/image/loginpc.jpeg";
+import heroMobile from "../../../src/assets/image/loginmobile.jpeg";
+import heroPc from "../../../src/assets/image/loginpc.jpeg";
 import useLoadingStore from "@/store/useLoadingStore";
 import BlurScreenWrapper from "@/components/BlurScreenWrapper";
 
