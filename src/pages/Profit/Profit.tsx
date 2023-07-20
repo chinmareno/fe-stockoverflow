@@ -37,10 +37,10 @@ const Profit = () => {
     setDate(date);
   };
 
-  const [selectedName, setSelectedName] = useState();
-  const [selectedDate, setSelectedDate] = useState();
-  const [selectedType, setSelectedType] = useState();
-  const [selectedTotalProfit, setSelectedTotalProfit] = useState();
+  const [selectedName, setSelectedName] = useState<string>();
+  const [selectedDate, setSelectedDate] = useState<string>();
+  const [selectedType, setSelectedType] = useState<string>();
+  const [selectedTotalProfit, setSelectedTotalProfit] = useState<number>();
 
   const { toast } = useToast();
 
@@ -161,24 +161,28 @@ const Profit = () => {
               <div className="w-1/3">Total profit</div>
             </div>
             {isLoading && <ProfitSkeleton />}
-            {profit?.profitItem.map(({ name, type, totalProfit, id }) => {
-              return (
-                <button
-                  key={id}
-                  className="flex pt-3 text-start text-xs  hover:bg-slate-200 dark:hover:bg-neutral-800 md:text-base lg:text-xl"
-                  onClick={() =>
-                    handleProfitClick({
-                      date: format(date, "MMMM yyyy"),
-                      profitItem: { name, type, totalProfit },
-                    })
-                  }
-                >
-                  <div className="w-1/3">{name}</div>
-                  <div className="w-1/3">{type}</div>
-                  <div className="w-1/3">Rp. {toRupiahFormat(totalProfit)}</div>
-                </button>
-              );
-            })}
+            {profit?.profitItem.map(
+              ({ name, type, totalProfit, id, profitId }) => {
+                return (
+                  <button
+                    key={id}
+                    className="flex pt-3 text-start text-xs  hover:bg-slate-200 dark:hover:bg-neutral-800 md:text-base lg:text-xl"
+                    onClick={() =>
+                      handleProfitClick({
+                        date: format(date, "MMMM yyyy"),
+                        profitItem: { name, type, totalProfit, id, profitId },
+                      })
+                    }
+                  >
+                    <div className="w-1/3">{name}</div>
+                    <div className="w-1/3">{type}</div>
+                    <div className="w-1/3">
+                      Rp. {toRupiahFormat(totalProfit)}
+                    </div>
+                  </button>
+                );
+              }
+            )}
           </div>
         ) : (
           !isLoading && (
