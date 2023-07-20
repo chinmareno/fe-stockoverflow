@@ -66,7 +66,6 @@ const DesktopItemsHeader = ({ theme }: { theme: string }) => {
             iconSize="medium"
             cameraIconSize="small"
             profile={profile}
-            cameraIconPosition="bottom-2 right-3"
           />
         )}
         <TooltipCustom tooltip={profile?.username}>

@@ -2,14 +2,13 @@ import CloseIcon from "@mui/icons-material/Close";
 import MenuIcon from "@mui/icons-material/Menu";
 import { ReactNode } from "react";
 import ToogleThemeButton from "../Button/ToogleThemeButton";
-import { Theme } from "@/store/profileStore";
 import useIsMenuOpenStore from "@/store/useIsMenuOpenStore";
 
 interface HamburgerMenuProps {
   className: string;
   children: ReactNode;
-  theme: Theme;
-  setTheme: (theme: Theme) => void;
+  theme: string;
+  setTheme: (theme: string) => void;
 }
 const HamburgerMenu = ({
   children,

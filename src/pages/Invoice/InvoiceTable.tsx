@@ -19,11 +19,6 @@ const InvoiceTable = ({
   selectedId: string;
   setSelectedId: (selectedId: string) => void;
 }) => {
-  // const invoicePng = await toPng(invoiceRef.current);
-  //   const img = new Image();
-  //   img.src = invoicePng;
-  //   document.body.appendChild(img);
-
   const { date, buyer, seller, invoiceItem, totalPrice } = data.find(
     ({ id }) => selectedId === id
   ) as InvoiceProps;

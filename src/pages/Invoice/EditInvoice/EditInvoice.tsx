@@ -22,7 +22,6 @@ import { useToast } from "@/components/ui/use-toast";
 import DeleteIcon from "@mui/icons-material/Delete";
 import BlurScreenWrapper from "@/components/BlurScreenWrapper";
 import CloseIcon from "@mui/icons-material/Close";
-import useLastItemDecreased from "@/store/useLastItemDecreased";
 
 const EditInvoice = () => {
   const { date: selectedDate } = useInvoiceDateStore();

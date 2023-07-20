@@ -28,6 +28,7 @@ const AccountCard = ({
         className={`${textColor} ${outerColor} flex w-96 flex-col items-center rounded-t-3xl px-3 text-white`}
       >
         <MainAccountCard
+          cameraIconSize="small"
           theme={theme}
           iconSize={iconSize}
           className={`${innerColor} relative  mb-1 mt-2 flex w-full  flex-col rounded-xl `}

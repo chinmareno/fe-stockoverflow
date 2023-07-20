@@ -210,7 +210,7 @@ const AddModalStock = ({
                 name="cost"
                 onChange={handleCostChange}
                 type="text"
-                value={"Rp " + toRupiahFormat(rupiah)}
+                value={"Rp " + toRupiahFormat(Number(rupiah))}
                 className="border-gray-400 pl-2 pr-0 text-xs dark:border-gray-600 sm:text-sm md:text-base lg:text-lg xl:text-xl"
               />
               <Button

@@ -16,6 +16,7 @@ export interface MainAccountCardProps {
   hoverColor: string;
   iconSize: FontSize;
   theme: string;
+  cameraIconSize: FontSize;
 }
 
 const MainAccountCard = ({
@@ -25,6 +26,7 @@ const MainAccountCard = ({
   hoverColor,
   iconSize,
   theme,
+  cameraIconSize,
 }: MainAccountCardProps) => {
   const { username, image } = profile;
   const { setTheme } = useThemeStoreItems();

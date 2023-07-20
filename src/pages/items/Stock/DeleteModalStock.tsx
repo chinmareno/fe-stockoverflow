@@ -97,7 +97,7 @@ const DeleteModalStock = ({
               quantity: {quantity}pcs
             </label>
             <label className="text-xs capitalize sm:text-sm md:text-base lg:text-lg xl:text-xl">
-              purchase price/m: Rp{toRupiahFormat(cost.toString())}
+              purchase price/m: Rp{toRupiahFormat(Number(cost))}
             </label>
 
             <Button

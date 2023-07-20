@@ -5,7 +5,7 @@ import "ag-grid-community/styles/ag-theme-alpine.css";
 
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import useThemeStoreItems from "@/store/useThemeStoreitems";
-import { CircularProgress, useMediaQuery } from "@mui/material";
+import { useMediaQuery } from "@mui/material";
 import { Button } from "../../../components/ui/button";
 import axiosInstance from "@/utils/axiosInstance";
 import { largeQuery, mediumQuery, mobileQuery } from "@/utils/mediaQuery";
@@ -339,6 +339,7 @@ const DataGridStock = ({
       setIsLoading(false);
     }
   };
+
   return (
     <div className="mt-1 flex justify-center">
       <div
@@ -361,24 +362,16 @@ const DataGridStock = ({
             onClick={handleUndoStock}
             className=" mr-4 select-none gap-1 rounded-md bg-white text-xs text-slate-800 shadow-md hover:bg-white disabled:opacity-40 dark:bg-sky-950 dark:text-white dark:hover:bg-sky-950 md:text-lg lg:text-xl lg:hover:bg-slate-200 lg:hover:dark:bg-sky-800"
           >
-            <UndoIcon
-              fontSize={
-                isMobile ? "small" : isMedium ? "medium" : isLarge && "medium"
-              }
-              size={buttonSize()}
-            />
+            <UndoIcon fontSize={"small"} />
           </Button>
           <Button
             disabled={isLoading}
             onClick={handleRedoStock}
             className=" mr-auto select-none gap-1 rounded-md bg-white text-xs text-slate-800 shadow-md hover:bg-white disabled:opacity-40 dark:bg-sky-950 dark:text-white dark:hover:bg-sky-950 md:text-lg lg:text-xl lg:hover:bg-slate-200 lg:hover:dark:bg-sky-800"
           >
-            <RedoIcon
-              fontSize={
-                isMobile ? "small" : isMedium ? "medium" : isLarge && "medium"
-              }
-              size={buttonSize()}
-            />
+            {isMobile && <RedoIcon fontSize="small" />}
+            {isMedium && <RedoIcon fontSize="medium" />}
+            {isLarge && <RedoIcon fontSize="medium" />}
           </Button>
 
           <Button
@@ -386,12 +379,10 @@ const DataGridStock = ({
             onClick={handleAddClick}
             size={buttonSize()}
           >
-            <AddIcon
-              fontSize={
-                isMobile ? "small" : isMedium ? "medium" : isLarge && "medium"
-              }
-            />
-            {isLarge && "Add "}
+            {isMobile && <AddIcon fontSize="small" />}
+            {isMedium && <AddIcon fontSize="medium" />}
+            {isLarge && <AddIcon fontSize="medium" />}
+            {isLarge && "Add Stock"}
           </Button>
           <Button
             disabled={!isCellSelected}
@@ -399,11 +390,9 @@ const DataGridStock = ({
             onClick={handleEditClick}
             size={buttonSize()}
           >
-            <ModeEditIcon
-              fontSize={
-                isMobile ? "small" : isMedium ? "medium" : isLarge && "medium"
-              }
-            />
+            {isMobile && <ModeEditIcon fontSize="small" />}
+            {isMedium && <ModeEditIcon fontSize="medium" />}
+            {isLarge && <ModeEditIcon fontSize="medium" />}
             {isLarge && "Edit Stock"}
           </Button>
           <Button
@@ -412,11 +401,9 @@ const DataGridStock = ({
             className="flex select-none justify-center gap-1 rounded-md bg-red-500 text-xs text-white hover:bg-red-600 disabled:opacity-40 dark:bg-red-700 hover:dark:bg-red-800 md:px-5  md:text-lg  lg:text-xl"
             size={buttonSize()}
           >
-            <DeleteIcon
-              fontSize={
-                isMobile ? "small" : isMedium ? "medium" : isLarge && "medium"
-              }
-            />
+            {isMobile && <DeleteIcon fontSize="small" />}
+            {isMedium && <DeleteIcon fontSize="medium" />}
+            {isLarge && <DeleteIcon fontSize="medium" />}
             {isLarge && "Delete "}
           </Button>
         </div>

@@ -105,7 +105,7 @@ const EditModalStock = ({
               </div>
               <div className="flex flex-col text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl">
                 <strong>Purchase price/m:</strong>
-                <div>Rp.{toRupiahFormat(cost.toString())}</div>
+                <div>Rp.{toRupiahFormat(Number(cost))}</div>
               </div>
             </div>
             {/* right side  */}

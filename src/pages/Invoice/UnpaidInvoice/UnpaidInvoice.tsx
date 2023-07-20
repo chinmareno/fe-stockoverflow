@@ -28,7 +28,7 @@ const UnpaidInvoice = () => {
         </Button>
       </NavLink>
       {isLoading && <InvoiceSkeleton />}
-      {invoices?.length > 0 && (
+      {invoices.length > 0 && (
         <div className="mb-1 flex text-xs font-semibold uppercase md:text-base lg:text-xl">
           <div className="w-2/5">Date</div>
           <div className="w-1/4">Buyer</div>

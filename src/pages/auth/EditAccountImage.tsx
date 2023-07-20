@@ -1,6 +1,5 @@
 import BlurScreenWrapper from "@/components/BlurScreenWrapper";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { wait } from "@/hooks/useProfileQuery";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import { useToast } from "@/components/ui/use-toast";

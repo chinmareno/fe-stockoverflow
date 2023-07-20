@@ -1,6 +1,6 @@
 import { create } from "zustand";
-import { Theme } from "./profileStore";
 
+type Theme = "dark" | "light";
 interface IThemeStore {
   theme: Theme | undefined;
   setTheme: (theme: Theme) => void;

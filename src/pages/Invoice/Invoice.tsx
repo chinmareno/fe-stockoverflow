@@ -1,5 +1,4 @@
 import axiosInstance from "@/utils/axiosInstance";
-import InvoiceCard from "./InvoiceCard";
 import InvoiceTable from "./InvoiceTable";
 import { QueryClient, useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
