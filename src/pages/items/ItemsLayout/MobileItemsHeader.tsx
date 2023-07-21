@@ -35,6 +35,7 @@ const MobileItemsHeader = ({ theme }) => {
   const [image, setImage] = useState("");
   useEffect(() => {
     if (profile.image) {
+      console.log("there image");
       setImage(import.meta.env.VITE_SERVER_URL + "/" + profile.image);
     }
   }, [profile]);
