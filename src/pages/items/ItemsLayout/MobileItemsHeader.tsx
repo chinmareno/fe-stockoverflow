@@ -34,8 +34,9 @@ const MobileItemsHeader = ({ theme }) => {
   });
   const [image, setImage] = useState("");
   useEffect(() => {
-    if (profile.image)
+    if (profile.image) {
       setImage(import.meta.env.VITE_SERVER_URL + "/" + profile.image);
+    }
   }, [profile]);
 
   const { setIsMenuOpen } = useIsMenuOpenStore();
