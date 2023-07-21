@@ -61,12 +61,7 @@ const DataGridStock = ({
     keepPreviousData: true,
   });
   useEffect(() => {
-    if (data.length > 0) {
-      setRowData(data);
-    }
-    if (isError) {
-      return;
-    }
+    setRowData(data);
   }, [data]);
 
   const gridRef = useRef();
