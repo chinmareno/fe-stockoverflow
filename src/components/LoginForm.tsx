@@ -28,7 +28,7 @@ const LoginForm = () => {
         }
       })();
     }
-  }, []);
+  }, [document.cookie]);
 
   const [isShowPassword, setIsShowPassword] = useState(false);
   const handleShowPassword = () => {
