@@ -30,12 +30,12 @@ const MobileItemsHeader = ({ theme }) => {
       const { data } = await axiosInstance.get("/user/profile");
       return data;
     },
-    placeholderData: { username: "Guest" },
+    placeholderData: { username: "Guest", image: "" },
   });
   const [image, setImage] = useState("");
   useEffect(() => {
     if (profile.image) {
-      console.log("there image");
+      console.log("there image on profile");
       setImage(import.meta.env.VITE_SERVER_URL + "/" + profile.image);
     }
   }, [profile]);

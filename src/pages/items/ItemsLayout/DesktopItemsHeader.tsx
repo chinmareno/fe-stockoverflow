@@ -25,9 +25,8 @@ const DesktopItemsHeader = ({ theme }: { theme: string }) => {
   useEffect(() => {
     if (profile.image) {
       setImage(import.meta.env.VITE_SERVER_URL + "/" + profile.image);
+      console.log("threre image" + image);
     }
-    console.log(image);
-    console.log("image");
   }, [profile]);
   const cache = useQueryClient();
 
