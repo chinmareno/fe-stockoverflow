@@ -15,7 +15,7 @@ const CheckCookie = () => {
         navigate("/");
       });
     return (
-      <main>
+      <main className=" mt-14 flex h-full flex-col items-center md:mt-16 ">
         <Outlet />
       </main>
     );
