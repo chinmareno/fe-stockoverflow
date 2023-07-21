@@ -16,6 +16,7 @@ const CheckCookie = () => {
       });
     return (
       <main>
+        <h1>asda</h1>
         <Outlet />
       </main>
     );
