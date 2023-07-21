@@ -15,9 +15,9 @@ const CheckCookie = () => {
         navigate("/");
       });
     return (
-      <>
+      <main>
         <Outlet />
-      </>
+      </main>
     );
   }
 };
