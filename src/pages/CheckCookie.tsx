@@ -15,10 +15,9 @@ const CheckCookie = () => {
         navigate("/");
       });
     return (
-      <main>
-        <h1>asda</h1>
+      <>
         <Outlet />
-      </main>
+      </>
     );
   }
 };

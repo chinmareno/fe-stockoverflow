@@ -51,17 +51,19 @@ function App(): JSX.Element {
 
         {/* this bottom is cookie protected route */}
         <Route path="items" errorElement={<Error />}>
-          <Route path="home" element={<Home />} />
-          <Route path="*" element={<ItemsLayout />}>
-            <Route path="stock" element={<Stock />} />
-            <Route path="profit" element={<Profit />} />
-            <Route path="invoice">
-              <Route path="new-invoice" element={<NewInvoice />} />
-              <Route path="edit-invoice/:id" element={<EditInvoice />} />
-              <Route path="unpaid-invoice" element={<UnpaidInvoice />} />
-              <Route index element={<Invoice />} />
+          <Route element={<CheckCookie />}>
+            <Route path="home" element={<Home />} />
+            <Route path="*" element={<ItemsLayout />}>
+              <Route path="stock" element={<Stock />} />
+              <Route path="profit" element={<Profit />} />
+              <Route path="invoice">
+                <Route path="new-invoice" element={<NewInvoice />} />
+                <Route path="edit-invoice/:id" element={<EditInvoice />} />
+                <Route path="unpaid-invoice" element={<UnpaidInvoice />} />
+                <Route index element={<Invoice />} />
+              </Route>
+              <Route index element={<Navigate to="/items/home" />} />
             </Route>
-            <Route index element={<Navigate to="/items/home" />} />
           </Route>
         </Route>
         {/* this top is cookie protected route */}
