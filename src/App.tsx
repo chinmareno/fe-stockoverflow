@@ -50,7 +50,7 @@ function App(): JSX.Element {
         </Route>
 
         {/* this bottom is cookie protected route */}
-        <Route path="items" errorElement={<Error />} element={<CheckCookie />}>
+        <Route path="items" errorElement={<Error />}>
           <Route path="home" element={<Home />} />
           <Route path="*" element={<ItemsLayout />}>
             <Route path="stock" element={<Stock />} />
