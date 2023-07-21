@@ -52,7 +52,7 @@ const DataGridStock = ({
 
   //Server state management
   const [rowData, setRowData] = useState();
-  const { data, isSuccess } = useQuery({
+  const { data, isError } = useQuery({
     queryKey: ["stock"],
     queryFn: async () => {
       const { data } = await axiosInstance.get("/items/");
@@ -63,6 +63,9 @@ const DataGridStock = ({
   useEffect(() => {
     if (data) {
       setRowData(data);
+    }
+    if (isError) {
+      return;
     }
   }, [data]);
 
