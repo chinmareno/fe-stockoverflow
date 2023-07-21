@@ -1,5 +1,5 @@
 import { useFormik } from "formik";
-import { Form, useNavigate } from "react-router-dom";
+import { Form, NavLink, useNavigate } from "react-router-dom";
 import axiosInstance from "../utils/axiosInstance";
 import { Button, TextField, useMediaQuery } from "@mui/material";
 import { ChangeEvent, useState } from "react";
@@ -165,6 +165,7 @@ const SignupForm = () => {
 
   return (
     <>
+      <NavLink to="/items/home">home</NavLink>
       <Form
         onSubmit={formik.handleSubmit}
         method="post"
