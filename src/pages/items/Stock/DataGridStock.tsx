@@ -61,7 +61,7 @@ const DataGridStock = ({
     keepPreviousData: true,
   });
   useEffect(() => {
-    if (data) {
+    if (data.length > 0) {
       setRowData(data);
     }
     if (isError) {
