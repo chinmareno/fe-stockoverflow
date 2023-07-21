@@ -50,28 +50,23 @@ function App(): JSX.Element {
         </Route>
 
         {/* this bottom is cookie protected route */}
-        <Route path="items" errorElement={<Error />}>
-          <Route path="/" element={<CheckCookie />}>
-            <Route path="home" element={<Home />} />
-            <Route path="*" element={<ItemsLayout />}>
-              <Route path="stock" element={<Stock />} />
-              <Route path="profit" element={<Profit />} />
-              <Route path="invoice">
-                <Route path="new-invoice" element={<NewInvoice />} />
-                <Route path="edit-invoice/:id" element={<EditInvoice />} />
-                <Route path="unpaid-invoice" element={<UnpaidInvoice />} />
-                <Route index element={<Invoice />} />
-              </Route>
-              <Route index element={<Navigate to="/items/home" />} />
-            </Route>
+        <Route path="items" element={<ItemsLayout />} errorElement={<Error />}>
+          <Route path="home" element={<Home />} />
+          <Route path="stock" element={<Stock />} />
+          <Route path="profit" element={<Profit />} />
+          <Route path="invoice">
+            <Route path="new-invoice" element={<NewInvoice />} />
+            <Route path="edit-invoice/:id" element={<EditInvoice />} />
+            <Route path="unpaid-invoice" element={<UnpaidInvoice />} />
+            <Route index element={<Invoice />} />
           </Route>
+          <Route index element={<Navigate to="/items/home" />} />
         </Route>
         {/* this top is cookie protected route */}
 
         <Route path="/" element={<LandingPageLayout />}>
           <Route index element={<LandingPage />} />
         </Route>
-
         <Route path="*" element={<NotFound />} />
       </>
     )
